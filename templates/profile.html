@@ -1,0 +1,36 @@
+{% extends "base.html" %}{% block title %}Hồ sơ của bạn – Hướng Nghiệp 360{% endblock %}{% block body %}
+{% set p = pstat.p %}{% set dn = pstat.done %}
+{% macro chips(name, items, sel, labels=None) %}<div class="chipsel">{% for k in items %}<label><input type="checkbox" name="{{name}}" value="{{k}}" {{'checked' if k in sel}}><span>{{ labels[k] if labels else k }}</span></label>{% endfor %}</div>{% endmacro %}
+{% macro radios(name, opts, cur) %}<div class="chipsel">{% for k,v in opts.items() %}<label><input type="radio" name="{{name}}" value="{{k}}" {{'checked' if cur==k}}><span>{{v}}</span></label>{% endfor %}</div>{% endmacro %}
+{% macro head(id, ic, t, sub) %}<div class="sh"><h2><span class="sic">{{ic}}</span>{{t}} {% if dn[id] %}<span class="okb">✓ Đã có</span>{% else %}<span class="opt-b">không bắt buộc</span>{% endif %}</h2><p class="muted">{{sub}}</p></div>{% endmacro %}
+{% macro save(sec) %}<input type="hidden" name="_csrf" value="{{csrf_token()}}"><input type="hidden" name="section" value="{{sec}}"><div class="sv"><button class="btn sm">Lưu phần này</button></div>{% endmacro %}
+<div class="phead"><span class="av big">{{user.full_name[:1]|upper}}</span><div><h1>{{user.full_name}}</h1><p class="muted">🏫 {{user.school}} · @{{user.username}}</p></div></div>
+{% include "_reminder.html" %}
+<div class="pgrid"><aside class="card side"><b>Hồ sơ {{pstat.n}}/{{pstat.total}}</b><div class="bar sm"><i style="width:{{(pstat.n/pstat.total*100)|round|int}}%"></i></div>
+<ol class="check">{% for k,v in SEC_LABELS.items() %}{% set ids={'account':'top','situation':'hoan-canh','interests':'so-thich','strengths':'the-manh','plans':'du-dinh'} %}<li class="{{'ok' if dn[k]}}"><a href="#{{ids[k]}}"><span class="ck">{{'✓' if dn[k] else loop.index}}</span>{{v}}</a></li>{% endfor %}</ol>
+<p class="priv">🔒 Thông tin chỉ dùng để đưa ra gợi ý cho bạn. Không cần email, số điện thoại hay địa chỉ. Bạn có thể <a href="/ho-so/xoa">xóa tài khoản và dữ liệu</a> bất cứ lúc nào.</p></aside>
+<div class="secs">
+<form method="post" class="card sec" id="hoan-canh">{{ head('situation','🏠','Hoàn cảnh','Giúp gợi ý trường, học bổng phù hợp. Chỉ chia sẻ điều bạn thấy thoải mái.') }}
+<div class="fg"><span class="lb">Lớp hiện tại</span>{{ radios('grade', {'10':'Lớp 10','11':'Lớp 11','12':'Lớp 12'}, p.grade|string) }}</div>
+<div class="fg"><span class="lb">Khu vực</span><select name="province"><option value="">— Chọn —</option>{% for v in PROVINCES %}<option {{'selected' if p.province==v}}>{{v}}</option>{% endfor %}</select></div>
+<div class="fg"><span class="lb">Học phí</span>{{ radios('needs_scholarship', SCHOLAR, p.needs_scholarship) }}</div>
+<div class="fg"><span class="lb">Học xa nhà</span>{{ radios('can_study_far', FAR, p.can_study_far) }}</div>{{ save('hoan-canh') }}</form>
+<form method="post" class="card sec" id="so-thich">{{ head('interests','💡','Sở thích','Bạn thích làm gì? Chọn bao nhiêu cũng được.') }}
+{{ chips('interests', TAGS.keys(), p.interests, TAGS) }}
+<div class="fg"><input name="interests_note" value="{{p.interests_note or ''}}" maxlength="300" placeholder="Thêm điều khác bạn thích (không bắt buộc)"></div>{{ save('so-thich') }}</form>
+<form method="post" class="card sec" id="the-manh">{{ head('strengths','💪','Thế mạnh','Môn học và kỹ năng bạn tự tin nhất.') }}
+<div class="fg"><span class="lb">Môn học mạnh</span>{{ chips('strong_subjects', SUBJECTS, p.strong_subjects) }}</div>
+<div class="fg"><span class="lb">Tổ hợp phù hợp</span>{{ radios('combo', COMBOS, p.combo) }}</div>
+<div class="fg"><span class="lb">Kỹ năng mạnh</span>{{ chips('skills', SKILLS, p.skills) }}</div>
+<div class="fg"><input name="strengths_note" value="{{p.strengths_note or ''}}" maxlength="300" placeholder="Giải thưởng, hoạt động… (không bắt buộc)"></div>{{ save('the-manh') }}</form>
+<form method="post" class="card sec" id="du-dinh">{{ head('plans','🎯','Dự định','Chưa chắc cũng không sao, bạn đổi lúc nào cũng được.') }}
+<div class="fg"><span class="lb">Sau cấp 3</span>{{ radios('after_school', AFTER, p.after_school) }}</div>
+<div class="fg"><span class="lb">Ngành quan tâm (tối đa 5)</span><div class="chipsel">{% for m in majors %}<label><input type="checkbox" name="target_majors" value="{{m.id}}" {{'checked' if m.id in p.target_majors}}><span>{{m.icon}} {{m.name}}</span></label>{% endfor %}</div></div>
+<div class="fg"><span class="lb">Trường mơ ước</span><input name="dream_school" value="{{p.dream_school or ''}}" maxlength="150" placeholder="vd: ĐH Bách khoa Hà Nội"></div>{{ save('du-dinh') }}</form>
+<section class="card sec" id="trac-nghiem"><div class="sh"><h2><span class="sic">🧭</span>Kết quả trắc nghiệm Holland</h2><p class="muted">Làm lại mỗi năm (lớp 10, 11, 12) để xem sở thích của bạn thay đổi thế nào.</p></div>
+{% if history %}<div class="ctable-wrap" tabindex="0" role="region" aria-label="Lịch sử kết quả"><table class="ctable hist-t"><thead><tr><th scope="col">Ngày</th><th scope="col">Lớp</th><th scope="col">Mã</th>{% for c,t in RT.items() %}<th scope="col" title="{{t.name}}">{{c}}</th>{% endfor %}<th scope="col">Ngành gợi ý hàng đầu</th></tr></thead><tbody>
+{% for h in history %}<tr><td>{{h.created_at}}</td><td>{{h.grade or '–'}}</td><td><b>{{h.code}}</b></td>{% for c in RT %}<td>{{h.scores[c]}}</td>{% endfor %}<td>{% for m in h.top[:2] %}<a href="/nganh/{{m.id}}">{{m.name}}</a>{{ ', ' if not loop.last }}{% endfor %}</td></tr>{% endfor %}</tbody></table></div>
+{% if history|length > 1 %}{% set a=history[-1] %}{% set b=history[0] %}<p class="small">So với lần đầu ({{a.created_at}}): {% for c,t in RT.items() %}{% set dlt=b.scores[c]-a.scores[c] %}<span class="badge {{'Cao' if dlt>0 else ('Thap' if dlt<0 else 'TB')}}">{{t.short}} {{'+' if dlt>0}}{{dlt}}</span> {% endfor %}</p>{% endif %}
+<a class="btn sm" href="/quiz">Làm lại trắc nghiệm</a>
+{% else %}<p class="muted">Chưa có kết quả. <a href="/quiz">Làm trắc nghiệm Holland</a> – kết quả sẽ tự lưu vào đây.</p>{% endif %}</section>
+</div></div>{% endblock %}

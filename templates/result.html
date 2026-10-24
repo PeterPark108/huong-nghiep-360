@@ -1,0 +1,14 @@
+{% extends "base.html" %}{% block title %}Kết quả trắc nghiệm – Hướng Nghiệp 360{% endblock %}
+{% block head %}<script src="{{ url_for('static', filename='vendor/chart.umd.min.js') }}" defer></script>{% endblock %}{% block body %}
+<section class="rhero"><h1>🎯 Mã Holland của bạn: <span class="code">{{code}}</span></h1><p class="m0">Ba nhóm sở thích nổi bật nhất (đã trả lời {{answered}}/{{total}} câu):</p>
+<div class="tcards">{% for c in code %}<div class="tcard"><span class="ti" aria-hidden="true">{{RT[c].icon}}</span><b>{{loop.index}}. {{RT[c].name}}</b><small>{{RT[c].desc}}</small><span class="tsc">{{sc[c]}}/100</span></div>{% endfor %}</div></section>
+{% if saved %}<div class="flash">✓ Đã lưu kết quả vào <a href="/ho-so#trac-nghiem">hồ sơ của bạn</a> – làm lại vào lớp 11, 12 để so sánh nhé.</div>{% elif not user %}<div class="note"><a href="/dang-ky">Đăng ký</a> để lưu kết quả và so sánh qua các năm lớp 10, 11, 12.</div>{% endif %}
+<div class="dgrid"><div class="card"><h2>📊 Điểm 6 nhóm sở thích</h2><div class="chartbox"><canvas id="radar" role="img" aria-label="Biểu đồ điểm RIASEC: {% for c,v in sc.items() %}{{RT[c].short}} {{v}}{{ ', ' if not loop.last }}{% endfor %}"></canvas></div>
+<script type="application/json" id="rdata">{{ chart|tojson }}</script>
+<ul class="sbars">{% for c,v in sc.items() %}<li><span>{{RT[c].icon}} {{RT[c].short}}</span><span class="bar sm"><i style="width:{{v}}%;background:{{RT[c].color}}"></i></span><b>{{v}}</b></li>{% endfor %}</ul></div>
+<div><h2>Ngành gợi ý cho bạn</h2>
+{% for r in res %}{% set m=r.m %}<a class="card res {{'top' if loop.first}}" href="/nganh/{{m.id}}"><div class="rank">{{ '🏆' if loop.first else loop.index }}</div><div class="mb">
+<h3>{{m.icon}} {{m.name}}</h3><div class="match" title="Mức phù hợp {{r.pct}}%"><i style="width:{{r.pct}}%"></i></div>
+<p>Mã ngành <b>{{m.riasec}}</b> · phù hợp {{r.pct}}%{% if r.why %} – khớp với sở thích <b>{{ r.why|join(", ") }}</b> của bạn{% endif %}.</p></div></a>{% endfor %}
+<div class="note">ℹ️ <b>Đây là gợi ý, không phải chẩn đoán.</b> Sở thích thay đổi theo thời gian và trải nghiệm. Hãy kết hợp với năng lực học tập, hoàn cảnh gia đình và trao đổi với thầy cô hướng nghiệp. Mã Holland của ngành là ước lượng tham khảo của chúng tôi.</div></div></div>
+<div class="row-b"><a class="btn" href="/quiz">↻ Làm lại</a><a class="btn ghost" href="/so-sanh?{% for r in res[:3] %}nganh={{r.m.id}}{{'&' if not loop.last}}{% endfor %}">⚖️ So sánh 3 ngành đầu</a><a class="btn ghost" href="/#nganh">Xem tất cả ngành</a></div>{% endblock %}

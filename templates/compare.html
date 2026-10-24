@@ -1,0 +1,17 @@
+{% extends "base.html" %}{% block title %}So sánh ngành – Hướng Nghiệp 360{% endblock %}{% block body %}
+<a class="back" href="/#nganh">← Tất cả ngành</a>
+<h1>⚖️ So sánh ngành</h1><p class="muted">Chọn 2–3 nhóm ngành để xem cạnh nhau.</p>
+{% if too_many %}<p class="err" role="alert">Chỉ so sánh tối đa 3 ngành – đang hiển thị 3 ngành đầu tiên.</p>{% endif %}
+<form method="get" class="filters cmpform" aria-label="Chọn ngành để so sánh">{% for i in range(3) %}<select name="nganh" aria-label="Ngành {{i+1}}"><option value="">{{ '➕ Ngành ' ~ (i+1) ~ (' (không bắt buộc)' if i==2 else '') }}</option>{% for a in all %}<option value="{{a.id}}" {{'selected' if ms[i] is defined and ms[i].id==a.id}}>{{a.icon}} {{a.name}}</option>{% endfor %}</select>{% endfor %}<button class="btn">So sánh</button></form>
+{% if ms|length < 2 %}<div class="card empty"><p>Hãy chọn ít nhất <b>2 ngành</b> ở trên, hoặc tích “Thêm vào so sánh” trên các thẻ ngành ở <a href="/#nganh">trang chủ</a>.</p></div>
+{% else %}<div class="ctable-wrap" tabindex="0" role="region" aria-label="Bảng so sánh"><table class="ctable"><thead><tr><th scope="col"><span class="sr">Tiêu chí</span></th>{% for m in ms %}<th scope="col"><a href="/nganh/{{m.id}}"><span aria-hidden="true">{{m.icon}}</span> {{m.name}}</a></th>{% endfor %}</tr></thead><tbody>
+<tr><th scope="row">Triển vọng tăng trưởng <span class="demo">minh họa</span></th>{% for m in ms %}<td><span class="badge {{m.growth}}">📈 {{LABEL[m.growth]}}</span></td>{% endfor %}</tr>
+<tr><th scope="row">Thu nhập bình quân ngành kinh tế liên quan ({{ms[0].income.years[-1]}}) <span class="src">Có nguồn</span></th>{% for m in ms %}<td><b>{{('%.1f'|format(m.income.vals[-1]))|replace('.',',')}} triệu/tháng</b><small>{{m.income.sector}} · <a href="{{SRC['gso2024'].url}}" target="_blank" rel="noopener">TCTK 2024</a></small></td>{% endfor %}</tr>
+<tr><th scope="row">Lương người mới / theo vị trí</th>{% for m in ms %}<td>{% if m.salary_vnd %}{% set sv=m.salary_vnd %}<b>{% if sv.min==sv.max %}~{{('%g'|format(sv.min))|replace('.',',')}}{% else %}{{('%g'|format(sv.min))|replace('.',',')}}–{{('%g'|format(sv.max))|replace('.',',')}}{% endif %} triệu</b><small>{{sv.level}} · <a href="{{SRC[sv.source].url}}" target="_blank" rel="noopener">nguồn {{sv.year}}</a></small>{% else %}<span class="demo">chưa có số liệu – minh họa</span><small>Đánh giá định tính: {{LABEL[m.salary]}}</small>{% endif %}</td>{% endfor %}</tr>
+<tr><th scope="row">Kỹ năng</th>{% for m in ms %}<td><ul class="dot">{% for s in m.skills %}<li>{{s}}</li>{% endfor %}</ul></td>{% endfor %}</tr>
+<tr><th scope="row">Tổ hợp xét tuyển</th>{% for m in ms %}<td><div class="badges">{% for k in m.khoi %}<span class="badge k">{{k}}</span>{% endfor %}</div></td>{% endfor %}</tr>
+<tr><th scope="row">Ngành đại học liên quan</th>{% for m in ms %}<td><ul class="dot">{% for s in m.majors %}<li>{{s}}</li>{% endfor %}</ul></td>{% endfor %}</tr>
+<tr><th scope="row">Mã Holland (RIASEC)</th>{% for m in ms %}<td><b>{{m.riasec}}</b><small>{% for c in m.riasec %}{{RT[c].short}}{{ ', ' if not loop.last }}{% endfor %}</small></td>{% endfor %}</tr>
+</tbody></table></div>
+<p class="small muted">Thu nhập theo ngành kinh tế là bình quân của mọi lao động làm công ăn lương (Tổng cục Thống kê), không phải lương khởi điểm. Xem <a href="/nguon-du-lieu">Nguồn dữ liệu</a>.</p>{% endif %}
+{% endblock %}

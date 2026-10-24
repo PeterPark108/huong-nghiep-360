@@ -1,0 +1,843 @@
+{
+ "sources": {
+  "navigos": {
+   "name": "Navigos Group – Báo cáo lương & thị trường lao động 2025 (tóm tắt bởi OCD)",
+   "url": "https://ocd.vn/tong-quan-bao-cao-luong-va-thi-truong-lao-dong-2025/",
+   "year": 2025
+  },
+  "topcv": {
+   "name": "TopCV – Báo cáo thị trường tuyển dụng 2024-2025",
+   "url": "https://insights.topcv.vn/recruitment-report-2024-2025",
+   "year": 2024
+  },
+  "joboko": {
+   "name": "JobOKO – Báo cáo lương & thị trường lao động 2025-2026",
+   "url": "https://vn.joboko.com/bao-cao-luong-thi-truong-lao-dong-tuyen-dung",
+   "year": 2025
+  },
+  "gso2022": {
+   "name": "Tổng cục Thống kê – Báo cáo Điều tra lao động việc làm năm 2022 (Biểu 3.4)",
+   "url": "https://www.nso.gov.vn/wp-content/uploads/2024/03/Sach-BC-Dieu-tra-LDVL-2022-Vietnamese.pdf",
+   "year": 2022
+  },
+  "gso2023": {
+   "name": "Tổng cục Thống kê – Báo cáo Điều tra lao động việc làm năm 2023 (Biểu 3.4, bản đăng trên VCCI)",
+   "url": "https://api.vcci.com.vn/storage/fileskhac/68748c4292902.pdf",
+   "year": 2023
+  },
+  "gso2024": {
+   "name": "Cục Thống kê (NSO) – Báo cáo Điều tra lao động việc làm năm 2024 (Biểu 3.4)",
+   "url": "https://www.nso.gov.vn/wp-content/uploads/2026/05/02-Sach-Bao-cao-lao-dong-viec-lam-2024-TV.pdf",
+   "year": 2024
+  },
+  "topcv_it": {
+   "name": "TopCV – Mức lương ngành IT trích từ Báo cáo thị trường tuyển dụng 2025–2026",
+   "url": "https://www.topcv.vn/review-tat-tan-tat-cac-vi-tri-dev-va-muc-luong-dev",
+   "year": 2025
+  },
+  "nld_topcv": {
+   "name": "Báo Người Lao Động (17/03/2025) – tóm tắt Báo cáo thị trường tuyển dụng 2024–2025 của TopCV",
+   "url": "https://tuoitre.vn/nld/nganh-nghe-nao-co-thu-nhap-binh-quan-cao-nhat-hien-nay-196250317095858138.htm",
+   "year": 2024
+  }
+ },
+ "market_facts": [
+  {
+   "text": "Kinh doanh/Bán hàng dẫn đầu nhu cầu tuyển dụng (59,43% doanh nghiệp), tiếp theo Sản xuất (33,02%) và Dịch vụ khách hàng (24,34%).",
+   "source": "navigos"
+  },
+  {
+   "text": "81,21% doanh nghiệp khảo sát có kế hoạch tuyển thêm nhân sự năm 2025.",
+   "source": "navigos"
+  },
+  {
+   "text": "Kỹ năng được đánh giá cao: giải quyết vấn đề (73,06%), giao tiếp (63%), ngoại ngữ (52,75%), tư duy phân tích (52,56%).",
+   "source": "navigos"
+  },
+  {
+   "text": "Kinh doanh/Bán hàng là nhóm 'khát' nhân lực nhất 3 năm liên tiếp; IT-Phần mềm top 2 nhưng nhu cầu giảm nhẹ.",
+   "source": "topcv"
+  },
+  {
+   "text": "Năm 2025 tin tuyển dụng tăng nhẹ (+2,05%): xây dựng, sản xuất, pháp lý tăng mạnh; IT, tài chính-ngân hàng, xuất nhập khẩu giảm nhiệt; cơ hội cho Fresher thu hẹp.",
+   "source": "joboko"
+  },
+  {
+   "text": "Nhóm lương dẫn đầu: Y tế-Dược, IT, Cơ điện tử, Kinh doanh. Ngoại ngữ (đặc biệt tiếng Trung) giúp thu nhập cao hơn 10–40%.",
+   "source": "joboko"
+  }
+ ],
+ "note": "Thu nhập theo ngành kinh tế (Tổng cục Thống kê) là số liệu thật, nhưng ngành kinh tế chỉ gần đúng với nhóm ngành học. Mức 'Cao/Khá/TB' là đánh giá định tính – minh họa.",
+ "majors": [
+  {
+   "id": "cntt",
+   "name": "CNTT & Trí tuệ nhân tạo",
+   "icon": "💻",
+   "growth": "Cao",
+   "salary": "Cao",
+   "tags": [
+    "tech",
+    "logic"
+   ],
+   "skills": [
+    "Lập trình",
+    "Toán/thuật toán",
+    "Tiếng Anh",
+    "Tư duy hệ thống"
+   ],
+   "majors": [
+    "Khoa học máy tính",
+    "Kỹ thuật phần mềm",
+    "Trí tuệ nhân tạo",
+    "An toàn thông tin"
+   ],
+   "khoi": [
+    "A00",
+    "A01",
+    "D01"
+   ],
+   "desc": "Phát triển phần mềm, dữ liệu, AI.",
+   "facts": [
+    {
+     "text": "IT-Phần mềm top 2 tuyển nhiều nhất nhưng nhu cầu giảm nhẹ; 93,49% lao động IT dùng AI.",
+     "source": "topcv"
+    },
+    {
+     "text": "IT thuộc nhóm lương dẫn đầu; tin tuyển IT giảm nhiệt năm 2025.",
+     "source": "joboko"
+    }
+   ],
+   "gso_sector": "J",
+   "riasec": "ICR",
+   "salary_vnd": {
+    "min": 9.72,
+    "max": 14.4,
+    "level": "Software Engineer dưới 1 năm kinh nghiệm (khoảng trung vị thấp – cao)",
+    "year": 2025,
+    "source": "topcv_it"
+   }
+  },
+  {
+   "id": "bandan",
+   "name": "Kỹ thuật điện tử – Bán dẫn",
+   "icon": "🔌",
+   "growth": "Cao",
+   "salary": "Cao",
+   "tags": [
+    "tech",
+    "hands"
+   ],
+   "skills": [
+    "Vật lý",
+    "Mạch điện tử",
+    "Thiết kế vi mạch",
+    "Tiếng Anh"
+   ],
+   "majors": [
+    "Kỹ thuật điện tử – viễn thông",
+    "Thiết kế vi mạch",
+    "Vật lý kỹ thuật"
+   ],
+   "khoi": [
+    "A00",
+    "A01"
+   ],
+   "desc": "Thiết kế, sản xuất chip và thiết bị điện tử.",
+   "facts": [],
+   "gso_sector": "C",
+   "riasec": "RIC"
+  },
+  {
+   "id": "cokhi",
+   "name": "Cơ khí – Cơ điện tử – Tự động hóa",
+   "icon": "⚙️",
+   "growth": "Cao",
+   "salary": "Kha",
+   "tags": [
+    "tech",
+    "hands"
+   ],
+   "skills": [
+    "Vật lý",
+    "CAD",
+    "Lập trình PLC",
+    "Thực hành"
+   ],
+   "majors": [
+    "Kỹ thuật cơ khí",
+    "Cơ điện tử",
+    "Điều khiển & Tự động hóa"
+   ],
+   "khoi": [
+    "A00",
+    "A01"
+   ],
+   "desc": "Máy móc, robot, dây chuyền sản xuất.",
+   "facts": [
+    {
+     "text": "Cơ điện tử thuộc nhóm lương dẫn đầu.",
+     "source": "joboko"
+    },
+    {
+     "text": "Sản xuất là bộ phận có nhu cầu tuyển cao thứ 2 (33,02%).",
+     "source": "navigos"
+    }
+   ],
+   "gso_sector": "C",
+   "riasec": "RIC"
+  },
+  {
+   "id": "logistics",
+   "name": "Logistics & Chuỗi cung ứng",
+   "icon": "🚚",
+   "growth": "Cao",
+   "salary": "Kha",
+   "tags": [
+    "business",
+    "organize"
+   ],
+   "skills": [
+    "Tiếng Anh",
+    "Excel/dữ liệu",
+    "Đàm phán",
+    "Tổ chức"
+   ],
+   "majors": [
+    "Logistics & Quản lý chuỗi cung ứng",
+    "Kinh doanh quốc tế"
+   ],
+   "khoi": [
+    "A00",
+    "A01",
+    "D01"
+   ],
+   "desc": "Vận tải, kho bãi, xuất nhập khẩu.",
+   "facts": [
+    {
+     "text": "Tin tuyển xuất nhập khẩu giảm nhiệt năm 2025.",
+     "source": "joboko"
+    }
+   ],
+   "gso_sector": "H",
+   "riasec": "CER"
+  },
+  {
+   "id": "marketing",
+   "name": "Marketing số & Truyền thông",
+   "icon": "📱",
+   "growth": "Cao",
+   "salary": "Kha",
+   "tags": [
+    "creative",
+    "people",
+    "business"
+   ],
+   "skills": [
+    "Sáng tạo nội dung",
+    "Phân tích dữ liệu",
+    "Giao tiếp"
+   ],
+   "majors": [
+    "Marketing",
+    "Truyền thông đa phương tiện",
+    "Quan hệ công chúng"
+   ],
+   "khoi": [
+    "A01",
+    "D01",
+    "C00"
+   ],
+   "desc": "Quảng bá sản phẩm trên nền tảng số.",
+   "facts": [
+    {
+     "text": "Marketing/Truyền thông thuộc top 5 nhóm ứng dụng AI mạnh.",
+     "source": "topcv"
+    }
+   ],
+   "gso_sector": "M",
+   "riasec": "EAS"
+  },
+  {
+   "id": "kinhdoanh",
+   "name": "Kinh doanh – Bán hàng – Quản trị",
+   "icon": "💼",
+   "growth": "Cao",
+   "salary": "Kha",
+   "tags": [
+    "business",
+    "people"
+   ],
+   "skills": [
+    "Giao tiếp",
+    "Thuyết phục",
+    "Ngoại ngữ"
+   ],
+   "majors": [
+    "Quản trị kinh doanh",
+    "Thương mại điện tử"
+   ],
+   "khoi": [
+    "A00",
+    "A01",
+    "D01"
+   ],
+   "desc": "Bán hàng, phát triển khách hàng, quản lý.",
+   "facts": [
+    {
+     "text": "Nhu cầu tuyển cao nhất (59,43% doanh nghiệp).",
+     "source": "navigos"
+    },
+    {
+     "text": "'Khát' nhân lực nhất 3 năm liên tiếp.",
+     "source": "topcv"
+    }
+   ],
+   "gso_sector": "G",
+   "riasec": "ESC",
+   "salary_vnd": {
+    "min": 9,
+    "max": 14,
+    "level": "Nhóm giáo dục, y tế, xuất nhập khẩu, bất động sản, kinh doanh – bán hàng, nhân sự dưới 1 năm kinh nghiệm",
+    "year": 2024,
+    "source": "nld_topcv"
+   }
+  },
+  {
+   "id": "yduoc",
+   "name": "Y khoa – Dược",
+   "icon": "🩺",
+   "growth": "Cao",
+   "salary": "Cao",
+   "tags": [
+    "care",
+    "science"
+   ],
+   "skills": [
+    "Sinh học",
+    "Hóa học",
+    "Kiên nhẫn",
+    "Chịu áp lực"
+   ],
+   "majors": [
+    "Y khoa",
+    "Dược học",
+    "Răng – Hàm – Mặt"
+   ],
+   "khoi": [
+    "B00",
+    "A00"
+   ],
+   "desc": "Khám chữa bệnh, nghiên cứu và sản xuất thuốc.",
+   "facts": [
+    {
+     "text": "Y tế-Dược thuộc nhóm lương dẫn đầu.",
+     "source": "joboko"
+    }
+   ],
+   "gso_sector": "Q",
+   "riasec": "ISR",
+   "salary_vnd": {
+    "min": 9,
+    "max": 14,
+    "level": "Nhóm giáo dục, y tế, xuất nhập khẩu, bất động sản, kinh doanh – bán hàng, nhân sự dưới 1 năm kinh nghiệm",
+    "year": 2024,
+    "source": "nld_topcv"
+   }
+  },
+  {
+   "id": "dieuduong",
+   "name": "Điều dưỡng – Chăm sóc sức khỏe",
+   "icon": "💉",
+   "growth": "Cao",
+   "salary": "TB",
+   "tags": [
+    "care",
+    "people"
+   ],
+   "skills": [
+    "Sinh học",
+    "Chăm sóc",
+    "Giao tiếp",
+    "Ngoại ngữ (đi làm nước ngoài)"
+   ],
+   "majors": [
+    "Điều dưỡng",
+    "Hộ sinh",
+    "Kỹ thuật xét nghiệm"
+   ],
+   "khoi": [
+    "B00",
+    "B08"
+   ],
+   "desc": "Chăm sóc bệnh nhân, người cao tuổi.",
+   "facts": [],
+   "gso_sector": "Q",
+   "riasec": "SIR",
+   "salary_vnd": {
+    "min": 9,
+    "max": 14,
+    "level": "Nhóm giáo dục, y tế, xuất nhập khẩu, bất động sản, kinh doanh – bán hàng, nhân sự dưới 1 năm kinh nghiệm",
+    "year": 2024,
+    "source": "nld_topcv"
+   }
+  },
+  {
+   "id": "taichinh",
+   "name": "Tài chính – Ngân hàng – Kế toán",
+   "icon": "🏦",
+   "growth": "TB",
+   "salary": "Kha",
+   "tags": [
+    "business",
+    "logic",
+    "organize"
+   ],
+   "skills": [
+    "Toán",
+    "Excel",
+    "Cẩn thận",
+    "Phân tích"
+   ],
+   "majors": [
+    "Tài chính – Ngân hàng",
+    "Kế toán",
+    "Kiểm toán",
+    "Fintech"
+   ],
+   "khoi": [
+    "A00",
+    "A01",
+    "D01"
+   ],
+   "desc": "Quản lý tiền, đầu tư, kế toán doanh nghiệp.",
+   "facts": [
+    {
+     "text": "Tin tuyển tài chính-ngân hàng giảm nhiệt năm 2025.",
+     "source": "joboko"
+    }
+   ],
+   "gso_sector": "K",
+   "riasec": "CEI",
+   "salary_vnd": {
+    "min": 18,
+    "max": 18,
+    "level": "Ngân hàng – mức lương chuyên viên (không phải lương khởi điểm)",
+    "year": 2024,
+    "source": "nld_topcv"
+   }
+  },
+  {
+   "id": "dulich",
+   "name": "Du lịch – Khách sạn – Nhà hàng",
+   "icon": "🏨",
+   "growth": "Cao",
+   "salary": "TB",
+   "tags": [
+    "people",
+    "creative"
+   ],
+   "skills": [
+    "Ngoại ngữ",
+    "Giao tiếp",
+    "Phục vụ"
+   ],
+   "majors": [
+    "Quản trị du lịch & lữ hành",
+    "Quản trị khách sạn"
+   ],
+   "khoi": [
+    "A01",
+    "C00",
+    "D01"
+   ],
+   "desc": "Dịch vụ du lịch, lưu trú, sự kiện.",
+   "facts": [],
+   "gso_sector": "I",
+   "riasec": "SEA"
+  },
+  {
+   "id": "giaoduc",
+   "name": "Giáo dục – Sư phạm",
+   "icon": "📚",
+   "growth": "TB",
+   "salary": "TB",
+   "tags": [
+    "people",
+    "care"
+   ],
+   "skills": [
+    "Truyền đạt",
+    "Kiên nhẫn",
+    "Chuyên môn môn học"
+   ],
+   "majors": [
+    "Sư phạm Toán/Văn/Anh...",
+    "Giáo dục mầm non/tiểu học"
+   ],
+   "khoi": [
+    "A00",
+    "C00",
+    "D01",
+    "M00"
+   ],
+   "desc": "Dạy học, đào tạo.",
+   "facts": [],
+   "gso_sector": "P",
+   "riasec": "SAE",
+   "salary_vnd": {
+    "min": 9,
+    "max": 14,
+    "level": "Nhóm giáo dục, y tế, xuất nhập khẩu, bất động sản, kinh doanh – bán hàng, nhân sự dưới 1 năm kinh nghiệm",
+    "year": 2024,
+    "source": "nld_topcv"
+   }
+  },
+  {
+   "id": "luat",
+   "name": "Luật",
+   "icon": "⚖️",
+   "growth": "Cao",
+   "salary": "Kha",
+   "tags": [
+    "people",
+    "logic"
+   ],
+   "skills": [
+    "Đọc hiểu",
+    "Lập luận",
+    "Viết",
+    "Văn"
+   ],
+   "majors": [
+    "Luật",
+    "Luật kinh tế",
+    "Luật quốc tế"
+   ],
+   "khoi": [
+    "C00",
+    "A00",
+    "D01"
+   ],
+   "desc": "Tư vấn pháp lý, tranh tụng, pháp chế.",
+   "facts": [
+    {
+     "text": "Lĩnh vực pháp lý thuộc nhóm tin tuyển tăng mạnh năm 2025.",
+     "source": "joboko"
+    }
+   ],
+   "gso_sector": "M",
+   "riasec": "ESI"
+  },
+  {
+   "id": "thietke",
+   "name": "Thiết kế đồ họa – UI/UX",
+   "icon": "🎨",
+   "growth": "TB",
+   "salary": "TB",
+   "tags": [
+    "creative",
+    "tech"
+   ],
+   "skills": [
+    "Mỹ thuật",
+    "Phần mềm thiết kế",
+    "Thẩm mỹ"
+   ],
+   "majors": [
+    "Thiết kế đồ họa",
+    "Thiết kế đa phương tiện",
+    "Kiến trúc"
+   ],
+   "khoi": [
+    "H00",
+    "V00",
+    "A01"
+   ],
+   "desc": "Thiết kế hình ảnh, sản phẩm số.",
+   "facts": [],
+   "gso_sector": "M",
+   "riasec": "AIR"
+  },
+  {
+   "id": "nangluong",
+   "name": "Năng lượng tái tạo – Điện",
+   "icon": "☀️",
+   "growth": "Cao",
+   "salary": "Kha",
+   "tags": [
+    "tech",
+    "science",
+    "hands"
+   ],
+   "skills": [
+    "Vật lý",
+    "Điện",
+    "Môi trường"
+   ],
+   "majors": [
+    "Kỹ thuật điện",
+    "Kỹ thuật năng lượng",
+    "Kỹ thuật môi trường"
+   ],
+   "khoi": [
+    "A00",
+    "A01"
+   ],
+   "desc": "Điện mặt trời, điện gió, lưới điện.",
+   "facts": [],
+   "gso_sector": "D",
+   "riasec": "RIC"
+  },
+  {
+   "id": "nongnghiep",
+   "name": "Nông nghiệp công nghệ cao – Công nghệ sinh học",
+   "icon": "🌱",
+   "growth": "TB",
+   "salary": "TB",
+   "tags": [
+    "science",
+    "hands"
+   ],
+   "skills": [
+    "Sinh học",
+    "Hóa học",
+    "Thực nghiệm"
+   ],
+   "majors": [
+    "Công nghệ sinh học",
+    "Khoa học cây trồng",
+    "Công nghệ thực phẩm"
+   ],
+   "khoi": [
+    "B00",
+    "A00"
+   ],
+   "desc": "Ứng dụng công nghệ vào sản xuất nông nghiệp, thực phẩm.",
+   "facts": [],
+   "gso_sector": "A",
+   "riasec": "RIC"
+  },
+  {
+   "id": "xaydung",
+   "name": "Xây dựng – Kiến trúc",
+   "icon": "🏗️",
+   "growth": "Cao",
+   "salary": "Kha",
+   "tags": [
+    "tech",
+    "hands",
+    "creative"
+   ],
+   "skills": [
+    "Toán",
+    "Vẽ kỹ thuật",
+    "Quản lý dự án"
+   ],
+   "majors": [
+    "Kỹ thuật xây dựng",
+    "Kiến trúc",
+    "Quản lý xây dựng"
+   ],
+   "khoi": [
+    "A00",
+    "A01",
+    "V00"
+   ],
+   "desc": "Thiết kế, thi công công trình, hạ tầng.",
+   "facts": [
+    {
+     "text": "Xây dựng thuộc nhóm tin tuyển tăng mạnh năm 2025.",
+     "source": "joboko"
+    }
+   ],
+   "gso_sector": "F",
+   "riasec": "RIA"
+  },
+  {
+   "id": "ngonngu",
+   "name": "Ngôn ngữ – Biên phiên dịch",
+   "icon": "🌏",
+   "growth": "TB",
+   "salary": "Kha",
+   "tags": [
+    "people",
+    "creative"
+   ],
+   "skills": [
+    "Ngoại ngữ",
+    "Văn hóa",
+    "Viết"
+   ],
+   "majors": [
+    "Ngôn ngữ Anh",
+    "Ngôn ngữ Trung",
+    "Ngôn ngữ Hàn/Nhật"
+   ],
+   "khoi": [
+    "D01",
+    "D04",
+    "D06"
+   ],
+   "desc": "Biên dịch, phiên dịch, làm việc với đối tác nước ngoài.",
+   "facts": [
+    {
+     "text": "Ngoại ngữ (tiếng Trung) giúp thu nhập cao hơn 10–40%.",
+     "source": "joboko"
+    }
+   ],
+   "gso_sector": "M",
+   "riasec": "ASE"
+  },
+  {
+   "id": "csks",
+   "name": "Dịch vụ khách hàng – Nhân sự",
+   "icon": "🤝",
+   "growth": "TB",
+   "salary": "TB",
+   "tags": [
+    "people",
+    "organize"
+   ],
+   "skills": [
+    "Giao tiếp",
+    "Lắng nghe",
+    "Tổ chức"
+   ],
+   "majors": [
+    "Quản trị nhân lực",
+    "Tâm lý học"
+   ],
+   "khoi": [
+    "A01",
+    "C00",
+    "D01"
+   ],
+   "desc": "Chăm sóc khách hàng, tuyển dụng, đào tạo.",
+   "facts": [
+    {
+     "text": "Dịch vụ khách hàng có nhu cầu tuyển cao thứ 3 (24,34%).",
+     "source": "navigos"
+    }
+   ],
+   "gso_sector": "N",
+   "riasec": "SEC"
+  }
+ ],
+ "gso_sectors": {
+  "A": {
+   "name": "Nông, lâm nghiệp và thủy sản",
+   "v": [
+    5289,
+    5512,
+    5824.4
+   ]
+  },
+  "C": {
+   "name": "Công nghiệp chế biến, chế tạo",
+   "v": [
+    7467,
+    7804,
+    8413.1
+   ]
+  },
+  "D": {
+   "name": "Sản xuất và phân phối điện, khí đốt",
+   "v": [
+    9756,
+    10265,
+    11579.8
+   ]
+  },
+  "F": {
+   "name": "Xây dựng",
+   "v": [
+    7248,
+    7624,
+    8165.5
+   ]
+  },
+  "G": {
+   "name": "Bán buôn và bán lẻ",
+   "v": [
+    7605,
+    8160,
+    8859.2
+   ]
+  },
+  "H": {
+   "name": "Vận tải, kho bãi",
+   "v": [
+    9096,
+    9878,
+    10617.9
+   ]
+  },
+  "I": {
+   "name": "Dịch vụ lưu trú và ăn uống",
+   "v": [
+    5934,
+    6337,
+    6761.7
+   ]
+  },
+  "J": {
+   "name": "Thông tin và truyền thông",
+   "v": [
+    11375,
+    12119,
+    12908.6
+   ]
+  },
+  "K": {
+   "name": "Tài chính, ngân hàng và bảo hiểm",
+   "v": [
+    10767,
+    11488,
+    12866.6
+   ]
+  },
+  "M": {
+   "name": "Hoạt động chuyên môn, khoa học và công nghệ",
+   "v": [
+    10337,
+    10641,
+    11812.0
+   ]
+  },
+  "N": {
+   "name": "Hoạt động hành chính và dịch vụ hỗ trợ",
+   "v": [
+    7952,
+    8440,
+    9283.3
+   ]
+  },
+  "P": {
+   "name": "Giáo dục và đào tạo",
+   "v": [
+    7982,
+    8556,
+    10074.1
+   ]
+  },
+  "Q": {
+   "name": "Y tế và trợ giúp xã hội",
+   "v": [
+    8485,
+    8954,
+    10128.9
+   ]
+  }
+ },
+ "gso_years": [
+  2022,
+  2023,
+  2024
+ ],
+ "gso_all": [
+  7521,
+  7932,
+  8673.6
+ ],
+ "last_checked": "25/10/2026"
+}

@@ -1,0 +1,27 @@
+{% extends "base.html" %}{% block body %}
+{% include "_reminder.html" %}
+<section class="hero clean"><span class="kick">Dành cho học sinh THPT</span>
+<h1>Chọn đúng ngành, bắt đầu từ hôm nay</h1>
+<p>Lộ trình hướng nghiệp rõ ràng cho lớp 10, 11 và 12.</p>
+<a class="btn sun" href="#dinh-huong">Bắt đầu định hướng ↓</a></section>
+
+<section id="dinh-huong" class="guide"><h2 class="big">Định hướng giúp bạn</h2><p class="muted">Bạn đang học lớp mấy? Chọn để xem cần làm gì trong năm học này.</p>
+<div class="gcards">{% for n,x in GRADES.items() %}<a class="gcard {{x.color}}" href="/lop-{{n}}"><span class="gi" aria-hidden="true">{{x.icon}}</span><span class="gl">Lớp</span><b>{{n}}</b><span class="gt">{{x.tag}}</span>
+<span class="gp" data-grade-progress="{{n}}" data-total="{{totals[n]}}" data-server="{{ prog.get(n, '') }}">{% if user %}{{prog.get(n,0)}}/{{totals[n]}} bước đã làm{% endif %}</span><span class="go">Xem lộ trình →</span></a>{% endfor %}</div>
+<a class="altpath" href="/con-duong-khac"><span aria-hidden="true">🔀</span><span><b>Lựa chọn khác ngoài đại học</b><small>Cao đẳng, học nghề, vừa học vừa làm, du học, gap year, quân đội/công an</small></span><span class="go">Tìm hiểu →</span></a></section>
+
+<section id="nganh" class="light"><div class="secthead"><h2>Khám phá các ngành</h2><span class="muted">{{ majors|length }} nhóm ngành · mức đánh giá <span class="demo">minh họa</span></span></div>
+<form class="filters" method="get" action="/#nganh" aria-label="Bộ lọc ngành">
+<select name="growth" aria-label="Tăng trưởng"><option value="">📈 Tăng trưởng</option>{% for k in ["Cao","TB"] %}<option value="{{k}}" {{'selected' if f.growth==k}}>{{LABEL[k]}}</option>{% endfor %}</select>
+<select name="salary" aria-label="Thu nhập"><option value="">💰 Thu nhập</option>{% for k in ["Cao","Kha","TB"] %}<option value="{{k}}" {{'selected' if f.salary==k}}>{{LABEL[k]}}</option>{% endfor %}</select>
+<select name="tag" aria-label="Sở thích"><option value="">✨ Sở thích</option>{% for k,v in TAGS.items() %}<option value="{{k}}" {{'selected' if f.tag==k}}>{{v}}</option>{% endfor %}</select>
+<select name="sort" aria-label="Sắp xếp"><option value="">↕️ Sắp xếp</option><option value="growth" {{'selected' if f.sort=='growth'}}>Tăng trưởng</option><option value="salary" {{'selected' if f.sort=='salary'}}>Thu nhập</option></select>
+<span class="fact"><button class="btn">Lọc</button>{% if f.growth or f.salary or f.tag or f.sort %}<a href="/#nganh" class="clr">Xóa lọc</a>{% endif %}</span></form>
+<div class="grid">{% for m in majors %}<div class="card major mini"><div class="ic" aria-hidden="true">{{m.icon}}</div><div class="mb">{% if m.id in fit %}<span class="fit">⭐ Phù hợp với bạn</span>{% endif %}<h3><a class="stretch" href="/nganh/{{m.id}}">{{m.name}}</a></h3>
+<div class="badges"><span class="badge {{m.growth}}">📈 {{LABEL[m.growth]}}</span><span class="badge {{m.salary}}">💰 {{LABEL[m.salary]}}</span></div>
+<label class="cmp"><input type="checkbox" data-compare="{{m.id}}" data-name="{{m.name}}"><span>Thêm vào so sánh</span></label></div></div>
+{% else %}<p class="card">Không có ngành phù hợp bộ lọc. <a href="/#nganh">Xóa lọc</a></p>{% endfor %}</div></section>
+
+<section class="card news"><h2>📰 Tin tức thị trường lao động <span class="src">Có nguồn</span></h2><ul class="facts">{% for x in d.market_facts %}<li>{{ x.text }} <small>Nguồn: <a href="{{ d.sources[x.source].url }}" target="_blank" rel="noopener">{{ d.sources[x.source].name }}</a></small></li>{% endfor %}</ul></section>
+<div class="cbar" id="cbar" hidden role="region" aria-label="Thanh so sánh ngành"><div class="cin"><span id="cnames" aria-live="polite"></span><span class="cact"><button type="button" class="clr" id="cclear">Bỏ chọn</button><a class="btn sm" id="cgo" href="/so-sanh">So sánh</a></span></div></div>
+{% endblock %}

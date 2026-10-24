@@ -1,0 +1,5 @@
+{% if pstat and pstat.n < pstat.total and not session.hide_reminder %}<div class="remind" role="note"><div class="rm-ic">✨</div><div class="rm-t"><b>Hoàn thiện hồ sơ để nhận gợi ý chính xác hơn</b>
+<span>{{pstat.n}}/{{pstat.total}} hoàn thành · Còn: {% for k,v in SEC_LABELS.items() if not pstat.done[k] %}{{v}}{{ ", " if not loop.last }}{% endfor %}</span>
+<div class="bar sm"><i style="width:{{(pstat.n/pstat.total*100)|round|int}}%"></i></div></div>
+{% if request.path != '/ho-so' %}<a class="btn sm" href="/ho-so">Hoàn thiện ngay</a>{% endif %}
+<form method="post" action="/an-nhac-nho"><input type="hidden" name="_csrf" value="{{csrf_token()}}"><input type="hidden" name="next" value="{{request.path}}"><button class="x" aria-label="Ẩn nhắc nhở" title="Để sau">✕</button></form></div>{% endif %}

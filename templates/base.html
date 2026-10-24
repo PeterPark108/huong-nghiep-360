@@ -1,0 +1,20 @@
+<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{% block title %}Hướng Nghiệp 360 – Xu hướng nghề nghiệp{% endblock %}</title>
+<meta name="description" content="Công cụ hướng nghiệp miễn phí cho học sinh THPT lớp 10, 11, 12: lộ trình theo lớp, trắc nghiệm Holland (RIASEC), số liệu thu nhập có nguồn.">
+<meta name="csrf-token" content="{{csrf_token()}}"><meta name="logged-in" content="{{ '1' if user else '0' }}">
+<link rel="preload" href="{{ url_for('static', filename='fonts/bvp-vietnamese-400.woff2') }}" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="{{ url_for('static', filename='fonts.css') }}"><link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%230f8a7e'/%3E%3Ctext x='50' y='68' font-size='56' text-anchor='middle' fill='white'%3EH%3C/text%3E%3C/svg%3E">
+{% block head %}{% endblock %}<script src="{{ url_for('static', filename='app.js') }}" defer></script>
+</head><body>
+<a class="skip" href="#main">Bỏ qua tới nội dung chính</a>
+<nav class="nav" aria-label="Điều hướng chính"><div class="in"><a class="logo" href="/"><span aria-hidden="true">🎓</span><b>Hướng Nghiệp 360</b></a>
+<button class="burger" type="button" aria-label="Mở menu" aria-expanded="false" aria-controls="menu" data-burger><i></i><i></i><i></i></button>
+<div class="menu" id="menu"><a class="l {{'on' if request.path.startswith('/lop') or request.path=='/con-duong-khac'}}" href="/#dinh-huong">Định hướng</a><a class="l {{'on' if request.path.startswith('/nganh') or request.path=='/so-sanh'}}" href="/#nganh">Ngành nghề</a><a class="l {{'on' if request.path.startswith('/quiz')}}" href="/quiz">Trắc nghiệm</a>
+<span class="acct">{% if user %}<a class="l me {{'on' if request.path.startswith('/ho-so')}}" href="/ho-so"><span class="av" aria-hidden="true">{{user.full_name[:1]|upper}}</span><span class="nm">{{user.full_name.split()[-1]}}</span></a><form method="post" action="/dang-xuat" class="inl"><input type="hidden" name="_csrf" value="{{csrf_token()}}"><button class="l lo">Đăng xuất</button></form>
+{% else %}<a class="l" href="/dang-nhap">Đăng nhập</a><a class="btn sm" href="/dang-ky">Đăng ký</a>{% endif %}</span></div></div></nav>
+<main id="main">{% with ms = get_flashed_messages() %}{% for m in ms %}<div class="flash" role="status">{{m}}</div>{% endfor %}{% endwith %}
+{% block body %}{% endblock %}
+<div class="warn">⚠️ <b>Lưu ý:</b> Thông tin chỉ mang tính tham khảo. Số liệu thu nhập lấy từ Tổng cục Thống kê và báo cáo tuyển dụng công khai (xem <a href="/nguon-du-lieu">Nguồn dữ liệu</a>); các mức “Cao/Khá/Trung bình” là <b>đánh giá định tính – minh họa</b>. Hãy tham khảo thêm thầy cô, gia đình và thông tin tuyển sinh chính thức.</div>
+</main><footer><nav aria-label="Liên kết cuối trang"><a href="/nguon-du-lieu">Nguồn dữ liệu</a> · <a href="/con-duong-khac">Lựa chọn khác ngoài đại học</a> · <a href="/chinh-sach-bao-mat">Chính sách bảo mật</a></nav>
+<p>Hướng Nghiệp 360 · Công cụ tham khảo hướng nghiệp cho học sinh THPT · Dữ liệu kiểm tra lần cuối {{LAST_CHECKED}}</p></footer></body></html>

@@ -1,0 +1,12 @@
+{% extends "base.html" %}{% block title %}Lựa chọn khác ngoài đại học – Hướng Nghiệp 360{% endblock %}{% block body %}
+<a class="back" href="/#dinh-huong">← Định hướng giúp bạn</a>
+<section class="ghero sun"><span class="gi" aria-hidden="true">🔀</span><div><span class="kick">Con đường khác</span><h1>Lựa chọn khác ngoài đại học</h1><p>Đại học không phải con đường duy nhất. Mỗi lựa chọn dưới đây đều có thể dẫn tới một nghề nghiệp tốt nếu phù hợp với bạn.</p></div></section>
+<nav class="pnav" aria-label="Các lựa chọn">{% for p in P %}<a href="#{{p.id}}"><span aria-hidden="true">{{p.icon}}</span> {{p.name}}</a>{% endfor %}</nav>
+{% for p in P %}<section class="card path" id="{{p.id}}"><h2><span class="sic" aria-hidden="true">{{p.icon}}</span>{{p.name}} <span class="badge k">{{p.tag}}</span></h2>
+<p>{{p.what}}</p>
+<div class="pc"><div class="pro"><h3>👍 Ưu điểm</h3><ul class="dot">{% for x in p.pros %}<li>{{x}}</li>{% endfor %}</ul></div><div class="con"><h3>⚠️ Cần cân nhắc</h3><ul class="dot">{% for x in p.cons %}<li>{{x}}</li>{% endfor %}</ul></div></div>
+<p class="suits"><b>Phù hợp với:</b> {{p.suits}}</p>
+<h3 class="h4">Chuẩn bị theo từng lớp</h3><ol class="prep">{% for g,t in p.prep.items() %}<li><a class="badge k" href="/lop-{{g}}">Lớp {{g}}</a><span>{{t}}</span></li>{% endfor %}</ol></section>{% endfor %}
+<section class="card"><h2>🔗 Nguồn thông tin chính thức</h2><ul class="facts">{% for n,u,t in OFFICIAL %}<li><a href="{{u}}" target="_blank" rel="noopener"><b>{{n}}</b></a> <small>{{t}}</small></li>{% endfor %}</ul>
+<p class="small muted">Trang này chỉ cung cấp thông tin chung. Học phí, chỉ tiêu, lịch tuyển sinh và điều kiện cụ thể thay đổi theo năm và theo trường – luôn kiểm tra trên trang chính thức của trường và cơ quan nhà nước trước khi quyết định.</p></section>
+{% endblock %}

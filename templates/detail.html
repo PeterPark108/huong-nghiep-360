@@ -1,0 +1,25 @@
+{% extends "base.html" %}{% block title %}{{m.name}} – Hướng Nghiệp 360{% endblock %}
+{% block head %}<script src="{{ url_for('static', filename='vendor/chart.umd.min.js') }}" defer></script>{% endblock %}{% block body %}
+{% set inc = m.income %}
+<a class="back" href="/#nganh">← Tất cả ngành</a>
+<div class="dhead"><div class="ic" aria-hidden="true">{{m.icon}}</div><div><h1>{{m.name}}</h1><div class="badges"><span class="badge {{m.growth}}">📈 Triển vọng: {{LABEL[m.growth]}}</span><span class="badge {{m.salary}}">💰 Thu nhập: {{LABEL[m.salary]}}</span><span class="demo">đánh giá định tính – minh họa</span><span class="badge k" title="Mã Holland (RIASEC)">🧭 {{m.riasec}}</span></div></div></div>
+<p class="lead">{{m.desc}}</p>
+<div class="dgrid">
+<div class="card"><h2>💵 Thu nhập bình quân ngành kinh tế liên quan <span class="src">Có nguồn</span></h2>
+<p class="small muted">Ngành kinh tế gần nhất: <b>{{inc.sector}}</b>. Đây là thu nhập bình quân/tháng của <b>mọi</b> lao động làm công ăn lương trong ngành kinh tế này (không riêng người mới ra trường), đơn vị triệu đồng.</p>
+<div class="chartbox"><canvas id="inc" role="img" aria-label="Biểu đồ thu nhập bình quân ngành {{inc.sector}}: {% for y in inc.years %}{{y}} {{inc.vals[loop.index0]}} triệu{{ '; ' if not loop.last }}{% endfor %}"></canvas></div>
+<script type="application/json" id="incdata">{{ dict(years=inc.years, values=inc.vals, all=inc.all, label=inc.sector)|tojson }}</script>
+<table class="mini-t"><caption class="sr">Số liệu biểu đồ</caption><thead><tr><th scope="col">Năm</th>{% for y in inc.years %}<th scope="col">{{y}}</th>{% endfor %}</tr></thead><tbody><tr><th scope="row">{{inc.sector}}</th>{% for v in inc.vals %}<td>{{'%.1f'|format(v)|replace('.',',')}}</td>{% endfor %}</tr><tr><th scope="row">Bình quân cả nước</th>{% for v in inc.all %}<td>{{'%.1f'|format(v)|replace('.',',')}}</td>{% endfor %}</tr></tbody></table>
+<p class="srcs">Nguồn: {% for s in inc.srcs %}<a href="{{SRC[s].url}}" target="_blank" rel="noopener">{{SRC[s].name}}</a>{{ '; ' if not loop.last }}{% endfor %} · <b>cập nhật năm {{inc.years[-1]}}</b></p></div>
+<div class="card"><h2>🎓 Lương cho người mới / theo vị trí</h2>
+{% if m.salary_vnd %}{% set sv=m.salary_vnd %}<p class="bignum">{% if sv.min==sv.max %}~{{('%g'|format(sv.min))|replace('.',',')}}{% else %}{{('%g'|format(sv.min))|replace('.',',')}}–{{('%g'|format(sv.max))|replace('.',',')}}{% endif %} <small>triệu đồng/tháng</small></p>
+<p class="small">{{sv.level}}</p><p class="srcs">Nguồn: <a href="{{SRC[sv.source].url}}" target="_blank" rel="noopener">{{SRC[sv.source].name}}</a> · <b>cập nhật năm {{sv.year}}</b></p>
+{% else %}<p><span class="demo">chưa có số liệu – minh họa</span></p><p class="muted small">Chưa tìm được số liệu lương khởi điểm công khai, có nguồn rõ ràng cho nhóm ngành này. Mức đánh giá định tính hiện tại: <b>{{LABEL[m.salary]}}</b>. Bạn có thể tra cứu thêm trên các trang tuyển dụng và hỏi người đang làm nghề.</p>{% endif %}
+<h3 class="h4">📊 Nhu cầu tuyển dụng</h3>
+{% if m.facts %}<ul class="facts">{% for x in m.facts %}<li>{{x.text}} <small>Nguồn: <a href="{{d.sources[x.source].url}}" target="_blank" rel="noopener">{{d.sources[x.source].name}}</a> · cập nhật năm {{d.sources[x.source].year}}</small></li>{% endfor %}</ul>
+{% else %}<p><span class="demo">chưa có số liệu – minh họa</span></p><p class="muted small">Chưa có số liệu nhu cầu tuyển dụng theo năm có nguồn cho nhóm ngành này. Đánh giá định tính: triển vọng <b>{{LABEL[m.growth]}}</b>.</p>{% endif %}</div></div>
+<div class="cols">
+<div class="card"><h2>🧠 Kỹ năng cần có</h2><ul class="dot">{% for s in m.skills %}<li>{{s}}</li>{% endfor %}</ul></div>
+<div class="card"><h2>🏫 Ngành học đại học</h2><ul class="dot">{% for s in m.majors %}<li>{{s}}</li>{% endfor %}</ul><b>Tổ hợp xét tuyển tham khảo:</b> <div class="badges mt6">{% for k in m.khoi %}<span class="badge k">{{k}}</span>{% endfor %}</div></div>
+<div class="card"><h2>🧭 Hợp với ai?</h2><p class="small">Mã Holland <b>{{m.riasec}}</b>:</p><ul class="dot">{% for c in m.riasec %}<li><b>{{RT[c].short}}</b> – {{RT[c].desc}}</li>{% endfor %}</ul><a class="btn sm" href="/so-sanh?nganh={{m.id}}">⚖️ So sánh với ngành khác</a></div></div>
+{% endblock %}
