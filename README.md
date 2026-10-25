@@ -2,6 +2,19 @@
 
 Web hướng nghiệp cho học sinh lớp 10–12 (Flask + SQLite, tiếng Việt).
 
+**🌐 Bản chạy thử:** https://huong-nghiep-360.onrender.com (Render gói miễn phí: lần đầu mở có thể mất ~30 giây để khởi động)
+
+**EN:** A Vietnamese career-guidance web app for high-school students (grades 10–12): a step-by-step checklist per grade (25 guided step pages), a 30-question Holland/RIASEC interest quiz with radar chart, major pages with sourced income data, side-by-side major comparison, and accounts that save quiz results and progress. Built with Flask, SQLite and vanilla JS, deployed on Render.
+
+| Trang chủ | Lộ trình lớp 10 |
+|---|---|
+| ![Trang chủ](docs/images/trang_chu.jpg) | ![Lớp 10](docs/images/lop_10.jpg) |
+| **Trang con từng bước** | **Trắc nghiệm Holland** |
+| ![Bước](docs/images/buoc_lop_10.jpg) | ![Quiz](docs/images/quiz.jpg) |
+
+## Công nghệ
+Python 3 · Flask · SQLite · Jinja2 · JavaScript thuần · Chart.js (tự lưu trữ) · Gunicorn · Docker · Render · phát triển theo hướng *vibe coding* (lập trình cùng AI).
+
 ## Chạy thử trên máy
 ```bash
 python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
@@ -55,3 +68,9 @@ SECRET_KEY=$(python3 -c 'import secrets;print(secrets.token_hex(32))') \
 - **Render:** đẩy repo lên GitHub → New → Blueprint → chọn repo (`render.yaml` có sẵn, kèm disk 1 GB ở `/var/data`, health check `/healthz`).
 - **Heroku/Railway:** dùng `Procfile`; lưu ý ổ đĩa tạm thời sẽ mất SQLite khi khởi động lại — cần volume.
 Trên HTTPS nhớ đặt `SESSION_COOKIE_SECURE=1` (render.yaml đã đặt sẵn).
+
+## Giới hạn
+- Một số số liệu ngành là minh họa/chưa đầy đủ: trang nào thiếu nguồn sẽ ghi "chưa có số liệu – minh họa". Kiểm tra lại với nguồn gốc trước khi dùng cho quyết định thật.
+- Bản chạy thử dùng Render gói miễn phí: không có ổ đĩa bền, nên **tài khoản và dữ liệu bị xóa mỗi lần triển khai lại hoặc khởi động lại**; máy ngủ khi không có truy cập (~30 giây để thức dậy). `render.yaml` mô tả cấu hình có ổ đĩa (gói trả phí).
+- Nội dung về chương trình GDPT 2018 / Thông tư 13/2022/TT-BGDĐT chưa được đối chiếu với văn bản gốc.
+- Trắc nghiệm Holland chỉ để tham khảo, không phải công cụ chẩn đoán.
