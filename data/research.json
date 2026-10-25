@@ -1,0 +1,252 @@
+[
+ {
+  "id": "holland",
+  "authors": "Nauta, M. M.",
+  "year": 2010,
+  "title": "The development, evolution, and status of Holland's theory of vocational personalities: Reflections and future directions for counseling psychology",
+  "venue": "Journal of Counseling Psychology, 57(1)",
+  "url": "https://doi.org/10.1037/a0018213",
+  "finding": "Lý thuyết Holland (RIASEC): người ta hợp với môi trường làm việc giống kiểu sở thích của mình.",
+  "limits": "Tổng quan nhiều thập kỷ nghiên cứu; sở thích dự báo lựa chọn ngành tốt, nhưng dự báo thành công/hài lòng chỉ ở mức vừa phải."
+ },
+ {
+  "id": "super",
+  "authors": "Super, D. E.",
+  "year": 1980,
+  "title": "A life-span, life-space approach to career development",
+  "venue": "Journal of Vocational Behavior, 16(3)",
+  "url": "https://doi.org/10.1016/0001-8791(80)90056-1",
+  "finding": "Phát triển nghề nghiệp là quá trình suốt đời; tuổi THPT thuộc giai đoạn “khám phá” – thử nhiều vai trò trước khi chốt.",
+  "limits": "Khung lý thuyết kinh điển, mang tính mô tả; các mốc tuổi chỉ là gần đúng."
+ },
+ {
+  "id": "scct",
+  "authors": "Lent, R. W., Brown, S. D., & Hackett, G.",
+  "year": 1994,
+  "title": "Toward a unifying social cognitive theory of career and academic interest, choice, and performance",
+  "venue": "Journal of Vocational Behavior, 45(1)",
+  "url": "https://doi.org/10.1006/jvbe.1994.1027",
+  "finding": "Lý thuyết nhận thức xã hội về nghề (SCCT): sự tự tin, kỳ vọng kết quả và hỗ trợ/rào cản xung quanh định hình sở thích và lựa chọn.",
+  "limits": "Được kiểm định rộng rãi, chủ yếu bằng nghiên cứu tương quan – chưa chứng minh trực tiếp quan hệ nhân quả."
+ },
+ {
+  "id": "cdse",
+  "authors": "Taylor, K. M., & Betz, N. E.",
+  "year": 1983,
+  "title": "Applications of self-efficacy theory to the understanding and treatment of career indecision",
+  "venue": "Journal of Vocational Behavior, 22(1)",
+  "url": "https://doi.org/10.1016/0001-8791(83)90006-4",
+  "finding": "Tự tin vào khả năng ra quyết định nghề (tự đánh giá, thu thập thông tin, chọn mục tiêu, lập kế hoạch, giải quyết vấn đề) gắn với ít do dự hơn.",
+  "limits": "Nghiên cứu trên sinh viên đại học Mỹ; áp dụng cho học sinh Việt Nam cần thận trọng."
+ },
+ {
+  "id": "whiston",
+  "authors": "Whiston, S. C., Li, Y., Goodrich Mitts, N., & Wright, L.",
+  "year": 2017,
+  "title": "Effectiveness of career choice interventions: A meta-analytic replication and extension",
+  "venue": "Journal of Vocational Behavior, 100",
+  "url": "https://doi.org/10.1016/j.jvb.2017.03.010",
+  "finding": "Phân tích gộp: các can thiệp hướng nghiệp nhìn chung có hiệu quả; có người hướng dẫn và có phần thông tin nghề, khám phá bản thân thường giúp nhiều hơn.",
+  "limits": "Hiệu quả trung bình ở mức nhỏ–vừa; nghiên cứu gốc rất đa dạng."
+ },
+ {
+  "id": "happen",
+  "authors": "Mitchell, K. E., Levin, A. S., & Krumboltz, J. D.",
+  "year": 1999,
+  "title": "Planned happenstance: Constructing unexpected career opportunities",
+  "venue": "Journal of Counseling & Development, 77(2)",
+  "url": "https://doi.org/10.1002/j.1556-6676.1999.tb02431.x",
+  "finding": "“Tình cờ có chủ đích”: tò mò, kiên trì, linh hoạt, lạc quan và dám thử giúp biến sự kiện bất ngờ thành cơ hội nghề nghiệp.",
+  "limits": "Bài lý thuyết – thực hành tư vấn, không phải thử nghiệm đo lường."
+ },
+ {
+  "id": "oecd",
+  "authors": "Covacevich, C., Mann, A., Besa, F., Diaz, J., & Santos, C.",
+  "year": 2021,
+  "title": "Indicators of teenage career readiness: An analysis of longitudinal data from eight countries",
+  "venue": "OECD Education Working Papers, No. 258",
+  "url": "https://doi.org/10.1787/cec854f8-en",
+  "finding": "Dữ liệu theo dõi dài hạn ở 8 nước: học sinh tham quan nơi làm việc, trò chuyện với người đi làm, tìm hiểu nghề và có dự định nghề rõ ràng thường có kết quả việc làm tốt hơn khi trưởng thành.",
+  "limits": "Nghiên cứu quan sát (tương quan), không chứng minh nhân quả; dữ liệu từ các nước OECD."
+ },
+ {
+  "id": "tt32",
+  "authors": "Bộ Giáo dục và Đào tạo",
+  "year": 2018,
+  "title": "Thông tư 32/2018/TT-BGDĐT ban hành Chương trình giáo dục phổ thông (gồm chương trình Hoạt động trải nghiệm, hướng nghiệp)",
+  "venue": "Văn bản pháp luật – Cơ sở dữ liệu quốc gia về VBPL",
+  "url": "https://vbpl.vn/bogiaoducdaotao/Pages/vbpq-van-ban-goc.aspx?ItemID=146721",
+  "finding": "Ở THPT, hoạt động trải nghiệm, hướng nghiệp là bắt buộc; học sinh tự đánh giá năng lực, sở trường, hứng thú để chọn ngành phù hợp.",
+  "limits": "Văn bản chương trình (không phải nghiên cứu thực nghiệm); một phần đã được sửa đổi."
+ },
+ {
+  "id": "marcia",
+  "authors": "Marcia, J. E.",
+  "year": 1966,
+  "title": "Development and validation of ego-identity status",
+  "venue": "Journal of Personality and Social Psychology, 3(5)",
+  "url": "https://doi.org/10.1037/h0023281",
+  "finding": "Phát triển ý tưởng của Erikson: bản sắc vững hình thành khi thanh thiếu niên vừa khám phá nhiều lựa chọn vừa dần cam kết.",
+  "limits": "Nghiên cứu gốc trên nam sinh viên; mô hình được mở rộng và tranh luận nhiều về sau."
+ },
+ {
+  "id": "sdt",
+  "authors": "Ryan, R. M., & Deci, E. L.",
+  "year": 2000,
+  "title": "Self-determination theory and the facilitation of intrinsic motivation, social development, and well-being",
+  "venue": "American Psychologist, 55(1)",
+  "url": "https://doi.org/10.1037/0003-066X.55.1.68",
+  "finding": "Động lực bền hơn khi ta được tự chọn (tự chủ), thấy mình làm được (năng lực) và có kết nối với người khác.",
+  "limits": "Lý thuyết có nền tảng thực nghiệm rộng; mức tác động khác nhau theo bối cảnh."
+ },
+ {
+  "id": "bandura",
+  "authors": "Bandura, A.",
+  "year": 1977,
+  "title": "Self-efficacy: Toward a unifying theory of behavioral change",
+  "venue": "Psychological Review, 84(2)",
+  "url": "https://doi.org/10.1037/0033-295X.84.2.191",
+  "finding": "Niềm tin “mình làm được” lớn lên mạnh nhất qua trải nghiệm thành công thật, tiếp theo là quan sát người giống mình làm được.",
+  "limits": "Lý thuyết nền tảng, được nhiều nghiên cứu ủng hộ."
+ },
+ {
+  "id": "mindset",
+  "authors": "Yeager, D. S., Hanselman, P., Walton, G. M., Murray, J. S., et al.",
+  "year": 2019,
+  "title": "A national experiment reveals where a growth mindset improves achievement",
+  "venue": "Nature, 573",
+  "url": "https://doi.org/10.1038/s41586-019-1466-y",
+  "finding": "Thử nghiệm toàn quốc ở Mỹ: bài học “năng lực có thể phát triển” khoảng dưới 1 giờ cải thiện nhẹ điểm của học sinh lớp 9 có học lực thấp hơn.",
+  "limits": "Hiệu ứng nhỏ, phụ thuộc môi trường lớp học."
+ },
+ {
+  "id": "mindset_meta",
+  "authors": "Sisk, V. F., Burgoyne, A. P., Sun, J., Butler, J. L., & Macnamara, B. N.",
+  "year": 2018,
+  "title": "To what extent and under which circumstances are growth mind-sets important to academic achievement? Two meta-analyses",
+  "venue": "Psychological Science, 29(4)",
+  "url": "https://doi.org/10.1177/0956797617739704",
+  "finding": "Phân tích gộp phản biện: tác động của tư duy phát triển lên kết quả học tập nhìn chung yếu.",
+  "limits": "Đây là nguồn nêu giới hạn – không nên kỳ vọng “đổi tư duy là đổi điểm”."
+ },
+ {
+  "id": "grit",
+  "authors": "Duckworth, A. L., Peterson, C., Matthews, M. D., & Kelly, D. R.",
+  "year": 2007,
+  "title": "Grit: Perseverance and passion for long-term goals",
+  "venue": "Journal of Personality and Social Psychology, 92(6)",
+  "url": "https://doi.org/10.1037/0022-3514.92.6.1087",
+  "finding": "Sự bền bỉ và đam mê với mục tiêu dài hạn liên quan tới thành tích.",
+  "limits": "Xem giới hạn ở nguồn Credé et al. (2017)."
+ },
+ {
+  "id": "grit_meta",
+  "authors": "Credé, M., Tynan, M. C., & Harms, P. D.",
+  "year": 2017,
+  "title": "Much ado about grit: A meta-analytic synthesis of the grit literature",
+  "venue": "Journal of Personality and Social Psychology, 113(3)",
+  "url": "https://doi.org/10.1037/pspp0000102",
+  "finding": "Phân tích gộp: grit chỉ liên quan vừa phải tới thành tích, trùng nhiều với tính tận tâm; thành phần “kiên trì” có ích hơn “đam mê”.",
+  "limits": "Nguồn nêu giới hạn của grit."
+ },
+ {
+  "id": "goal",
+  "authors": "Locke, E. A., & Latham, G. P.",
+  "year": 2002,
+  "title": "Building a practically useful theory of goal setting and task motivation: A 35-year odyssey",
+  "venue": "American Psychologist, 57(9)",
+  "url": "https://doi.org/10.1037/0003-066X.57.9.705",
+  "finding": "Mục tiêu cụ thể, đủ thách thức kèm phản hồi tiến độ giúp làm tốt hơn mục tiêu mơ hồ kiểu “cố gắng hết sức”.",
+  "limits": "Bằng chứng mạnh, chủ yếu từ người lớn/công việc; với việc mới và phức tạp nên đặt mục tiêu học hỏi."
+ },
+ {
+  "id": "impl",
+  "authors": "Gollwitzer, P. M., & Sheeran, P.",
+  "year": 2006,
+  "title": "Implementation intentions and goal achievement: A meta-analysis of effects and processes",
+  "venue": "Advances in Experimental Social Psychology, 38",
+  "url": "https://doi.org/10.1016/S0065-2601(06)38002-1",
+  "finding": "Kế hoạch “Nếu [tình huống] thì mình sẽ [hành động]” giúp bắt tay làm việc nhiều hơn (phân tích gộp 94 nghiên cứu, hiệu ứng vừa–lớn).",
+  "limits": "Hiệu quả thay đổi theo người và nhiệm vụ."
+ },
+ {
+  "id": "woop",
+  "authors": "Oettingen, G.",
+  "year": 2012,
+  "title": "Future thought and behaviour change",
+  "venue": "European Review of Social Psychology, 23(1)",
+  "url": "https://doi.org/10.1080/10463283.2011.643698",
+  "finding": "Đối chiếu tinh thần (WOOP: Mong muốn – Kết quả – Trở ngại – Kế hoạch): nghĩ đến cả trở ngại thực tế giúp hành động tốt hơn chỉ mơ về kết quả.",
+  "limits": "Tổng quan của chính nhóm tác giả."
+ },
+ {
+  "id": "dunlosky",
+  "authors": "Dunlosky, J., Rawson, K. A., Marsh, E. J., Nathan, M. J., & Willingham, D. T.",
+  "year": 2013,
+  "title": "Improving students' learning with effective learning techniques",
+  "venue": "Psychological Science in the Public Interest, 14(1)",
+  "url": "https://doi.org/10.1177/1529100612453266",
+  "finding": "Đánh giá 10 kỹ thuật học: tự kiểm tra và học giãn cách có mức hữu ích “cao”; tô đậm và đọc lại có mức “thấp”.",
+  "limits": "Tổng quan rất uy tín; một số kết luận dựa trên thí nghiệm trong phòng lab."
+ },
+ {
+  "id": "retrieval",
+  "authors": "Roediger, H. L., & Karpicke, J. D.",
+  "year": 2006,
+  "title": "Test-enhanced learning: Taking memory tests improves long-term retention",
+  "venue": "Psychological Science, 17(3)",
+  "url": "https://doi.org/10.1111/j.1467-9280.2006.01693.x",
+  "finding": "Tự kiểm tra (nhớ lại không nhìn sách) giúp nhớ lâu hơn đọc lại.",
+  "limits": "Thí nghiệm với văn bản; được lặp lại nhiều lần."
+ },
+ {
+  "id": "spacing",
+  "authors": "Cepeda, N. J., Pashler, H., Vul, E., Wixted, J. T., & Rohrer, D.",
+  "year": 2006,
+  "title": "Distributed practice in verbal recall tasks: A review and quantitative synthesis",
+  "venue": "Psychological Bulletin, 132(3)",
+  "url": "https://doi.org/10.1037/0033-2909.132.3.354",
+  "finding": "Chia nhỏ việc ôn thành nhiều buổi cách nhau giúp nhớ lâu hơn học dồn.",
+  "limits": "Bằng chứng mạnh cho ghi nhớ; với kỹ năng phức tạp cần thêm nghiên cứu."
+ },
+ {
+  "id": "dp",
+  "authors": "Ericsson, K. A., Krampe, R. T., & Tesch-Römer, C.",
+  "year": 1993,
+  "title": "The role of deliberate practice in the acquisition of expert performance",
+  "venue": "Psychological Review, 100(3)",
+  "url": "https://doi.org/10.1037/0033-295X.100.3.363",
+  "finding": "Luyện tập có chủ đích – nhắm điểm yếu cụ thể, có phản hồi, sửa lỗi – giúp tiến bộ.",
+  "limits": "Xem giới hạn ở Macnamara et al. (2014)."
+ },
+ {
+  "id": "dp_meta",
+  "authors": "Macnamara, B. N., Hambrick, D. Z., & Oswald, F. L.",
+  "year": 2014,
+  "title": "Deliberate practice and performance in music, games, sports, education, and professions: A meta-analysis",
+  "venue": "Psychological Science, 25(8)",
+  "url": "https://doi.org/10.1177/0956797614535810",
+  "finding": "Phân tích gộp: luyện tập có chủ đích quan trọng nhưng chỉ giải thích một phần chênh lệch thành tích (trong giáo dục khoảng 4%).",
+  "limits": "Nguồn nêu giới hạn: luyện tập không phải yếu tố duy nhất."
+ },
+ {
+  "id": "anxiety",
+  "authors": "Ramirez, G., & Beilock, S. L.",
+  "year": 2011,
+  "title": "Writing about testing worries boosts exam performance in the classroom",
+  "venue": "Science, 331(6014)",
+  "url": "https://doi.org/10.1126/science.1199427",
+  "finding": "Viết ra nỗi lo khoảng 10 phút ngay trước bài thi giúp học sinh hay lo âu làm bài tốt hơn.",
+  "limits": "Mẫu nhỏ; các nghiên cứu lặp lại sau này cho kết quả không đồng nhất."
+ },
+ {
+  "id": "sleep",
+  "authors": "Paruthi, S., Brooks, L. J., D'Ambrosio, C., et al.",
+  "year": 2016,
+  "title": "Recommended amount of sleep for pediatric populations: A consensus statement of the American Academy of Sleep Medicine",
+  "venue": "Journal of Clinical Sleep Medicine, 12(6)",
+  "url": "https://doi.org/10.5664/jcsm.5866",
+  "finding": "Khuyến nghị đồng thuận của AASM: thanh thiếu niên 13–18 tuổi nên ngủ 8–10 tiếng mỗi 24 giờ.",
+  "limits": "Đồng thuận chuyên gia dựa trên tổng quan bằng chứng."
+ }
+]

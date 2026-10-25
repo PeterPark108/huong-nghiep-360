@@ -5,6 +5,7 @@
 {% from "_widgets.html" import widget with context %}
 <details class="card howbox"{% if not D %} open{% endif %}><summary><h2>📝 Làm từng bước</h2></summary><ol class="howto">{% for h in s.how %}<li>{{h}}</li>{% endfor %}</ol>
 {% if s.tool and s.key != '10-0-1' %}<a class="btn ghost sm" href="{{s.tool[0]}}">{{s.tool[1]}} →</a>{% endif %}</details>
+{% include "_actions.html" %}
 {% if s.key == '10-0-1' %}<div class="card quizbox"><h2>🧭 Trắc nghiệm sở thích Holland</h2>
 {% if last %}<p>Kết quả gần nhất của bạn: <b class="code">{{last.code}}</b>. Bạn có thể làm lại bất cứ lúc nào.</p>{% else %}<p>30 câu, mỗi câu chọn mức bạn thích. Làm xong ô này sẽ tự được tích.</p>{% endif %}
 <a class="btn" href="{{href(s.key)}}">{{ 'Làm lại trắc nghiệm' if last else 'Bắt đầu làm trắc nghiệm' }} →</a></div>{% endif %}

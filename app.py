@@ -202,7 +202,8 @@ def step(g, key):
     last = auth.latest_riasec(u["id"]) if u and key == QUIZ_STEP else None
     return render_template("step.html", s=info, g=g, x=GRADES[g], is_done=key in done, n=i + 1, total=len(ks), ndone=len(done),
                            prev=ks[i - 1] if i else None, nxt=ks[i + 1] if i + 1 < len(ks) else None, todo=nk, href=step_href,
-                           W=step_ui.widgets(key), D=data, kind=step_ui.kind(key), majors=load()["majors"], last=last)
+                           W=step_ui.widgets(key), D=data, kind=step_ui.kind(key), majors=load()["majors"], last=last,
+                           ACT=ACTIONS.get(key, []), RS=RESEARCH)
 @app.route("/api/buoc/<key>", methods=["POST"])
 def save_step_api(key):
     if not step_info(key): abort(404)
@@ -256,6 +257,17 @@ def compare():
 def other_paths():
     from paths import PATHS, OFFICIAL
     return render_template("paths.html", P=PATHS, OFFICIAL=OFFICIAL)
+import json as _json
+_D = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
+RESEARCH = {r["id"]: r for r in _json.load(open(os.path.join(_D, "research.json"), encoding="utf-8"))}
+ACTIONS = _json.load(open(os.path.join(_D, "actions.json"), encoding="utf-8"))
+@app.route("/co-so-khoa-hoc")
+def science():
+    used = {}
+    for k, acts in ACTIONS.items():
+        for a in acts:
+            for r in a["refs"]: used.setdefault(r, []).append(k) if k not in used.get(r, []) else None
+    return render_template("science.html", R=list(RESEARCH.values()), used=used, info=step_info, href=step_href)
 @app.route("/nguon-du-lieu")
 def sources():
     d = load()

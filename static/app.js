@@ -142,3 +142,17 @@
     }
   });
 })();
+// Khối "Thực hiện hành động": tích việc (localStorage) + accordion cơ sở khoa học
+(() => {
+  document.querySelectorAll("[data-acts]").forEach(ul => {
+    const K = "acts:" + ul.dataset.acts; let st = {};
+    try { st = JSON.parse(localStorage.getItem(K) || "{}"); } catch {}
+    ul.querySelectorAll("input[data-act]").forEach(cb => {
+      cb.checked = !!st[cb.dataset.act];
+      cb.addEventListener("change", () => { st[cb.dataset.act] = cb.checked; try { localStorage.setItem(K, JSON.stringify(st)); } catch {} });
+    });
+  });
+  const open = (b, v) => { b.setAttribute("aria-expanded", v); document.getElementById(b.getAttribute("aria-controls")).hidden = !v; };
+  document.querySelectorAll(".sci-t").forEach(b => b.addEventListener("click", () => open(b, b.getAttribute("aria-expanded") !== "true")));
+  document.querySelectorAll(".actbox a.cite").forEach(a => a.addEventListener("click", () => { const b = a.closest(".actbox").querySelector(".sci-t"); if (b) open(b, true); }));
+})();

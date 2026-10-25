@@ -98,7 +98,7 @@ GUIDE = {
    form=["Giấy tờ đã có / còn thiếu"], links=[MOET]),
  "12-1-2": dict(how=["Xem trang học bổng của trường bạn nhắm.", "Tìm học bổng doanh nghiệp/quỹ uy tín – không trả phí để “xin” học bổng.", "Ghi điều kiện và hạn nộp theo thông báo chính thức."],
    form=["Học bổng – điều kiện – hạn nộp (theo thông báo)"], links=[]),
- "12-2-0": dict(how=["Luyện đề theo cấu trúc đề minh họa Bộ công bố.", "Ngủ đủ 7–8 tiếng, ăn uống điều độ.", "Tuần cuối: ôn lại lỗi sai, không học dồn."],
+ "12-2-0": dict(how=["Luyện đề theo cấu trúc đề minh họa Bộ công bố.", "Ngủ đủ giấc (AASM khuyến nghị 8–10 tiếng cho tuổi 13–18), ăn uống điều độ.", "Tuần cuối: ôn lại lỗi sai, không học dồn."],
    form=["Lỗi sai hay gặp"], links=[MOET]),
  "12-2-1": dict(how=["Đăng ký/điều chỉnh nguyện vọng trên cổng thí sinh của Bộ.", "Kiểm tra kỹ mã trường, mã ngành, thứ tự nguyện vọng trước khi xác nhận.", "Làm đúng hạn theo thông báo chính thức – ngày cụ thể: chưa có số liệu, xem thông báo chính thức."],
    form=[], links=[PORTAL, MOET]),

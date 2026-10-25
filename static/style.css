@@ -484,3 +484,15 @@ footer a{display:inline-block;padding:10px 4px}
 .burger{color:var(--ink);gap:0}.burger path{transition:transform .2s,opacity .2s;transform-origin:center;transform-box:fill-box}
 .nav.open .burger .b1{transform:translateY(5px) rotate(45deg)}.nav.open .burger .b2{opacity:0}.nav.open .burger .b3{transform:translateY(-5px) rotate(-45deg)}
 @media(prefers-reduced-motion:reduce){.burger path{transition:none}}
+/* Thực hiện hành động + cơ sở khoa học */
+.actbox{margin-bottom:16px}.actbox h2{margin:0 0 4px}
+.acts{list-style:none;padding:0;margin:12px 0;display:grid;gap:8px}
+.act{display:flex;gap:12px;align-items:flex-start;padding:12px;border:1px solid var(--line,#e5e7eb);border-radius:12px;cursor:pointer;min-height:44px}
+.act input{width:22px;height:22px;flex:none;margin-top:2px;accent-color:var(--pri)}
+.act span{min-width:0;overflow-wrap:anywhere}.act b{display:block;font-weight:600}.act small{display:block;color:var(--muted);margin-top:4px;line-height:1.5}
+.act:has(input:checked) b{text-decoration:line-through;opacity:.65}
+.cite{font-weight:600;margin-left:2px;display:inline-block;padding:0 2px}
+.sci-t{display:flex;width:100%;justify-content:space-between;align-items:center;min-height:44px;padding:8px 12px;border:1px solid var(--line,#e5e7eb);border-radius:12px;background:transparent;font:inherit;font-weight:600;color:inherit;cursor:pointer;text-align:left}
+.sci-t i{font-style:normal;color:var(--muted);transition:transform .2s}.sci-t[aria-expanded=true] i{transform:rotate(180deg)}
+.sci{margin:10px 0 0;padding-left:22px;display:grid;gap:10px;font-size:.92rem;overflow-wrap:anywhere}
+.scilist{list-style:none;padding:0;display:grid;gap:14px;margin-top:16px}.scilist li{overflow-wrap:anywhere}.scilist h2{margin:0 0 6px}

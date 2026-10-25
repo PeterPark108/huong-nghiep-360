@@ -1,0 +1,443 @@
+{
+ "10-0-0": [
+  {
+   "text": "Viết ra 2 môn bạn thích nhất và 2 môn bạn thấy mình học được – chọn môn nằm ở cả hai danh sách.",
+   "why": "Lựa chọn hợp cả sở thích lẫn sự tự tin vào năng lực thường bền hơn.",
+   "refs": [
+    "scct",
+    "holland"
+   ]
+  },
+  {
+   "text": "Hỏi 1 anh chị khóa trên: môn lựa chọn đó học thế nào, cần gì.",
+   "why": "Nghe trải nghiệm của người giống mình giúp tăng niềm tin “mình làm được”.",
+   "refs": [
+    "bandura"
+   ]
+  },
+  {
+   "text": "Tự viết 1 câu lý do bằng lời của mình, không chỉ “vì bạn chọn”.",
+   "why": "Quyết định tự chủ giúp động lực học bền hơn.",
+   "refs": [
+    "sdt"
+   ]
+  }
+ ],
+ "10-0-1": [
+  {
+   "text": "Làm trắc nghiệm theo mức THÍCH, không phải mức giỏi.",
+   "why": "Holland đo sở thích; sở thích dự báo lựa chọn ngành tốt hơn khi trả lời thật.",
+   "refs": [
+    "holland"
+   ]
+  },
+  {
+   "text": "Coi kết quả là gợi ý để khám phá, chọn 2 ngành lạ trong danh sách để đọc thử.",
+   "why": "Tuổi THPT là giai đoạn khám phá – mở rộng trước khi thu hẹp.",
+   "refs": [
+    "super",
+    "marcia"
+   ]
+  }
+ ],
+ "10-0-2": [
+  {
+   "text": "Viết 1 kế hoạch “Nếu… thì…”: “Nếu 8 giờ tối, thì mình mở vở Toán 25 phút”.",
+   "why": "Kế hoạch nếu–thì giúp bắt tay vào việc nhiều hơn hẳn ý định chung chung.",
+   "refs": [
+    "impl"
+   ]
+  },
+  {
+   "text": "Học xong, gấp sách và tự viết lại 3 ý chính (tự kiểm tra).",
+   "why": "Tự kiểm tra là một trong hai kỹ thuật học được đánh giá hữu ích cao nhất.",
+   "refs": [
+    "dunlosky",
+    "retrieval"
+   ]
+  },
+  {
+   "text": "Ôn lại bài cũ sau 1 ngày và sau 1 tuần thay vì dồn đêm trước kiểm tra.",
+   "why": "Học giãn cách giúp nhớ lâu hơn học dồn.",
+   "refs": [
+    "spacing"
+   ]
+  },
+  {
+   "text": "Giữ giờ ngủ đều, đặt mục tiêu 8–10 tiếng mỗi đêm.",
+   "why": "Đây là khuyến nghị của AASM cho tuổi 13–18.",
+   "refs": [
+    "sleep"
+   ]
+  }
+ ],
+ "10-1-0": [
+  {
+   "text": "Tuần này đọc 3 ngành: 1 ngành bạn thích, 1 ngành chưa từng nghĩ tới, 1 ngành người thân đang làm.",
+   "why": "Khám phá rộng giúp hình thành bản sắc nghề nghiệp vững hơn.",
+   "refs": [
+    "super",
+    "marcia"
+   ]
+  },
+  {
+   "text": "Mỗi ngành ghi 1 điều bất ngờ bạn mới biết.",
+   "why": "Thông tin nghề nghiệp là phần giúp các hoạt động hướng nghiệp hiệu quả hơn.",
+   "refs": [
+    "whiston"
+   ]
+  }
+ ],
+ "10-1-1": [
+  {
+   "text": "Đăng ký thử 1 hoạt động trong 4 tuần, chưa cần cam kết lâu.",
+   "why": "Dám thử và tò mò là những kỹ năng tạo ra cơ hội bất ngờ.",
+   "refs": [
+    "happen"
+   ]
+  },
+  {
+   "text": "Chọn hoạt động có việc cụ thể bạn tự làm được (thuyết trình, làm poster, lập trình nhỏ…).",
+   "why": "Trải nghiệm thành công thật là nguồn mạnh nhất của sự tự tin.",
+   "refs": [
+    "bandura",
+    "scct"
+   ]
+  }
+ ],
+ "10-1-2": [
+  {
+   "text": "Nhắn 2 người (bạn thân, thầy cô) hỏi: “Theo bạn mình làm tốt việc gì?”.",
+   "why": "Phản hồi từ người khác giúp tự đánh giá chính xác hơn – một kỹ năng ra quyết định nghề.",
+   "refs": [
+    "cdse"
+   ]
+  },
+  {
+   "text": "Xếp 3 giá trị quan trọng nhất và viết 1 câu vì sao.",
+   "why": "Hiểu giá trị của mình là một phần của hình thành bản sắc tuổi vị thành niên.",
+   "refs": [
+    "marcia",
+    "sdt"
+   ]
+  }
+ ],
+ "10-2-0": [
+  {
+   "text": "Chuẩn bị 3 câu hỏi trước khi tham quan nơi làm việc/ngày hội hướng nghiệp.",
+   "why": "Học sinh có trải nghiệm nơi làm việc thường có kết quả việc làm tốt hơn sau này (tương quan).",
+   "refs": [
+    "oecd"
+   ]
+  },
+  {
+   "text": "Sau buổi đó, viết 3 dòng: thấy gì, thích gì, không thích gì.",
+   "why": "Hoạt động trải nghiệm cần biến thành hiểu biết mới qua suy ngẫm.",
+   "refs": [
+    "tt32"
+   ]
+  }
+ ],
+ "10-2-1": [
+  {
+   "text": "Chấm mỗi nhóm ngành 1–5 theo “thích” và “làm được”, giữ 4–5 nhóm điểm cao.",
+   "why": "Sở thích và tự tin vào năng lực cùng định hình lựa chọn.",
+   "refs": [
+    "scct",
+    "holland"
+   ]
+  },
+  {
+   "text": "Giữ 1 nhóm “lạ” trong danh sách để tiếp tục khám phá.",
+   "why": "Giữ cửa mở giúp tận dụng cơ hội không lường trước.",
+   "refs": [
+    "happen"
+   ]
+  }
+ ],
+ "11-0-0": [
+  {
+   "text": "Với mỗi ngành, viết điều bạn kỳ vọng nhận được (thu nhập, ý nghĩa, môi trường…).",
+   "why": "Kỳ vọng kết quả là một trong các yếu tố chính của lựa chọn nghề.",
+   "refs": [
+    "scct"
+   ]
+  },
+  {
+   "text": "Bỏ bớt 1 ngành khi đã có lý do rõ ràng, giữ lại 2–3.",
+   "why": "Bản sắc vững đến từ khám phá rồi dần cam kết.",
+   "refs": [
+    "marcia"
+   ]
+  }
+ ],
+ "11-0-1": [
+  {
+   "text": "Tuần này đọc trang tuyển sinh chính thức của 2 trường, ghi môn học năm nhất.",
+   "why": "Thông tin nghề nghiệp/đào tạo chính xác giúp quyết định tốt hơn.",
+   "refs": [
+    "whiston",
+    "cdse"
+   ]
+  }
+ ],
+ "11-0-2": [
+  {
+   "text": "Đặt mục tiêu điểm cụ thể cho từng môn trong tổ hợp ở kỳ này.",
+   "why": "Mục tiêu cụ thể, vừa sức thách thức hiệu quả hơn “cố gắng hết sức”.",
+   "refs": [
+    "goal"
+   ]
+  },
+  {
+   "text": "Tìm 1 dạng bài yếu nhất mỗi môn và luyện riêng 2 buổi/tuần.",
+   "why": "Luyện có chủ đích vào điểm yếu, có sửa lỗi, giúp tiến bộ (dù không phải yếu tố duy nhất).",
+   "refs": [
+    "dp",
+    "dp_meta"
+   ]
+  }
+ ],
+ "11-1-0": [
+  {
+   "text": "Vẽ bảng: mỗi phương thức xét tuyển – mình có lợi thế gì, thiếu gì.",
+   "why": "Xác định cả hỗ trợ lẫn rào cản giúp lựa chọn thực tế hơn.",
+   "refs": [
+    "scct"
+   ]
+  },
+  {
+   "text": "Hỏi thầy cô 1 câu bạn chưa rõ về phương thức xét tuyển.",
+   "why": "Can thiệp có người hướng dẫn thường hiệu quả hơn tự tìm hiểu một mình.",
+   "refs": [
+    "whiston"
+   ]
+  }
+ ],
+ "11-1-1": [
+  {
+   "text": "Mỗi buổi học bắt đầu bằng 5 phút tự làm lại bài cũ không nhìn sách.",
+   "why": "Tự kiểm tra giúp nhớ lâu hơn đọc lại.",
+   "refs": [
+    "retrieval",
+    "dunlosky"
+   ]
+  },
+  {
+   "text": "Xen kẽ ôn bài cũ theo lịch giãn cách (1 ngày – 1 tuần – 1 tháng).",
+   "why": "Học giãn cách giúp nhớ lâu.",
+   "refs": [
+    "spacing"
+   ]
+  },
+  {
+   "text": "Khi điểm thấp, viết “mình chưa làm được dạng này – cách luyện tiếp là…”.",
+   "why": "Tin rằng năng lực có thể phát triển có ích nhẹ, nhất là với học sinh đang gặp khó.",
+   "refs": [
+    "mindset",
+    "mindset_meta"
+   ]
+  }
+ ],
+ "11-1-2": [
+  {
+   "text": "Sau mỗi đề thi thử, ghi 3 lỗi sai và cách sửa.",
+   "why": "Phản hồi cụ thể là điều kiện để mục tiêu và luyện tập phát huy tác dụng.",
+   "refs": [
+    "goal",
+    "dp"
+   ]
+  },
+  {
+   "text": "Coi thi thử là luyện tập tự kiểm tra, không phải phán xét.",
+   "why": "Làm bài kiểm tra tự nó giúp nhớ lâu hơn.",
+   "refs": [
+    "retrieval"
+   ]
+  }
+ ],
+ "11-2-0": [
+  {
+   "text": "Chọn 1 trải nghiệm 2–4 tuần có sản phẩm cụ thể.",
+   "why": "Trải nghiệm thật làm tăng tự tin và giúp kiểm tra sở thích.",
+   "refs": [
+    "bandura",
+    "oecd"
+   ]
+  },
+  {
+   "text": "Cuối mỗi tuần ghi: còn thích ngành này không, vì sao?",
+   "why": "Khám phá kèm suy ngẫm giúp tiến tới cam kết có cơ sở.",
+   "refs": [
+    "marcia",
+    "tt32"
+   ]
+  }
+ ],
+ "11-2-1": [
+  {
+   "text": "Liên hệ 1 người đang làm nghề, xin 15 phút trò chuyện.",
+   "why": "Trò chuyện với người đi làm là một chỉ báo sẵn sàng nghề nghiệp trong dữ liệu OECD (tương quan).",
+   "refs": [
+    "oecd"
+   ]
+  },
+  {
+   "text": "Hỏi thêm: “Có cơ hội nào bất ngờ đã thay đổi con đường của anh/chị?”.",
+   "why": "Nhận ra vai trò của tình cờ giúp bạn chủ động đón cơ hội.",
+   "refs": [
+    "happen"
+   ]
+  }
+ ],
+ "12-0-0": [
+  {
+   "text": "Liệt kê điều kiện thực tế (học phí, khoảng cách, gia đình) bên cạnh ngành mơ ước.",
+   "why": "Lựa chọn tốt cân nhắc cả hỗ trợ lẫn rào cản xung quanh.",
+   "refs": [
+    "scct"
+   ]
+  },
+  {
+   "text": "Viết mục tiêu theo mẫu WOOP: Mong muốn – Kết quả – Trở ngại – Kế hoạch.",
+   "why": "Nghĩ đến trở ngại thực tế giúp hành động tốt hơn chỉ mơ về kết quả.",
+   "refs": [
+    "woop"
+   ]
+  }
+ ],
+ "12-0-1": [
+  {
+   "text": "Mỗi khi Bộ công bố mốc mới, ghi ngay vào lịch điện thoại kèm nhắc trước.",
+   "why": "Gắn hành động với tín hiệu cụ thể giúp không bỏ sót việc cần làm.",
+   "refs": [
+    "impl"
+   ]
+  }
+ ],
+ "12-0-2": [
+  {
+   "text": "Chia mục tiêu năm thành mục tiêu tháng, mỗi tháng có con số cụ thể.",
+   "why": "Mục tiêu cụ thể có theo dõi tiến độ hiệu quả hơn mục tiêu mơ hồ.",
+   "refs": [
+    "goal"
+   ]
+  },
+  {
+   "text": "Lên lịch ôn giãn cách, mỗi chủ đề quay lại nhiều lần.",
+   "why": "Học giãn cách vượt trội học dồn.",
+   "refs": [
+    "spacing",
+    "dunlosky"
+   ]
+  },
+  {
+   "text": "Viết 1 kế hoạch “Nếu mất động lực thì mình sẽ…”.",
+   "why": "Kế hoạch nếu–thì giúp vượt qua lúc trì hoãn.",
+   "refs": [
+    "impl",
+    "woop"
+   ]
+  },
+  {
+   "text": "Ngày chán học, vẫn làm 1 phiên ngắn 15 phút thay vì bỏ hẳn.",
+   "why": "Sự kiên trì với mục tiêu dài hạn có liên quan tới thành tích, nhưng chỉ ở mức vừa phải – đừng tự trách mình nếu chưa “đủ grit”.",
+   "refs": [
+    "grit",
+    "grit_meta"
+   ]
+  }
+ ],
+ "12-1-0": [
+  {
+   "text": "Với mỗi nguyện vọng, ghi 1 dòng: vì sao mình muốn học ngành này.",
+   "why": "Lựa chọn tự chủ, gắn với giá trị riêng giúp động lực học bền hơn.",
+   "refs": [
+    "sdt"
+   ]
+  },
+  {
+   "text": "Nhờ thầy cô/người thân xem lại thứ tự nguyện vọng.",
+   "why": "Có người hướng dẫn giúp quyết định nghề tốt hơn.",
+   "refs": [
+    "whiston"
+   ]
+  }
+ ],
+ "12-1-1": [
+  {
+   "text": "Đặt lịch cụ thể: “Thứ 7 tuần này mình kiểm tra giấy tờ còn thiếu”.",
+   "why": "Gắn việc với thời điểm cụ thể giúp hoàn thành việc dễ bị trì hoãn.",
+   "refs": [
+    "impl"
+   ]
+  }
+ ],
+ "12-1-2": [
+  {
+   "text": "Mỗi tuần dành 30 phút tìm 1 học bổng và ghi điều kiện.",
+   "why": "Mục tiêu nhỏ, đều đặn dễ theo dõi tiến độ.",
+   "refs": [
+    "goal"
+   ]
+  },
+  {
+   "text": "Hỏi phòng tuyển sinh/thầy cô về học bổng ít người biết.",
+   "why": "Chủ động tìm kiếm và kết nối giúp tạo ra cơ hội.",
+   "refs": [
+    "happen"
+   ]
+  }
+ ],
+ "12-2-0": [
+  {
+   "text": "Ôn bằng cách làm đề và tự kiểm tra thay vì đọc lại.",
+   "why": "Tự kiểm tra là kỹ thuật học hiệu quả cao.",
+   "refs": [
+    "retrieval",
+    "dunlosky"
+   ]
+  },
+  {
+   "text": "Ngủ 8–10 tiếng, đặc biệt những tuần trước kỳ thi.",
+   "why": "Khuyến nghị của AASM cho tuổi 13–18.",
+   "refs": [
+    "sleep"
+   ]
+  },
+  {
+   "text": "Trước giờ thi, viết ra nỗi lo trong khoảng 10 phút nếu bạn hay căng thẳng.",
+   "why": "Viết ra lo lắng từng giúp học sinh hay lo âu làm bài tốt hơn (bằng chứng chưa đồng nhất).",
+   "refs": [
+    "anxiety"
+   ]
+  }
+ ],
+ "12-2-1": [
+  {
+   "text": "Đặt 2 lần nhắc trước hạn chính thức, kiểm tra lại mã ngành với 1 người khác.",
+   "why": "Kế hoạch nếu–thì và nhắc nhở giúp tránh quên việc quan trọng.",
+   "refs": [
+    "impl"
+   ]
+  }
+ ],
+ "12-2-2": [
+  {
+   "text": "Viết phương án B theo mẫu “Nếu… thì mình sẽ…”.",
+   "why": "Chuẩn bị sẵn kế hoạch cho trở ngại giúp phản ứng tốt khi tình huống xảy ra.",
+   "refs": [
+    "impl",
+    "woop"
+   ]
+  },
+  {
+   "text": "Đọc 1 câu chuyện người thành công qua con đường khác đại học.",
+   "why": "Con đường nghề là quá trình lâu dài và linh hoạt, không chỉ một lần chọn.",
+   "refs": [
+    "super",
+    "happen"
+   ]
+  }
+ ]
+}

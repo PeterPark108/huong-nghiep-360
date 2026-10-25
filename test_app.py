@@ -200,4 +200,18 @@ r = c.post("/dang-nhap", data={"username": "an.nguyen", "password": PW, "_csrf":
 t = tok("/ho-so/xoa"); ok(c.post("/ho-so/xoa", data={"confirm": "no", "_csrf": t}).status_code == 400, "xóa cần xác nhận")
 c.post("/ho-so/xoa", data={"confirm": "XOA", "_csrf": t}); db = DBC()
 ok(all(db.execute(f"SELECT count(*) FROM {tb} WHERE user_id=?", (uid,)).fetchone()[0] == 0 for tb in ("profiles", "riasec_results", "progress", "quiz_results", "step_data")), "xóa tài khoản + toàn bộ dữ liệu (cascade)")
+
+# --- Cơ sở khoa học & hành động ---
+r = c.get("/co-so-khoa-hoc"); ok(r.status_code == 200 and "Cơ sở khoa học" in r.get_data(as_text=True) and "không thay thế tư vấn" in r.get_data(as_text=True), "/co-so-khoa-hoc 200 + lưu ý")
+allk = [k for g in A.GRADES for k in steps(g)]
+ok(set(A.ACTIONS) == set(allk), "mọi bước có dữ liệu hành động")
+ok(all(A.ACTIONS[k] and all(a["refs"] and all(r in A.RESEARCH for r in a["refs"]) and a["why"] for a in A.ACTIONS[k]) for k in allk), "không bước/hành động nào thiếu nguồn")
+ok(all(re.match(r"^https?://[^\s]+$", x["url"]) and x["authors"] and x["year"] and x["limits"] for x in A.RESEARCH.values()), "mọi trích dẫn có url http(s), tác giả, năm, giới hạn")
+ok(all(any(x["id"] in a["refs"] for v in A.ACTIONS.values() for a in v) for x in A.RESEARCH.values()), "mọi nghiên cứu đều được dùng")
+for k in allk:
+    h = c.get(f"/lop-{k.split('-')[0]}/buoc/{k}").get_data(as_text=True)
+    assert "Thực hiện hành động" in h and 'aria-expanded="false"' in h and ("doi.org" in h or "vbpl.vn" in h), k
+ok(True, "25 trang con có khối hành động + accordion cơ sở khoa học")
+ok("/co-so-khoa-hoc" in c.get("/").get_data(as_text=True), "footer có link cơ sở khoa học")
+
 print(f"ALL OK – {N[0]} kiểm thử")
