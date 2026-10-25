@@ -79,11 +79,47 @@
       $("#cclear").addEventListener("click", () => { sel = []; store.set(KEY, sel); render(); });
       render();
     }
-    // Ghi chép trên trang con của bước (chỉ lưu localStorage)
-    $$("[data-notes]").forEach(box => {
-      const k = box.dataset.notes, areas = $$("textarea", box), st = $("[data-notes-status]", box), v = store.get(k, []);
-      areas.forEach((t, i) => { t.value = v[i] || ""; t.addEventListener("input", () => { store.set(k, areas.map(a => a.value)); st.textContent = "✓ Đã lưu trên thiết bị này"; }); });
-    });
+    // Trang con của bước: widget riêng + lưu (tài khoản → máy chủ; khách → localStorage, đồng bộ khi đăng nhập)
+    const sf = $("[data-stepform]");
+    if (sf) {
+      const KEY = "hn360:step:" + sf.dataset.stepform, st = $("[data-save-status]", sf), SKIP = new Set(["_csrf", "action", "go"]);
+      const ser = () => { const o = {}; for (const [k, v] of new FormData(sf)) if (!SKIP.has(k)) (o[k] = o[k] || []).push(v); return o; };
+      const wrap = $$("[data-w=list]", sf);
+      const renum = w => $$("[data-ord]", w).forEach((e, i) => e.textContent = i + 1);
+      const total = r => { const t = $("[data-tot]", r); if (!t) return; const v = $$("select", r).map(s => +s.value).filter(n => n > 0 && n <= 5); t.textContent = v.length ? "Tổng: " + v.reduce((a, b) => a + b, 0) : "Tổng: –"; };
+      const addRow = w => { const max = +w.dataset.max || 20, box = $("[data-rows]", w); if (box.children.length >= max) return null;
+        box.appendChild($("[data-tpl]", w).content.firstElementChild.cloneNode(true)); renum(w); return box.lastElementChild; };
+      const limits = () => $$("[data-max]", sf).forEach(w => { if (w.dataset.w === "list") { $("[data-add]", w).disabled = $("[data-rows]", w).children.length >= +w.dataset.max; return; }
+        const bs = $$("input[type=checkbox]", w), n = bs.filter(b => b.checked).length, m = +w.dataset.max;
+        bs.forEach(b => { b.disabled = !b.checked && n >= m; }); const c = $("[data-count]", w); if (c) c.textContent = `Đã chọn ${n}/${m}` + (n >= m ? " – đã đủ, bỏ bớt để chọn khác." : "."); });
+      const counts = () => { $$("[data-target]", sf).forEach(w => { const n = $$("input:checked", w).length, t = +w.dataset.target, c = $("[data-count]", w);
+          c.textContent = `Đã chọn ${n} môn` + (n === t ? " ✓ đúng số môn theo chương trình." : ` – chương trình quy định chọn ${t} môn (tùy nhóm môn trường mở).`); c.classList.toggle("okc", n === t); });
+        $$("[data-w=cards]", sf).forEach(w => { const n = $$(".hchk input:checked", w).length; $("[data-count]", w).textContent = n ? `Bạn đã chọn ${n} thói quen/cách làm.` : "Chưa chọn thẻ nào.";
+          $$(".hc", w).forEach(h => h.classList.toggle("on", $(".hchk input", h).checked)); });
+        $$("[data-row]", sf).forEach(total); limits(); };
+      const fill = o => {
+        wrap.forEach(w => { const id = w.dataset.id, need = Math.max(0, ...Object.keys(o).filter(k => k.startsWith(id + ".")).map(k => o[k].length)), box = $("[data-rows]", w);
+          while (box.children.length < need && addRow(w)); });
+        Object.entries(o).forEach(([k, arr]) => $$(`[name="${CSS.escape(k)}"]`, sf).forEach((e, i) => {
+          if (e.type === "checkbox" || e.type === "radio") e.checked = arr.includes(e.value); else e.value = arr[i] || ""; }));
+        $$(".hc", sf).forEach(h => { if ($(".hchk input", h).checked) $("details", h).open = true; });
+      };
+      let tm;
+      const push = () => fetch("/api/buoc/" + sf.dataset.stepform, { method: "POST", credentials: "same-origin", headers: { "X-CSRF-Token": meta("csrf-token") }, body: new URLSearchParams(new FormData(sf)) })
+        .then(r => r.ok ? r.json() : Promise.reject()).then(() => { st.textContent = "✓ Đã lưu vào tài khoản"; }).catch(() => { st.textContent = "Chưa lưu được – kiểm tra kết nối"; });
+      const save = () => { clearTimeout(tm); tm = setTimeout(() => { if (LOGGED) push(); else { store.set(KEY, ser()); st.textContent = "✓ Đã lưu tạm trên trình duyệt này"; } }, 600); };
+      const local = store.get(KEY, null);
+      if (local && (!LOGGED || sf.dataset.has === "0")) { fill(local); if (LOGGED) { push(); localStorage.removeItem(KEY); } }
+      sf.addEventListener("input", () => { counts(); save(); }); sf.addEventListener("change", () => { counts(); save(); });
+      sf.addEventListener("click", e => { const b = e.target.closest("button[type=button]"); if (!b) return; const w = b.closest("[data-w]"), r = b.closest("[data-row]");
+        if (b.hasAttribute("data-add")) { const n = addRow(w); n && $("input,select,textarea", n).focus(); }
+        else if (b.hasAttribute("data-del")) { if ($("[data-rows]", w).children.length > 1) r.remove(); else $$("input,select,textarea", r).forEach(x => x.value = ""); }
+        else if (b.hasAttribute("data-up") && r.previousElementSibling) r.parentNode.insertBefore(r, r.previousElementSibling);
+        else if (b.hasAttribute("data-down") && r.nextElementSibling) r.parentNode.insertBefore(r.nextElementSibling, r);
+        renum(w); counts(); save(); });
+      sf.addEventListener("submit", () => { if (!LOGGED) store.set(KEY, ser()); });
+      counts();
+    }
     // Biểu đồ (Chart.js tự lưu trữ)
     if (window.Chart) {
       Chart.defaults.font.family = '"Be Vietnam Pro",system-ui,sans-serif'; Chart.defaults.color = "#5b6478";

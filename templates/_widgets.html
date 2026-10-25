@@ -1,0 +1,30 @@
+{% macro cell(w, c, row) %}{% set nm = w.id ~ '.' ~ c[0] %}{% set v = row.get(c[0], '') if row else '' %}
+<label class="lc"><span>{{c[1]}}</span>{% if c[2] == 'note' %}<textarea name="{{nm}}" rows="2" maxlength="1000">{{v}}</textarea>
+{% elif c[2] in ('sel','major') %}<select name="{{nm}}"><option value="">– chọn –</option>{% if c[2]=='sel' %}{% for a,b in c[3] %}<option value="{{a}}" {{'selected' if v==a}}>{{b}}</option>{% endfor %}{% else %}{% for m in majors %}<option value="{{m.id}}" {{'selected' if v==m.id}}>{{m.name}}</option>{% endfor %}{% endif %}</select>
+{% else %}<input name="{{nm}}" value="{{v}}" {% if c[2]=='date' %}type="date"{% elif c[2]=='month' %}type="month"{% elif c[2]=='url' %}type="url" placeholder="https://…" maxlength="300"{% elif c[2]=='num' %}type="number" min="0" max="10" step="0.25" inputmode="decimal"{% else %}type="text" maxlength="200"{% endif %}>{% endif %}</label>{% endmacro %}
+{% macro row(w, r, i) %}<li class="lrow" data-row>{% if w.ordered %}<span class="ord" data-ord>{{i}}</span>{% endif %}<div class="lcells">{% for c in w.cols %}{{ cell(w, c, r) }}{% endfor %}</div>
+{% if w.score %}<span class="tot" data-tot aria-live="polite">Tổng: –</span>{% endif %}<div class="rbtn">{% if w.ordered %}<button type="button" class="ib" data-up aria-label="Lên">↑</button><button type="button" class="ib" data-down aria-label="Xuống">↓</button>{% endif %}<button type="button" class="ib del" data-del aria-label="Xóa dòng">✕</button></div></li>{% endmacro %}
+
+{% macro widget(w, D) %}<section class="wg wg-{{w.type}}{% if w.style %} st-{{w.style}}{% endif %}" data-w="{{w.type}}" data-id="{{w.id}}"{% if w.max %} data-max="{{w.max}}"{% endif %}{% if w.target %} data-target="{{w.target}}"{% endif %}>
+<h2>{{w.title}}</h2>{% if w.hint %}<p class="small muted">{{w.hint}}</p>{% endif %}
+{% if w.type == 'info' %}<ul class="tags">{% for t in w['items'] %}<li>{{t}}</li>{% endfor %}</ul>
+{% elif w.type == 'pick' %}{% set sel = D.get(w.id, []) %}{% set ns = namespace(grp=None) %}
+<div class="picks">{% for o in w.options %}{% if w.style == 'check' and o[2] and o[2] != ns.grp %}{% set ns.grp = o[2] %}<p class="grp">{{o[2]}}</p>{% endif %}
+<label class="pk"><input type="checkbox" name="{{w.id}}" value="{{o[0]}}" {{'checked' if o[0] in sel}}><span class="pkb"><b>{{o[1]}}</b>{% if o[2] and w.style != 'check' %}<small>{{o[2]}}</small>{% endif %}</span></label>{% endfor %}</div>
+{% if w.target %}<p class="cnt" data-count aria-live="polite"></p>{% endif %}
+{% if w.note %}<label class="fl" for="{{w.id}}-note">✍️ {{w.note}}</label><textarea id="{{w.id}}-note" name="{{w.id}}.note" rows="4" maxlength="1000" placeholder="Ví dụ: mình thích thí nghiệm, muốn giữ hướng ngành Y – Dược…">{{D.get(w.id ~ '.note', '')}}</textarea><small class="muted">Tối đa 1000 ký tự.</small>{% endif %}
+{% elif w.type == 'chips' %}{% set sel = D.get(w.id, []) %}<div class="chips">{% for a,b in w.options %}<label class="chp"><input type="checkbox" name="{{w.id}}" value="{{a}}" {{'checked' if a in sel}}><span>{{b}}</span></label>{% endfor %}</div>
+{% if w.max %}<p class="cnt small muted" data-count aria-live="polite">Chọn tối đa {{w.max}}.</p>{% endif %}
+{% elif w.type == 'majors' %}{% set sel = D.get(w.id, []) %}<div class="mgrid">{% for m in majors %}<div class="mj"><label><input type="checkbox" name="{{w.id}}" value="{{m.id}}" {{'checked' if m.id in sel}}><span>{{m.icon}} {{m.name}}</span></label><a href="/nganh/{{m.id}}" target="_blank" rel="noopener" class="small">Xem ↗</a></div>{% endfor %}</div>
+<p class="cnt small muted" data-count aria-live="polite">Chọn tối đa {{w.max}}.</p>
+{% elif w.type == 'cards' %}{% set sel = D.get(w.id, []) %}<div class="hcards">{% for c in w.cards %}{% set b = w.id ~ '.' ~ c.id %}
+<div class="hc"><label class="hchk"><input type="checkbox" name="{{w.id}}" value="{{c.id}}" {{'checked' if c.id in sel}} aria-label="Chọn: {{c.title}}"></label>
+<details{% if c.id in sel %} open{% endif %}><summary><b>{{c.title}}</b><i aria-hidden="true">▾</i></summary><div class="hp"><p><b>Cách làm:</b> {{c.how}}</p>{% if c.tip %}<p class="tip">💡 {{c.tip}}</p>{% endif %}
+<div class="hrow"><label class="lc"><span>{{w.date}}</span><input type="date" name="{{b}}.date" value="{{D.get(b ~ '.date','')}}"></label><label class="lc"><span>Ghi chú</span><textarea name="{{b}}.note" rows="2" maxlength="1000">{{D.get(b ~ '.note','')}}</textarea></label></div></div></details></div>{% endfor %}</div>
+<p class="cnt small muted" data-count aria-live="polite"></p>
+{% elif w.type == 'rate' %}<div class="rates">{% for c in w['items'] %}{% set nm = w.id ~ '.' ~ c.id %}<fieldset class="rt"><legend>{{c.title}}</legend>{% if c.how %}<details><summary class="small">Phương thức này là gì?</summary><p class="small">{{c.how}}</p></details>{% endif %}
+<div class="scale"><span class="lo small muted">{{w.lo}}</span>{% for n in range(1,6) %}<label><input type="radio" name="{{nm}}" value="{{n}}" {{'checked' if D.get(nm)==n|string}}><span>{{n}}</span></label>{% endfor %}<span class="hi small muted">{{w.hi}}</span></div></fieldset>{% endfor %}</div>
+{% elif w.type == 'fields' %}<div class="flds {{'short' if w.short}}">{% for f in w.fields %}{% set nm = w.id ~ '.' ~ loop.index0 %}<label class="lc"><span>{{f}}</span><textarea name="{{nm}}" rows="{{2 if w.short else 3}}" maxlength="1000">{{D.get(nm,'')}}</textarea></label>{% endfor %}</div>
+{% elif w.type == 'list' %}{% set rows = D.get(w.id, []) %}<ol class="lrows{{' ordered' if w.ordered}}" data-rows>{% for r in rows %}{{ row(w, r, loop.index) }}{% endfor %}{% if not rows %}{{ row(w, {}, 1) }}{% endif %}</ol>
+<template data-tpl>{{ row(w, {}, 0) }}</template><button type="button" class="btn ghost sm" data-add>＋ {{w.add}}</button>{% if w.max %}<small class="muted"> Tối đa {{w.max}} dòng.</small>{% endif %}
+{% endif %}</section>{% endmacro %}

@@ -23,6 +23,8 @@ CREATE TABLE IF NOT EXISTS riasec_results(id INTEGER PRIMARY KEY AUTOINCREMENT, 
  created_at TEXT NOT NULL, grade INTEGER, answers TEXT NOT NULL, scores TEXT NOT NULL, code TEXT NOT NULL, top_majors TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS progress(user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE, grade INTEGER NOT NULL,
  done TEXT NOT NULL, updated_at TEXT NOT NULL, PRIMARY KEY(user_id, grade));
+CREATE TABLE IF NOT EXISTS step_data(user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE, k TEXT NOT NULL,
+ data TEXT NOT NULL, updated_at TEXT NOT NULL, PRIMARY KEY(user_id, k));
 CREATE TABLE IF NOT EXISTS login_attempts(k TEXT PRIMARY KEY, fails INTEGER NOT NULL, first_at REAL NOT NULL, locked_until REAL NOT NULL);
 """
 def now(): return datetime.now(timezone.utc).isoformat(timespec="seconds")
@@ -164,3 +166,8 @@ def get_progress(uid):
     return {r["grade"]: json.loads(r["done"]) for r in db().execute("SELECT grade, done FROM progress WHERE user_id=?", (uid,))}
 def save_progress(uid, grade, done):
     db().execute("INSERT OR REPLACE INTO progress(user_id,grade,done,updated_at) VALUES(?,?,?,?)", (uid, grade, json.dumps(sorted(done)), now())); db().commit()
+def get_step_data(uid, k):
+    r = db().execute("SELECT data FROM step_data WHERE user_id=? AND k=?", (uid, k)).fetchone()
+    return json.loads(r["data"]) if r else {}
+def save_step_data(uid, k, data):
+    db().execute("INSERT OR REPLACE INTO step_data(user_id,k,data,updated_at) VALUES(?,?,?,?)", (uid, k, json.dumps(data, ensure_ascii=False), now())); db().commit()

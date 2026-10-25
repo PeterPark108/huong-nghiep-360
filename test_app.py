@@ -1,7 +1,8 @@
 """Kiểm thử: .venv/bin/python test_app.py"""
 import os, re, sqlite3, tempfile, json
 os.environ["DATA_DIR"] = tempfile.mkdtemp(); os.environ["APP_DB"] = os.path.join(os.environ["DATA_DIR"], "t.db")
-import app as A, riasec, auth
+import app as A, riasec, auth, step_ui
+from werkzeug.datastructures import MultiDict
 from grades import steps
 A.app.config["PROPAGATE_EXCEPTIONS"] = False
 @A.app.route("/_boom")
@@ -38,6 +39,21 @@ ok(all(s["url"].startswith("https://") and s.get("year") for s in d["sources"].v
 ok(all("trend" not in m for m in majors), "đã bỏ chỉ số nhu cầu bịa")
 for m in majors:
     if m.get("salary_vnd"): assert m["salary_vnd"]["source"] in d["sources"]
+
+
+# --- Trang con: mẫu UI riêng + làm sạch dữ liệu ---
+ok(set(step_ui.UI) == {k for g in (10, 11, 12) for k in steps(g)}, "25 bước đều có UI riêng")
+ok(len({tuple(w["type"] + w["id"] for w in v) for v in step_ui.UI.values()}) == 25, "25 trang con có cấu hình UI khác nhau")
+MJ = [m["id"] for m in majors]
+d = step_ui.parse("10-0-0", MultiDict([("mon", "ly"), ("mon", "hoa"), ("mon", "bogus"), ("mon", "ly"), ("mon.note", "x" * 5000)]), MJ)
+ok(d["mon"] == ["ly", "hoa"] and len(d["mon.note"]) == 1000, "chọn môn: bỏ giá trị lạ/trùng, ghi chú ≤1000")
+d = step_ui.parse("10-1-2", MultiDict([("giatri", v) for v in ["thunhap", "ondinh", "sangtao", "tudo"]]), MJ); ok(d["giatri"] == ["thunhap", "ondinh", "sangtao"], "giới hạn 3 giá trị")
+d = step_ui.parse("12-1-0", MultiDict([("nv.truong", "A"), ("nv.truong", ""), ("nv.truong", "C"), ("nv.muc", "an-toan"), ("nv.muc", ""), ("nv.muc", "hack")]), MJ)
+ok(d["nv"] == [{"truong": "A", "nganh": "", "muc": "an-toan", "dc": ""}, {"truong": "C", "nganh": "", "muc": "", "dc": ""}], "danh sách nguyện vọng giữ thứ tự, bỏ dòng trống + lựa chọn lạ")
+d = step_ui.parse("11-0-1", MultiDict([("truong.link", "javascript:alert(1)"), ("truong.truong", "X")]), MJ); ok(d["truong"][0]["link"] == "", "chặn link javascript:")
+d = step_ui.parse("12-0-1", MultiDict([("moc.ngay", "2026-13-99x"), ("moc.moc", "Thi")]), MJ); ok(d["moc"][0]["ngay"] == "", "ngày sai định dạng bị bỏ")
+d = step_ui.parse("11-1-0", MultiDict([("pt.thpt", "4"), ("pt.hocba", "9")]), MJ); ok(d == {"pt.thpt": "4"}, "thang 1–5 hợp lệ")
+d = step_ui.parse("10-1-1", MultiDict([("nhatky.hd", str(i)) for i in range(50)]), MJ); ok(len(d["nhatky"]) == 20, "danh sách tối đa 20 dòng")
 
 # --- Trang công khai ---
 for u in ["/", "/quiz", "/lop-10", "/lop-11", "/lop-12", "/nganh/cntt", "/nganh/nongnghiep", "/dang-ky", "/dang-nhap", "/so-sanh",
@@ -87,6 +103,15 @@ ok(c.get("/lop-10/buoc/10-9-9").status_code == 404 and c.get("/lop-11/buoc/10-0-
 h = c.get("/lop-10").get_data(as_text=True)
 ok('href="/quiz?buoc=10-0-1"' in h and 'href="/lop-10/buoc/10-0-2"' in h and 'data-href=' in h, "ô checklist trỏ trang con, ô trắc nghiệm trỏ /quiz")
 ok('id="s10-0-0" data-step="10-0-0" data-href="/lop-10/buoc/10-0-0" aria-label="Đã xong' in h, "trang lớp hiện bước khách đã tích")
+h = c.get("/lop-10/buoc/10-0-0").get_data(as_text=True)
+ok('type="checkbox" name="mon" value="ly"' in h and 'name="mon.note"' in h and "Lý do mình chọn" in h and "tùy trường" in h, "trang chọn môn: ô tích môn + ghi chú lý do")
+h = c.get("/lop-10/buoc/10-0-2").get_data(as_text=True)
+ok(h.count('class="hc"') == 10 and "<details" in h and 'name="thoiquen.ngu.date"' in h, "trang thói quen: thẻ chọn + mở rộng + ngày bắt đầu")
+ok('data-w="list"' in c.get("/lop-12/buoc/12-1-0").get_data(as_text=True) and "data-up" in c.get("/lop-12/buoc/12-1-0").get_data(as_text=True), "nguyện vọng: danh sách sắp thứ tự")
+ok('data-w="rate"' in c.get("/lop-11/buoc/11-1-0").get_data(as_text=True), "phương thức xét tuyển: thang 1–5")
+ok('data-w="majors"' in c.get("/lop-10/buoc/10-1-0").get_data(as_text=True), "tìm hiểu ngành: chọn ngành yêu thích")
+r = c.post("/api/buoc/10-0-0", data={"mon": "ly", "_csrf": tok("/")}); ok(r.json.get("local") is True, "khách: API bước báo lưu cục bộ")
+ok(c.post("/api/buoc/10-0-0", data={"mon": "ly"}).status_code == 400 and c.post("/api/buoc/9-9-9", data={"_csrf": tok("/")}).status_code == 404, "API bước chặn CSRF + khóa lạ")
 h = c.get("/lop-12/buoc/12-0-1").get_data(as_text=True)
 ok("Đánh dấu hoàn thành" in h and "moet.gov.vn" in h and "chưa có số liệu – xem thông báo chính thức" in h.lower().replace("chưa có số liệu","chưa có số liệu"), "trang con có nút hoàn thành + nguồn chính thống + không bịa ngày")
 t0 = tok("/lop-12/buoc/12-0-0")
@@ -120,6 +145,14 @@ ok("Hoàn thiện hồ sơ" in c.get("/").get_data(as_text=True), "banner nhắc
 uid = DBC().execute("SELECT id FROM users WHERE username='an.nguyen'").fetchone()[0]
 pr = dict(DBC().execute("SELECT grade, done FROM progress WHERE user_id=?", (uid,)).fetchall())
 ok("12-2-2" in pr.get(12, ""), "tiến độ khách được gộp vào tài khoản khi đăng ký")
+t = tok("/lop-10/buoc/10-0-0")
+r = c.post("/lop-10/buoc/10-0-0", data=MultiDict([("_csrf", t), ("mon", "ly"), ("mon", "tin"), ("mon.note", "<b>thích</b> máy tính"), ("go", "next")]))
+ok(r.status_code == 302 and ("10-0-1" in r.location or "10-0-2" in r.location), "lưu & hoàn thành → bước tiếp")
+h = c.get("/lop-10/buoc/10-0-0").get_data(as_text=True)
+ok('value="ly" checked' in h and "&lt;b&gt;thích&lt;/b&gt;" in h and "<b>thích</b>" not in h and "Bỏ tích" in h, "đăng nhập: lựa chọn + ghi chú lưu DB, escape XSS")
+r = c.post("/api/buoc/10-0-2", data=MultiDict([("_csrf", t), ("thoiquen", "ngu"), ("thoiquen.ngu.date", "2026-11-01")])); ok(r.json["ok"] and r.json["n"] == 2, "API tự lưu thói quen")
+h = c.get("/lop-10/buoc/10-0-2").get_data(as_text=True); ok('value="2026-11-01"' in h and 'value="ngu" checked' in h, "thói quen đã lưu hiện lại")
+c.post("/lop-10/buoc/10-0-2", data={"_csrf": t, "action": "save"}); ok("Đánh dấu hoàn thành" in c.get("/lop-10/buoc/10-0-2").get_data(as_text=True), "nút Lưu không tự tích hoàn thành")
 t = tok("/ho-so")
 for sec, dd in [("hoan-canh", dict(grade="11", province="Hà Nội")), ("so-thich", dict(interests=["tech", "logic"])),
                 ("the-manh", dict(strong_subjects=["Toán"], combo="A01")), ("du-dinh", dict(after_school="dh", target_majors=["yduoc"]))]:
@@ -166,5 +199,5 @@ r = c.post("/dang-nhap", data={"username": "an.nguyen", "password": PW, "_csrf":
 # --- Xóa tài khoản ---
 t = tok("/ho-so/xoa"); ok(c.post("/ho-so/xoa", data={"confirm": "no", "_csrf": t}).status_code == 400, "xóa cần xác nhận")
 c.post("/ho-so/xoa", data={"confirm": "XOA", "_csrf": t}); db = DBC()
-ok(all(db.execute(f"SELECT count(*) FROM {tb} WHERE user_id=?", (uid,)).fetchone()[0] == 0 for tb in ("profiles", "riasec_results", "progress", "quiz_results")), "xóa tài khoản + toàn bộ dữ liệu (cascade)")
+ok(all(db.execute(f"SELECT count(*) FROM {tb} WHERE user_id=?", (uid,)).fetchone()[0] == 0 for tb in ("profiles", "riasec_results", "progress", "quiz_results", "step_data")), "xóa tài khoản + toàn bộ dữ liệu (cascade)")
 print(f"ALL OK – {N[0]} kiểm thử")

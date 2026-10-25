@@ -2,7 +2,7 @@ import json, os, functools
 from datetime import timedelta
 from grades import GRADES, steps as grade_steps, step_info, href as step_href, next_step, QUIZ_STEP
 from flask import Flask, render_template, request, abort, session, redirect, url_for, flash, jsonify
-import auth, riasec
+import auth, riasec, step_ui
 from auth import db, current_user, login_required
 app = Flask(__name__)
 ENVB = lambda k, d="0": os.environ.get(k, d).lower() in ("1", "true", "yes")
@@ -181,8 +181,13 @@ def step(g, key):
     info = step_info(key)
     if not info or info["g"] != g: abort(404)
     session["last_grade"] = g
+    u = current_user(); mids = [m["id"] for m in load()["majors"]]
     if request.method == "POST":
-        on = request.form.get("action") != "undo"; done = mark(key, on)
+        act = request.form.get("action", "done")
+        if u and act != "undo": auth.save_step_data(u["id"], key, step_ui.parse(key, request.form, mids))
+        if act == "save":
+            flash("💾 Đã lưu." if u else "💾 Đã lưu tạm trên trình duyệt này – đăng nhập để giữ lâu dài."); return redirect(url_for("step", g=g, key=key))
+        on = act != "undo"; done = mark(key, on)
         if on:
             nk = next_step(g, done, key)
             flash("✓ Đã hoàn thành: " + info["title"] + ("" if nk else f" – bạn đã xong cả lộ trình lớp {g}! 🎉"))
@@ -190,8 +195,18 @@ def step(g, key):
         flash("Đã bỏ tích bước này."); return redirect(url_for("step", g=g, key=key))
     done = set(user_progress().get(g, [])); ks = grade_steps(g); i = ks.index(key)
     nk = next_step(g, done, key)
+    data = auth.get_step_data(u["id"], key) if u else {}
+    last = auth.latest_riasec(u["id"]) if u and key == QUIZ_STEP else None
     return render_template("step.html", s=info, g=g, x=GRADES[g], is_done=key in done, n=i + 1, total=len(ks), ndone=len(done),
-                           prev=ks[i - 1] if i else None, nxt=ks[i + 1] if i + 1 < len(ks) else None, todo=nk, href=step_href)
+                           prev=ks[i - 1] if i else None, nxt=ks[i + 1] if i + 1 < len(ks) else None, todo=nk, href=step_href,
+                           W=step_ui.widgets(key), D=data, kind=step_ui.kind(key), majors=load()["majors"], last=last)
+@app.route("/api/buoc/<key>", methods=["POST"])
+def save_step_api(key):
+    if not step_info(key): abort(404)
+    u = current_user()
+    if not u: return jsonify(ok=True, local=True)
+    d = step_ui.parse(key, request.form, [m["id"] for m in load()["majors"]]); auth.save_step_data(u["id"], key, d)
+    return jsonify(ok=True, n=len(d))
 @app.route("/api/tien-do", methods=["POST"])
 def save_progress():
     data = request.get_json(silent=True) or {}
