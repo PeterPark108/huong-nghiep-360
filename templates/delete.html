@@ -1,4 +1,4 @@
-{% extends "base.html" %}{% block title %}Xóa tài khoản – Hướng Nghiệp 360{% endblock %}{% block body %}
+{% extends "base.html" %}{% block title %}Xóa tài khoản – Hướng Nghiệp 360{% endblock %}{% block desc %}Xóa tài khoản.{% endblock %}{% block robots %}noindex, nofollow{% endblock %}{% block body %}
 <div class="auth one"><div class="auth-card card"><h1>Xóa tài khoản</h1><p>Thao tác này xóa vĩnh viễn tài khoản, hồ sơ và mọi kết quả trắc nghiệm của bạn. Không thể khôi phục.</p>
 {% if error %}<p class="err" role="alert">{{error}}</p>{% endif %}
 <form method="post" class="fm"><input type="hidden" name="_csrf" value="{{csrf_token()}}"><label class="fl"><span>Gõ <b>XOA</b> để xác nhận</span><input name="confirm" autocomplete="off" required></label>

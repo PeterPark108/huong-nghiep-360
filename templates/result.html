@@ -1,4 +1,4 @@
-{% extends "base.html" %}{% block title %}Kết quả trắc nghiệm – Hướng Nghiệp 360{% endblock %}
+{% extends "base.html" %}{% block title %}Kết quả trắc nghiệm – Hướng Nghiệp 360{% endblock %}{% block desc %}Kết quả trắc nghiệm sở thích nghề nghiệp.{% endblock %}{% block robots %}noindex, nofollow{% endblock %}
 {% block head %}<script src="{{ url_for('static', filename='vendor/chart.umd.min.js') }}" defer></script>{% endblock %}{% block body %}
 <section class="rhero"><h1>🎯 Mã Holland của bạn: <span class="code">{{code}}</span></h1><p class="m0">Ba nhóm sở thích nổi bật nhất (đã trả lời {{answered}}/{{total}} câu):</p>
 <div class="tcards">{% for c in code %}<div class="tcard"><span class="ti" aria-hidden="true">{{RT[c].icon}}</span><b>{{loop.index}}. {{RT[c].name}}</b><small>{{RT[c].desc}}</small><span class="tsc">{{sc[c]}}/100</span></div>{% endfor %}</div></section>

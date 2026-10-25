@@ -24,7 +24,15 @@ def headers(r):
     h.setdefault("Content-Security-Policy", CSP); h["X-Content-Type-Options"] = "nosniff"; h["X-Frame-Options"] = "DENY"
     h["Referrer-Policy"] = "strict-origin-when-cross-origin"; h["Permissions-Policy"] = "camera=(), microphone=(), geolocation=()"
     if app.config["SESSION_COOKIE_SECURE"]: h["Strict-Transport-Security"] = "max-age=31536000"
+    if request.path.startswith(PRIVATE): h["X-Robots-Tag"] = "noindex, nofollow"
+    import gzip as _gz
+    if (not r.direct_passthrough and r.status_code == 200 and "gzip" in request.headers.get("Accept-Encoding", "")
+            and r.mimetype in ("text/html", "text/plain", "application/xml", "application/json") and "Content-Encoding" not in h):
+        data = r.get_data()
+        if len(data) > 1024:
+            r.set_data(_gz.compress(data, 6)); h["Content-Encoding"] = "gzip"; h["Vary"] = "Accept-Encoding"
     if session.get("uid") or request.path.startswith(("/ho-so", "/dang-", "/lop-", "/quiz", "/api/")): h["Cache-Control"] = "no-store"
+    if request.path.startswith("/static/") and r.status_code == 200: h["Cache-Control"] = "public, max-age=604800"
     return r
 auth.init_db()
 app.teardown_appcontext(auth.close_db)
@@ -56,9 +64,47 @@ def profile_status():
     if not u: return None
     p = auth.get_profile(u["id"]); d = auth.section_done(p)
     return dict(p=p, done=d, n=sum(d.values()), total=len(d))
+SITE_URL = os.environ.get("SITE_URL", "https://huong-nghiep-360.onrender.com").rstrip("/")
+PRIVATE = ("/ho-so", "/dang-nhap", "/dang-ky", "/dang-xuat", "/api/", "/an-nhac-nho")
+def abs_url(path): return SITE_URL + path
+def crumbs_ld(items):
+    return {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+        {"@type": "ListItem", "position": i + 1, "name": n, "item": abs_url(p)} for i, (n, p) in enumerate(items)]}
+def home_ld():
+    return {"@context": "https://schema.org", "@graph": [
+        {"@type": "WebSite", "@id": SITE_URL + "/#website", "name": "Hướng Nghiệp 360", "url": SITE_URL + "/", "inLanguage": "vi",
+         "description": "Công cụ hướng nghiệp miễn phí cho học sinh THPT lớp 10, 11, 12.", "publisher": {"@id": SITE_URL + "/#org"}},
+        {"@type": "Organization", "@id": SITE_URL + "/#org", "name": "Hướng Nghiệp 360", "url": SITE_URL + "/",
+         "logo": abs_url("/static/img/apple-touch-icon.png")}]}
+def occ_ld(m):
+    return {"@context": "https://schema.org", "@type": "Occupation", "name": m["name"], "description": m["desc"],
+            "skills": ", ".join(m["skills"]), "url": abs_url("/nganh/" + m["id"]),
+            "mainEntityOfPage": {"@type": "WebPage", "@id": abs_url("/nganh/" + m["id"]), "inLanguage": "vi"}}
+def public_urls():
+    from grades import steps as _st
+    u = ["/", "/lop-10", "/lop-11", "/lop-12", "/quiz", "/so-sanh", "/con-duong-khac", "/nguon-du-lieu", "/co-so-khoa-hoc", "/chinh-sach-bao-mat"]
+    u += [step_href(k) for g in GRADES for k in _st(g) if k != QUIZ_STEP]
+    u += ["/nganh/" + m["id"] for m in load()["majors"]]
+    return u
+@app.route("/robots.txt")
+def robots():
+    body = "User-agent: *\nAllow: /\n" + "".join(f"Disallow: {p}\n" for p in PRIVATE) + f"\nSitemap: {SITE_URL}/sitemap.xml\n"
+    return app.response_class(body, mimetype="text/plain")
+@app.route("/sitemap.xml")
+def sitemap():
+    from xml.sax.saxutils import escape
+    lm = load().get("last_checked", "")
+    lm = "-".join(reversed(lm.split("/"))) if lm.count("/") == 2 else None
+    rows = "".join(f"<url><loc>{escape(abs_url(p))}</loc>" + (f"<lastmod>{lm}</lastmod>" if lm else "") + "</url>" for p in public_urls())
+    return app.response_class('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' + rows + "</urlset>", mimetype="application/xml")
+@app.route("/favicon.ico")
+def favicon():
+    from flask import send_from_directory
+    return send_from_directory(os.path.join(app.root_path, "static", "img"), "favicon.ico", max_age=604800)
 @app.context_processor
 def ctx():
-    return dict(LABEL=LABEL, TAGS=TAGS, GRADES=GRADES, user=current_user(), csrf_token=auth.csrf_token, pstat=profile_status(),
+    return dict(SITE_URL=SITE_URL, CANON=abs_url(request.path), NOINDEX=request.path.startswith(PRIVATE), CRUMBS_LD=crumbs_ld,
+                HOME_LD=home_ld, OCC=occ_ld, LABEL=LABEL, TAGS=TAGS, GRADES=GRADES, user=current_user(), csrf_token=auth.csrf_token, pstat=profile_status(),
                 SEC_LABELS={"account":"Tài khoản", **SEC_LABEL}, RT=riasec.TYPES, SRC=load()["sources"], LAST_CHECKED=load()["last_checked"])
 @app.route("/an-nhac-nho", methods=["POST"])
 def dismiss():

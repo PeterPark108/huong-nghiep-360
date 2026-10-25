@@ -496,3 +496,7 @@ footer a{display:inline-block;padding:10px 4px}
 .sci-t i{font-style:normal;color:var(--muted);transition:transform .2s}.sci-t[aria-expanded=true] i{transform:rotate(180deg)}
 .sci{margin:10px 0 0;padding-left:22px;display:grid;gap:10px;font-size:.92rem;overflow-wrap:anywhere}
 .scilist{list-style:none;padding:0;display:grid;gap:14px;margin-top:16px}.scilist li{overflow-wrap:anywhere}.scilist h2{margin:0 0 6px}
+.crumbs ol{list-style:none;display:flex;flex-wrap:wrap;gap:.25rem .5rem;padding:0;margin:0 0 .75rem;font-size:.875rem;color:#5b6475}
+.crumbs li+li::before{content:"›";margin-right:.5rem;color:#9aa3b2}
+.crumbs a{color:inherit;text-decoration:underline;text-underline-offset:2px}.crumbs a:hover{color:#2f49d1}
+.crumbs [aria-current]{color:#1f2937;font-weight:600}

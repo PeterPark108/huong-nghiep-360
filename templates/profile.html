@@ -1,4 +1,4 @@
-{% extends "base.html" %}{% block title %}Hồ sơ của bạn – Hướng Nghiệp 360{% endblock %}{% block body %}
+{% extends "base.html" %}{% block title %}Hồ sơ của bạn – Hướng Nghiệp 360{% endblock %}{% block desc %}Hồ sơ cá nhân.{% endblock %}{% block robots %}noindex, nofollow{% endblock %}{% block body %}
 {% set p = pstat.p %}{% set dn = pstat.done %}
 {% macro chips(name, items, sel, labels=None) %}<div class="chipsel">{% for k in items %}<label><input type="checkbox" name="{{name}}" value="{{k}}" {{'checked' if k in sel}}><span>{{ labels[k] if labels else k }}</span></label>{% endfor %}</div>{% endmacro %}
 {% macro radios(name, opts, cur) %}<div class="chipsel">{% for k,v in opts.items() %}<label><input type="radio" name="{{name}}" value="{{k}}" {{'checked' if cur==k}}><span>{{v}}</span></label>{% endfor %}</div>{% endmacro %}

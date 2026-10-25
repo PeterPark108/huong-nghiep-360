@@ -1,4 +1,4 @@
-{% extends "base.html" %}{% block title %}Trắc nghiệm sở thích nghề nghiệp (Holland) – Hướng Nghiệp 360{% endblock %}{% block body %}
+{% extends "base.html" %}{% block title %}Trắc nghiệm sở thích nghề nghiệp (Holland) – Hướng Nghiệp 360{% endblock %}{% block desc %}Trắc nghiệm sở thích nghề nghiệp theo mô hình Holland (RIASEC) miễn phí, khoảng 2 phút, gợi ý nhóm ngành phù hợp cho học sinh THPT.{% endblock %}{% block body %}
 {% if buoc %}<a class="back" href="/lop-{{buoc.split('-')[0]}}">← Lộ trình lớp {{buoc.split('-')[0]}}</a>{% endif %}<h1>🧭 Trắc nghiệm sở thích nghề nghiệp</h1>
 <p class="muted lead">{{Q|length}} hoạt động ngắn, dựa trên mô hình <b>Holland (RIASEC)</b>. Với mỗi hoạt động, chọn mức bạn <b>thích</b> làm nó – không cần giỏi, không có đúng sai. Mất khoảng 4 phút.</p>
 <p class="note mt0">ℹ️ Kết quả chỉ là <b>gợi ý</b> giúp bạn khám phá bản thân, <b>không phải chẩn đoán</b> hay lời khuyên bắt buộc.</p>

@@ -1,4 +1,4 @@
-{% extends "base.html" %}{% block title %}Lựa chọn khác ngoài đại học – Hướng Nghiệp 360{% endblock %}{% block body %}
+{% extends "base.html" %}{% block title %}Lựa chọn khác ngoài đại học – Hướng Nghiệp 360{% endblock %}{% block desc %}Những con đường ngoài đại học cho học sinh THPT: cao đẳng, học nghề, du học, đi làm sớm – kèm nguồn thông tin chính thống.{% endblock %}{% block body %}
 <a class="back" href="/#dinh-huong">← Định hướng giúp bạn</a>
 <section class="ghero sun"><span class="gi" aria-hidden="true">🔀</span><div><span class="kick">Con đường khác</span><h1>Lựa chọn khác ngoài đại học</h1><p>Đại học không phải con đường duy nhất. Mỗi lựa chọn dưới đây đều có thể dẫn tới một nghề nghiệp tốt nếu phù hợp với bạn.</p></div></section>
 <nav class="pnav" aria-label="Các lựa chọn">{% for p in P %}<a href="#{{p.id}}"><span aria-hidden="true">{{p.icon}}</span> {{p.name}}</a>{% endfor %}</nav>

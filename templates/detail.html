@@ -1,7 +1,7 @@
-{% extends "base.html" %}{% block title %}{{m.name}} – Hướng Nghiệp 360{% endblock %}
+{% extends "base.html" %}{% from "_crumbs.html" import crumbs with context %}{% block title %}Ngành {{m.name}}: triển vọng, kỹ năng, thu nhập – Hướng Nghiệp 360{% endblock %}{% block desc %}Tìm hiểu nhóm ngành {{m.name}}: {{m.desc}} Kỹ năng cần có: {{m.skills|join(", ")}}. Khối xét tuyển thường gặp: {{m.khoi|join(", ")}}.{% endblock %}{% block ld %}<script type="application/ld+json">{{ OCC(m)|tojson }}</script>{% endblock %}
 {% block head %}<script src="{{ url_for('static', filename='vendor/chart.umd.min.js') }}" defer></script>{% endblock %}{% block body %}
 {% set inc = m.income %}
-<a class="back" href="/#nganh">← Tất cả ngành</a>
+{{ crumbs([("Trang chủ","/"),("Ngành nghề","/#nganh"),(m.name,"/nganh/"+m.id)]) }}
 <div class="dhead"><div class="ic" aria-hidden="true">{{m.icon}}</div><div><h1>{{m.name}}</h1><div class="badges"><span class="badge {{m.growth}}">📈 Triển vọng: {{LABEL[m.growth]}}</span><span class="badge {{m.salary}}">💰 Thu nhập: {{LABEL[m.salary]}}</span><span class="demo">đánh giá định tính – minh họa</span><span class="badge k" title="Mã Holland (RIASEC)">🧭 {{m.riasec}}</span></div></div></div>
 <p class="lead">{{m.desc}}</p>
 <div class="dgrid">

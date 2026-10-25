@@ -1,4 +1,4 @@
-{% extends "base.html" %}{% block title %}Đăng nhập – Hướng Nghiệp 360{% endblock %}{% block body %}
+{% extends "base.html" %}{% block title %}Đăng nhập – Hướng Nghiệp 360{% endblock %}{% block desc %}Đăng nhập Hướng Nghiệp 360 để lưu lộ trình và kết quả trắc nghiệm.{% endblock %}{% block robots %}noindex, nofollow{% endblock %}{% block body %}
 <div class="auth one"><div class="auth-card card"><h1>Đăng nhập</h1><p class="muted">Chào bạn quay lại 👋</p>
 {% if error %}<p class="err" role="alert">{{error}}</p>{% endif %}
 <form method="post" class="fm"><input type="hidden" name="_csrf" value="{{csrf_token()}}"><input type="hidden" name="next" value="{{next}}">

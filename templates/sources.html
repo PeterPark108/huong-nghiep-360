@@ -1,4 +1,4 @@
-{% extends "base.html" %}{% block title %}Nguồn dữ liệu – Hướng Nghiệp 360{% endblock %}{% block body %}
+{% extends "base.html" %}{% block title %}Nguồn dữ liệu – Hướng Nghiệp 360{% endblock %}{% block desc %}Nguồn số liệu dùng trên Hướng Nghiệp 360: Cục Thống kê, báo cáo tuyển dụng công khai, văn bản của Bộ GD&ĐT, kèm năm và đường dẫn gốc.{% endblock %}{% block body %}
 <h1>📚 Nguồn dữ liệu</h1><p class="muted lead">Chúng tôi chỉ hiển thị số liệu có nguồn công khai. Chỗ nào chưa có số liệu sẽ ghi rõ <span class="demo">chưa có số liệu – minh họa</span>. Dữ liệu hiển thị là năm <b>2024–2025</b>. Kiểm tra lần cuối: <b>{{d.last_checked}}</b>.</p>
 <div class="cols"><div class="card"><h2>Độ phủ dữ liệu</h2><ul class="dot">
 <li><b>{{d.majors|length}}/{{d.majors|length}}</b> nhóm ngành có thu nhập bình quân năm 2024 của <b>ngành kinh tế liên quan</b> (Cục Thống kê). Năm 2025: <span class="demo wrap">chưa có số liệu 2025 theo ngành – xem thông báo chính thức</span>; cả nước năm 2025 là 8,4 triệu đồng/tháng (mọi lao động, <a href="{{d.sources.nso2025.url}}" target="_blank" rel="noopener">Cục Thống kê</a>).</li>

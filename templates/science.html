@@ -1,4 +1,4 @@
-{% extends "base.html" %}{% block title %}Cơ sở khoa học – Hướng Nghiệp 360{% endblock %}{% block body %}
+{% extends "base.html" %}{% block title %}Cơ sở khoa học – Hướng Nghiệp 360{% endblock %}{% block desc %}Các nghiên cứu về phát triển con người và hướng nghiệp (Holland, Super, Bandura, Locke và Latham...) làm cơ sở cho từng gợi ý hành động.{% endblock %}{% block body %}
 <section class="shero pri"><h1>Cơ sở khoa học</h1><p>Các hành động gợi ý trong mỗi bước dựa trên những nghiên cứu và khung lý thuyết có nguồn gốc rõ ràng về phát triển con người, học tập và hướng nghiệp dưới đây. Mỗi nguồn đều có link/DOI để bạn tự kiểm tra.</p></section>
 <div class="warn">⚠️ Đây là gợi ý tham khảo, <b>không thay thế tư vấn của thầy cô, chuyên gia tâm lý hay hướng nghiệp</b>. Nhiều nghiên cứu được thực hiện ở nước ngoài và là nghiên cứu tương quan – xem mục “Giới hạn” của từng nguồn.</div>
 <ol class="scilist">{% for x in R %}<li class="card" id="ref-{{x.id}}"><h2 class="h4">{{x.authors}} ({{x.year}})</h2><p><a href="{{x.url}}" target="_blank" rel="noopener">{{x.title}}</a>. <i>{{x.venue}}</i>.</p>

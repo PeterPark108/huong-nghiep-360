@@ -1,0 +1,4 @@
+{% macro crumbs(items) -%}
+<nav class="crumbs" aria-label="Đường dẫn"><ol>{% for name, path in items %}<li>{% if not loop.last %}<a href="{{path}}">{{name}}</a>{% else %}<span aria-current="page">{{name}}</span>{% endif %}</li>{% endfor %}</ol></nav>
+<script type="application/ld+json">{{ CRUMBS_LD(items)|tojson }}</script>
+{%- endmacro %}
