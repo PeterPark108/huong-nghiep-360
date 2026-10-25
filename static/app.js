@@ -14,6 +14,7 @@
       const nav = bg.closest(".nav");
       const set = o => { nav.classList.toggle("open", o); bg.setAttribute("aria-expanded", o); bg.setAttribute("aria-label", o ? "Đóng menu" : "Mở menu"); };
       bg.addEventListener("click", () => set(!nav.classList.contains("open")));
+      $$(".menu a", nav).forEach(a => a.addEventListener("click", () => set(false)));
       document.addEventListener("keydown", e => { if (e.key === "Escape" && nav.classList.contains("open")) { set(false); bg.focus(); } });
     }
     // Hiện/ẩn mật khẩu

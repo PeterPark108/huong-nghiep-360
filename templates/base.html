@@ -9,7 +9,7 @@
 </head><body>
 <a class="skip" href="#main">Bỏ qua tới nội dung chính</a>
 <nav class="nav" aria-label="Điều hướng chính"><div class="in"><a class="logo" href="/"><span aria-hidden="true">🎓</span><b>Hướng Nghiệp 360</b></a>
-<button class="burger" type="button" aria-label="Mở menu" aria-expanded="false" aria-controls="menu" data-burger><i></i><i></i><i></i></button>
+<button class="burger" type="button" aria-label="Mở menu" aria-expanded="false" aria-controls="menu" data-burger><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path class="b1" d="M4 7h16"/><path class="b2" d="M4 12h16"/><path class="b3" d="M4 17h16"/></svg></button>
 <div class="menu" id="menu"><a class="l {{'on' if request.path.startswith('/lop') or request.path=='/con-duong-khac'}}" href="/#dinh-huong">Định hướng</a><a class="l {{'on' if request.path.startswith('/nganh') or request.path=='/so-sanh'}}" href="/#nganh">Ngành nghề</a><a class="l {{'on' if request.path.startswith('/quiz')}}" href="/quiz">Trắc nghiệm</a>
 <span class="acct">{% if user %}<a class="l me {{'on' if request.path.startswith('/ho-so')}}" href="/ho-so"><span class="av" aria-hidden="true">{{user.full_name[:1]|upper}}</span><span class="nm">{{user.full_name.split()[-1]}}</span></a><form method="post" action="/dang-xuat" class="inl"><input type="hidden" name="_csrf" value="{{csrf_token()}}"><button class="l lo">Đăng xuất</button></form>
 {% else %}<a class="l" href="/dang-nhap">Đăng nhập</a><a class="btn sm" href="/dang-ky">Đăng ký</a>{% endif %}</span></div></div></nav>

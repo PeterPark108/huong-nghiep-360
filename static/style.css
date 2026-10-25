@@ -480,3 +480,7 @@ footer a{display:inline-block;padding:10px 4px}
 .hc{align-items:center;min-height:58px}.hc:has(details[open]){align-items:flex-start}.hc:has(details[open]) .hchk{padding-top:2px}.hchk{padding-top:0;display:flex}
 .hc summary{min-height:32px}
 @media (max-width:640px){.steps .go{display:none}}
+/* v2: burger SVG */
+.burger{color:var(--ink);gap:0}.burger path{transition:transform .2s,opacity .2s;transform-origin:center;transform-box:fill-box}
+.nav.open .burger .b1{transform:translateY(5px) rotate(45deg)}.nav.open .burger .b2{opacity:0}.nav.open .burger .b3{transform:translateY(-5px) rotate(-45deg)}
+@media(prefers-reduced-motion:reduce){.burger path{transition:none}}
