@@ -36,6 +36,14 @@
         $(".progress [role=progressbar]").setAttribute("aria-valuenow", a);
       };
       qf.addEventListener("change", upd); upd();
+      qf.addEventListener("submit", e => {
+        const got = new Set($$("input:checked", qf).map(x => x.name)), min = +qf.dataset.min || 0;
+        if (got.size >= min) return;
+        e.preventDefault(); const er = $("#qerr");
+        er.textContent = `Bạn mới trả lời ${got.size}/${n} câu. Trả lời ít nhất ${min} câu để có kết quả nhé – mình đưa bạn tới câu chưa làm.`; er.hidden = false;
+        const q = $$(".lq", qf).find(c => !$("input:checked", c));
+        if (q) { q.scrollIntoView({ block: "center", behavior: "smooth" }); const i = $("input", q); i && i.focus({ preventScroll: true }); }
+      });
     }
     // Checklist trang lớp: ô chưa tích → mở trang con của bước; ô đã tích → bấm để bỏ tích.
     // Lưu trên máy chủ (tài khoản hoặc phiên khách); tiến độ localStorage cũ được gộp lên một lần.

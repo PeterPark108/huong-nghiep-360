@@ -1,7 +1,6 @@
-{% extends "base.html" %}{% from "_crumbs.html" import crumbs with context %}{% block title %}{{s.title}} – Lớp {{g}} ({{s.phase}}) – Hướng Nghiệp 360{% endblock %}{% block desc %}Lớp {{g}}, {{s.phase|lower}}: {{s.title}}. {{s.desc}}{% endblock %}{% block body %}
+{% extends "base.html" %}{% from "_crumbs.html" import crumbs with context %}{% block title %}{{s.title}} – Lớp {{g}} ({{s.phase}}) – Hướng Nghiệp 360{% endblock %}{% block desc %}Lớp {{g}}, {{s.phase|lower}}: {{s.title}}. {{s.desc}}{% endblock %}{% block bodycls %}has-sact{% endblock %}{% block body %}
 {{ crumbs([("Trang chủ","/"),("Lớp "~g,"/lop-"~g),(s.title,request.path)]) }}
-<section class="shero {{x.color}}"><span class="kick">Lớp {{g}} · {{s.phase}} · Bước {{n}}/{{total}}</span><h1>{{s.title}}</h1><p>{{s.desc}}</p>
-<span class="sstat {{'ok' if is_done}}">{{ '✓ Đã hoàn thành' if is_done else '○ Chưa hoàn thành' }}</span></section>
+<section class="shero {{x.color}}"><span class="kick">Lớp {{g}} · {{s.phase}} · Bước {{n}}/{{total}}{% if is_done %} · <span class="sstat ok">✓ Đã xong</span>{% endif %}</span><h1>{{s.title}}</h1><p>{{s.desc}}</p></section>
 {% from "_widgets.html" import widget with context %}
 <details class="card howbox"><summary><h2>📝 Cách làm <small class="muted">({{s.how|length}} bước · bấm để xem)</small></h2></summary><ol class="howto">{% for h in s.how %}<li>{{h}}</li>{% endfor %}</ol>
 {% if s.tool and s.key != '10-0-1' %}<a class="btn ghost sm" href="{{s.tool[0]}}">{{s.tool[1]}} →</a>{% endif %}</details>
@@ -15,7 +14,7 @@
 <p class="note small">ℹ️ Ngày thi, hạn chót, lệ phí, chỉ tiêu: web không tự đưa ra. Hãy xem thông báo chính thức của Bộ GD&amp;ĐT và của trường.</p></div>
 <div class="sact sticky">{% if s.key != '10-0-1' %}<button class="btn ghost" name="action" value="save">💾 Lưu</button>{% endif %}
 {% if is_done %}<button class="btn ghost" name="action" value="undo">↺ Bỏ tích bước này</button>{% if todo %}<a class="btn" href="{{href(todo)}}">Tiếp tục bước tiếp theo →</a>{% else %}<a class="btn" href="/lop-{{g}}">🎉 Xong lộ trình lớp {{g}} – xem lại</a>{% endif %}
-{% else %}<button class="btn {{'ghost' if todo and todo != s.key}}" name="go" value="stay">✓ Đánh dấu hoàn thành</button>{% if todo and todo != s.key %}<button class="btn" name="go" value="next">✓ Xong, sang bước tiếp →</button>{% endif %}{% endif %}
+{% else %}<button class="btn {{'ghost' if todo and todo != s.key}}" name="go" value="stay">✓ Đánh dấu xong</button>{% if todo and todo != s.key %}<button class="btn" name="go" value="next">✓ Xong, sang bước tiếp →</button>{% endif %}{% endif %}
 <small class="muted sst" data-save-status aria-live="polite">{{ 'Tự lưu khi bạn nhập.' if user else 'Tự lưu trên máy này · đăng nhập để giữ lâu dài.' }}</small></div></form>
 <nav class="gnav" aria-label="Chuyển bước">{% if prev %}<a class="btn ghost" href="{{href(prev)}}">← Bước trước</a>{% else %}<span></span>{% endif %}<span class="muted small">{{ndone}}/{{total}} bước đã xong</span>{% if nxt %}<a class="btn ghost" href="{{href(nxt)}}">Bước sau →</a>{% else %}<span></span>{% endif %}</nav>
 {% endblock %}

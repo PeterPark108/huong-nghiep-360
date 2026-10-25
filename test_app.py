@@ -113,11 +113,11 @@ ok('data-w="majors"' in c.get("/lop-10/buoc/10-1-0").get_data(as_text=True), "t�
 r = c.post("/api/buoc/10-0-0", data={"mon": "ly", "_csrf": tok("/")}); ok(r.json.get("local") is True, "khách: API bước báo lưu cục bộ")
 ok(c.post("/api/buoc/10-0-0", data={"mon": "ly"}).status_code == 400 and c.post("/api/buoc/9-9-9", data={"_csrf": tok("/")}).status_code == 404, "API bước chặn CSRF + khóa lạ")
 h = c.get("/lop-12/buoc/12-0-1").get_data(as_text=True)
-ok("Đánh dấu hoàn thành" in h and "moet.gov.vn" in h and "web không tự đưa ra" in h, "trang con có nút hoàn thành + nguồn chính thống + không bịa ngày")
+ok("Đánh dấu xong" in h and "moet.gov.vn" in h and "web không tự đưa ra" in h, "trang con có nút hoàn thành + nguồn chính thống + không bịa ngày")
 t0 = tok("/lop-12/buoc/12-0-0")
 r = c.post("/lop-12/buoc/12-0-0", data={"_csrf": t0, "go": "next"}); ok(r.status_code == 302 and r.location.endswith("/lop-12/buoc/12-0-1"), "hoàn thành & sang bước tiếp")
 ok("Bỏ tích" in c.get("/lop-12/buoc/12-0-0").get_data(as_text=True) and "1/9" in c.get("/lop-12/buoc/12-0-0").get_data(as_text=True), "bước đã tích hiện trạng thái")
-c.post("/lop-12/buoc/12-0-0", data={"_csrf": t0, "action": "undo"}); ok("Đánh dấu hoàn thành" in c.get("/lop-12/buoc/12-0-0").get_data(as_text=True), "bỏ tích bước")
+c.post("/lop-12/buoc/12-0-0", data={"_csrf": t0, "action": "undo"}); ok("Đánh dấu xong" in c.get("/lop-12/buoc/12-0-0").get_data(as_text=True), "bỏ tích bước")
 ok(c.post("/lop-12/buoc/12-0-0", data={}).status_code == 400, "trang con chặn thiếu CSRF")
 qg = {f"q{i}": "4" for i in range(30)}
 h = c.get("/quiz?buoc=10-0-1").get_data(as_text=True); ok('name="buoc" value="10-0-1"' in h, "quiz giữ bước nguồn")
@@ -152,7 +152,7 @@ h = c.get("/lop-10/buoc/10-0-0").get_data(as_text=True)
 ok('value="ly" checked' in h and "&lt;b&gt;thích&lt;/b&gt;" in h and "<b>thích</b>" not in h and "Bỏ tích" in h, "đăng nhập: lựa chọn + ghi chú lưu DB, escape XSS")
 r = c.post("/api/buoc/10-0-2", data=MultiDict([("_csrf", t), ("thoiquen", "ngu"), ("thoiquen.ngu.date", "2026-11-01")])); ok(r.json["ok"] and r.json["n"] == 2, "API tự lưu thói quen")
 h = c.get("/lop-10/buoc/10-0-2").get_data(as_text=True); ok('value="2026-11-01"' in h and 'value="ngu" checked' in h, "thói quen đã lưu hiện lại")
-c.post("/lop-10/buoc/10-0-2", data={"_csrf": t, "action": "save"}); ok("Đánh dấu hoàn thành" in c.get("/lop-10/buoc/10-0-2").get_data(as_text=True), "nút Lưu không tự tích hoàn thành")
+c.post("/lop-10/buoc/10-0-2", data={"_csrf": t, "action": "save"}); ok("Đánh dấu xong" in c.get("/lop-10/buoc/10-0-2").get_data(as_text=True), "nút Lưu không tự tích hoàn thành")
 t = tok("/ho-so")
 for sec, dd in [("hoan-canh", dict(grade="11", province="Hà Nội")), ("so-thich", dict(interests=["tech", "logic"])),
                 ("the-manh", dict(strong_subjects=["Toán"], combo="A01")), ("du-dinh", dict(after_school="dh", target_majors=["yduoc"]))]:
@@ -252,5 +252,12 @@ ok("không cần đăng ký" in h and 'data-more="mgrid"' in h and "resume card"
 cu.get("/lop-11"); h = cu.get("/").get_data(as_text=True); ok("Tiếp tục lớp 11" in h and "Tiếp tục từ chỗ bạn dừng" in h, "trang chủ: tiếp tục từ chỗ dừng")
 h = cu.get("/lop-11").get_data(as_text=True); ok('class="nextcta"' in h and "Bắt đầu" in h, "trang lớp: CTA bước tiếp theo")
 h = cu.get("/lop-10/buoc/10-0-0").get_data(as_text=True); ok('sact sticky' in h, "trang con: thanh hành động dính")
+
+# UX pass 2
+cu = A.app.test_client(); h = cu.get("/lop-10/buoc/10-0-0").get_data(as_text=True)
+ok('class="has-sact"' in h and "Chưa hoàn thành" not in h, "trang con: thanh cố định + đầu trang gọn")
+h = cu.get("/so-sanh?nganh=xx&nganh=cntt").get_data(as_text=True); ok("không còn tồn tại" in h, "so sánh: báo ngành sai")
+ok("không còn tồn tại" not in cu.get("/so-sanh?nganh=cntt&nganh=marketing").get_data(as_text=True), "so sánh: không báo nhầm")
+h = cu.get("/quiz").get_data(as_text=True); ok('data-min="15"' in h and 'id="qerr"' in h and "khoảng 4 phút" in h, "quiz: kiểm tra phía trình duyệt")
 
 print(f"ALL OK – {N[0]} kiểm thử")

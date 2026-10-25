@@ -304,7 +304,7 @@ def compare():
     for i in request.args.getlist("nganh"):
         if major(i) and i not in ids: ids.append(i)
     ms = [major(i) for i in ids[:3]]
-    return render_template("compare.html", ms=ms, all=load()["majors"], d=load(), too_many=len(ids) > 3)
+    return render_template("compare.html", ms=ms, all=load()["majors"], d=load(), too_many=len(ids) > 3, bad=any(i and not major(i) for i in request.args.getlist("nganh")))
 @app.route("/con-duong-khac")
 def other_paths():
     from paths import PATHS, OFFICIAL

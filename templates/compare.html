@@ -1,7 +1,7 @@
 {% extends "base.html" %}{% block title %}So sánh ngành – Hướng Nghiệp 360{% endblock %}{% block desc %}So sánh 2–3 nhóm ngành cạnh tranh nhau về triển vọng, thu nhập theo số liệu Cục Thống kê, kỹ năng và khối xét tuyển.{% endblock %}{% block body %}
 <a class="back" href="/#nganh">← Tất cả ngành</a>
 <h1>⚖️ So sánh ngành</h1><p class="muted">Chọn 2–3 nhóm ngành để xem cạnh nhau.</p>
-{% if too_many %}<p class="err" role="alert">Chỉ so sánh tối đa 3 ngành – đang hiển thị 3 ngành đầu tiên.</p>{% endif %}
+{% if bad %}<p class="err" role="alert">Có ngành trong đường dẫn không còn tồn tại nên đã được bỏ qua. Bạn chọn lại ở dưới nhé.</p>{% endif %}{% if too_many %}<p class="err" role="alert">Chỉ so sánh tối đa 3 ngành – đang hiển thị 3 ngành đầu tiên.</p>{% endif %}
 <form method="get" class="filters cmpform" aria-label="Chọn ngành để so sánh">{% for i in range(3) %}<select name="nganh" aria-label="Ngành {{i+1}}"><option value="">{{ '➕ Ngành ' ~ (i+1) ~ (' (không bắt buộc)' if i==2 else '') }}</option>{% for a in all %}<option value="{{a.id}}" {{'selected' if ms[i] is defined and ms[i].id==a.id}}>{{a.icon}} {{a.name}}</option>{% endfor %}</select>{% endfor %}<button class="btn">So sánh</button></form>
 {% if ms|length < 2 %}<div class="card empty"><p>Hãy chọn ít nhất <b>2 ngành</b> ở trên, hoặc tích “Thêm vào so sánh” trên các thẻ ngành ở <a href="/#nganh">trang chủ</a>.</p></div>
 {% else %}<div class="ctable-wrap" tabindex="0" role="region" aria-label="Bảng so sánh"><table class="ctable"><thead><tr><th scope="col"><span class="sr">Tiêu chí</span></th>{% for m in ms %}<th scope="col"><a href="/nganh/{{m.id}}"><span aria-hidden="true">{{m.icon}}</span> {{m.name}}</a></th>{% endfor %}</tr></thead><tbody>
