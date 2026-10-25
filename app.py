@@ -1,6 +1,6 @@
 import json, os, functools
 from datetime import timedelta
-from grades import GRADES, steps as grade_steps
+from grades import GRADES, steps as grade_steps, step_info, href as step_href, next_step, QUIZ_STEP
 from flask import Flask, render_template, request, abort, session, redirect, url_for, flash, jsonify
 import auth, riasec
 from auth import db, current_user, login_required
@@ -21,7 +21,7 @@ def headers(r):
     h.setdefault("Content-Security-Policy", CSP); h["X-Content-Type-Options"] = "nosniff"; h["X-Frame-Options"] = "DENY"
     h["Referrer-Policy"] = "strict-origin-when-cross-origin"; h["Permissions-Policy"] = "camera=(), microphone=(), geolocation=()"
     if app.config["SESSION_COOKIE_SECURE"]: h["Strict-Transport-Security"] = "max-age=31536000"
-    if session.get("uid") or request.path.startswith(("/ho-so", "/dang-")): h["Cache-Control"] = "no-store"
+    if session.get("uid") or request.path.startswith(("/ho-so", "/dang-", "/lop-", "/quiz", "/api/")): h["Cache-Control"] = "no-store"
     return r
 auth.init_db()
 app.teardown_appcontext(auth.close_db)
@@ -63,7 +63,11 @@ def dismiss():
     return redirect(safe_next(request.form.get("next")))
 def safe_next(n): return n if n and n.startswith("/") and not n.startswith("//") else url_for("index")
 def do_login(uid):
+    guest = session.get("prog") or {}
     session.clear(); session.permanent = True; session["uid"] = uid; session["_csrf"] = auth.secrets.token_urlsafe(32)
+    have = auth.get_progress(uid)  # gộp tiến độ đã làm khi chưa đăng nhập
+    for g, ks in guest.items():
+        if int(g) in GRADES: auth.save_progress(uid, int(g), set(ks) | set(have.get(int(g), [])))
 @app.route("/dang-ky", methods=["GET","POST"])
 def register():
     if current_user(): return redirect(url_for("index"))
@@ -143,8 +147,19 @@ def fit_set(majors):
         elif last and riasec.match(last["scores"], m["riasec"]) >= 60 and m["riasec"][0] in last["code"][:2]: out.add(m["id"])
     return out
 def user_progress():
+    """Tiến độ checklist: tài khoản → DB; khách → session (cookie đã ký)."""
     u = current_user()
-    return auth.get_progress(u["id"]) if u else {}
+    if u: return auth.get_progress(u["id"])
+    return {int(g): v for g, v in (session.get("prog") or {}).items()}
+def set_progress(g, done):
+    valid = set(grade_steps(g)); done = {k for k in done if k in valid}
+    u = current_user()
+    if u: auth.save_progress(u["id"], g, done)
+    else: session["prog"] = {**(session.get("prog") or {}), str(g): sorted(done)}
+    return done
+def mark(key, on=True):
+    g = int(key.split("-")[0]); d = set(user_progress().get(g, []))
+    return set_progress(g, d | {key} if on else d - {key})
 @app.route("/")
 def index():
     d = load(); ms = d["majors"]
@@ -159,17 +174,32 @@ def index():
 @app.route("/lop-<int:g>")
 def grade(g):
     if g not in GRADES: abort(404)
-    return render_template("grade.html", g=g, x=GRADES[g], done=user_progress().get(g, []), total=len(grade_steps(g)))
+    session["last_grade"] = g
+    return render_template("grade.html", g=g, x=GRADES[g], done=user_progress().get(g, []), total=len(grade_steps(g)), href=step_href)
+@app.route("/lop-<int:g>/buoc/<key>", methods=["GET","POST"])
+def step(g, key):
+    info = step_info(key)
+    if not info or info["g"] != g: abort(404)
+    session["last_grade"] = g
+    if request.method == "POST":
+        on = request.form.get("action") != "undo"; done = mark(key, on)
+        if on:
+            nk = next_step(g, done, key)
+            flash("✓ Đã hoàn thành: " + info["title"] + ("" if nk else f" – bạn đã xong cả lộ trình lớp {g}! 🎉"))
+            return redirect(step_href(nk) if nk and request.form.get("go") == "next" else url_for("step", g=g, key=key))
+        flash("Đã bỏ tích bước này."); return redirect(url_for("step", g=g, key=key))
+    done = set(user_progress().get(g, [])); ks = grade_steps(g); i = ks.index(key)
+    nk = next_step(g, done, key)
+    return render_template("step.html", s=info, g=g, x=GRADES[g], is_done=key in done, n=i + 1, total=len(ks), ndone=len(done),
+                           prev=ks[i - 1] if i else None, nxt=ks[i + 1] if i + 1 < len(ks) else None, todo=nk, href=step_href)
 @app.route("/api/tien-do", methods=["POST"])
 def save_progress():
-    u = current_user()
-    if not u: return jsonify(ok=False, error="login"), 401
     data = request.get_json(silent=True) or {}
     g = data.get("grade")
     if g not in GRADES or not isinstance(data.get("done"), list): return jsonify(ok=False, error="invalid"), 400
     valid = set(grade_steps(g)); done = {k for k in data["done"] if isinstance(k, str) and k in valid}
-    if data.get("merge"): done |= set(auth.get_progress(u["id"]).get(g, []))
-    auth.save_progress(u["id"], g, done)
+    if data.get("merge"): done |= set(user_progress().get(g, []))
+    done = set_progress(g, done)
     return jsonify(ok=True, done=sorted(done), n=len(done), total=len(valid))
 @app.route("/nganh/<mid>")
 def detail(mid):
@@ -179,17 +209,23 @@ def detail(mid):
 @app.route("/quiz", methods=["GET","POST"])
 def quiz():
     Q = riasec.QUESTIONS
-    if request.method == "GET": return render_template("quiz.html", Q=Q, L=riasec.LIKERT)
+    buoc = request.values.get("buoc", "")
+    buoc = buoc if step_info(buoc) else ""
+    if request.method == "GET": return render_template("quiz.html", Q=Q, L=riasec.LIKERT, buoc=buoc)
     ans = riasec.parse_form(request.form)
     if len(ans) < len(Q) // 2:
-        return render_template("quiz.html", Q=Q, L=riasec.LIKERT, prev=ans,
+        return render_template("quiz.html", Q=Q, L=riasec.LIKERT, prev=ans, buoc=buoc,
                                error=f"Bạn hãy trả lời ít nhất {len(Q)//2} câu để kết quả có ý nghĩa (đã trả lời {len(ans)}/{len(Q)})."), 400
     sc, n = riasec.score(ans); code = riasec.top3(sc); res = riasec.rank(sc, load()["majors"])
     saved = False; u = current_user()
     if u:
         gr = auth.get_profile(u["id"]).get("grade")
         auth.save_riasec(u["id"], gr, {str(k): v for k, v in ans.items()}, sc, code, [dict(id=r["m"]["id"], name=r["m"]["name"], pct=r["pct"]) for r in res]); saved = True
-    return render_template("result.html", sc=sc, code=code, res=res, saved=saved, answered=n, total=len(Q),
+    mark(QUIZ_STEP)  # làm xong trắc nghiệm → tự tích ô "Làm trắc nghiệm sở thích"
+    g = int(buoc.split("-")[0]) if buoc else session.get("last_grade") or (u and auth.get_profile(u["id"]).get("grade")) or 10
+    nk = next_step(g, set(user_progress().get(g, [])), buoc or (QUIZ_STEP if g == 10 else None))
+    nxt = dict(url=step_href(nk), title=step_info(nk)["title"], g=g) if nk else dict(url=f"/lop-{g}", title=f"Xem lộ trình lớp {g}", g=g)
+    return render_template("result.html", sc=sc, code=code, res=res, saved=saved, answered=n, total=len(Q), nxt=nxt,
                            chart=dict(labels=[riasec.TYPES[c]["short"] for c in sc], values=list(sc.values())))
 @app.route("/so-sanh")
 def compare():

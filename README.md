@@ -10,11 +10,12 @@ python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
 ```
 
 ## Tính năng
-- Trang ngành (`/nganh/<id>`): thu nhập bình quân **ngành kinh tế liên quan** (TCTK 2022–2024), lương khởi điểm/thị trường khi có nguồn, dữ kiện nhu cầu có nguồn. Thiếu số liệu → ghi "chưa có số liệu – minh họa", không vẽ biểu đồ bịa.
+- Trang ngành (`/nganh/<id>`): thu nhập bình quân **ngành kinh tế liên quan** (Cục Thống kê, năm 2024; 2025 theo ngành chưa công bố), lương khởi điểm/thị trường khi có nguồn, dữ kiện nhu cầu có nguồn. Thiếu số liệu → ghi "chưa có số liệu – minh họa", không vẽ biểu đồ bịa.
 - `/nguon-du-lieu`: toàn bộ nguồn, năm, cách quy đổi, độ phủ dữ liệu.
 - `/quiz`: trắc nghiệm Holland/RIASEC 30 câu Likert 1–5 → điểm 0–100 mỗi nhóm, mã 3 chữ, radar, ngành phù hợp (mỗi ngành có mã `riasec`, độ khớp trọng số 3-2-1). Chỉ để tham khảo, không phải chẩn đoán.
 - `/so-sanh?nganh=a&nganh=b[&nganh=c]`: so sánh 2–3 ngành; chọn bằng checkbox trên thẻ, thanh so sánh dính đáy (localStorage `hn360:compare`).
-- `/lop-10|11|12`: checklist; khách lưu localStorage (`hn360:progress:<lớp>`), đã đăng nhập đồng bộ `POST /api/tien-do` (JSON, header `X-CSRF-Token`). Trang chủ hiện "x/y bước đã làm".
+- `/lop-10|11|12`: checklist. Ô chưa tích → mở trang con `/lop-<g>/buoc/<lớp-giai đoạn-mục>` (hướng dẫn, ghi chép localStorage, nguồn chính thống, nút "Đánh dấu hoàn thành"/"sang bước tiếp"). Ô "Làm trắc nghiệm sở thích" → `/quiz?buoc=10-0-1`; nộp quiz tự tích ô và trang kết quả có nút "Tiếp tục bước tiếp theo". Tiến độ: đã đăng nhập → bảng `progress`; khách → session cookie (gộp vào tài khoản khi đăng nhập). `POST /api/tien-do` (JSON, header `X-CSRF-Token`).
+- Số liệu: năm 2024–2025 (Cục Thống kê 2024/2025, Bộ GD&ĐT tuyển sinh 2025, TopCV/Navigos/JobOKO 2024–2025).
 - `/con-duong-khac`: cao đẳng, trung cấp, vừa học vừa làm, du học, gap year, quân đội/công an + link chính thức.
 - `/chinh-sach-bao-mat`: chính sách cho người dùng dưới 18 tuổi.
 
@@ -29,7 +30,7 @@ python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
 | quiz_results | bảng cũ (v3), giữ để tương thích |
 Mọi bảng con `ON DELETE CASCADE` — xóa tài khoản xóa sạch dữ liệu.
 
-`data/careers.json`: `sources{id:{name,url,year,note}}`, `gso_sectors{mã VSIC:{name,v:[2022,2023,2024] nghìn đồng}}`, `gso_all`, mỗi ngành: `gso_sector`, `riasec`, `salary_vnd{min,max,unit,note,source}` (tùy chọn), `facts[{text,source}]`.
+`data/careers.json`: `sources{id:{name,url,year,note}}`, `gso_sectors{mã VSIC:{name,v:[2024] nghìn đồng}}`, `gso_all`, mỗi ngành: `gso_sector`, `riasec`, `salary_vnd{min,max,unit,note,source}` (tùy chọn), `facts[{text,source}]`.
 
 ## Bảo mật
 CSRF cho mọi POST; CSP `script-src 'self'` (không có JS inline), font + Chart.js tự lưu trữ; cookie HttpOnly/SameSite=Lax/Secure; khóa đăng nhập sau 5 lần sai (theo IP+tài khoản) hoặc 30 lần (theo IP), thời gian tăng dần tới 15 phút; giới hạn request 64 KB; chặn mật khẩu phổ biến; chặn open-redirect.

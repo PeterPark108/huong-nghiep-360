@@ -32,7 +32,8 @@
       };
       qf.addEventListener("change", upd); upd();
     }
-    // Checklist trang lớp: localStorage cho khách, đồng bộ tài khoản khi đăng nhập
+    // Checklist trang lớp: ô chưa tích → mở trang con của bước; ô đã tích → bấm để bỏ tích.
+    // Lưu trên máy chủ (tài khoản hoặc phiên khách); tiến độ localStorage cũ được gộp lên một lần.
     const cl = $("[data-checklist]");
     if (cl) {
       const g = +cl.dataset.checklist, key = "hn360:lop" + g, boxes = $$("[data-step]"), total = boxes.length;
@@ -40,31 +41,22 @@
         const d = boxes.filter(b => b.checked).length;
         $("#gcount").textContent = `${d}/${total}`; $("#gbar").style.width = Math.round(d / total * 100) + "%";
         $("[role=progressbar]", cl).setAttribute("aria-valuenow", d);
+        boxes.forEach(b => b.closest("li").classList.toggle("done", b.checked));
       };
       const cur = () => boxes.filter(b => b.checked).map(b => b.dataset.step);
       const sync = (merge) => fetch("/api/tien-do", { method: "POST", credentials: "same-origin",
         headers: { "Content-Type": "application/json", "X-CSRF-Token": meta("csrf-token") },
         body: JSON.stringify({ grade: g, done: cur(), merge: !!merge }) })
         .then(r => r.ok ? r.json() : Promise.reject(r.status))
-        .then(j => { $("#gsave").textContent = "✓ Đã lưu vào tài khoản"; if (merge) { boxes.forEach(b => b.checked = j.done.includes(b.dataset.step)); render(); } })
+        .then(j => { $("#gsave").textContent = LOGGED ? "✓ Đã lưu vào tài khoản" : "✓ Đã lưu tạm trên trình duyệt này"; boxes.forEach(b => b.checked = j.done.includes(b.dataset.step)); render(); })
         .catch(() => { $("#gsave").textContent = "Chưa lưu được – kiểm tra kết nối"; });
-      if (LOGGED) {
-        const local = store.get(key, []);  // gộp tiến độ đã làm khi chưa đăng nhập
-        if (local.some(k => !boxes.find(b => b.dataset.step === k && b.checked))) {
-          boxes.forEach(b => { if (local.includes(b.dataset.step)) b.checked = true; }); render(); sync(true);
-        }
-        store.set(key, []);
-      } else {
-        const local = store.get(key, []); boxes.forEach(b => b.checked = local.includes(b.dataset.step)); render();
-      }
-      boxes.forEach(b => b.addEventListener("change", () => { render(); LOGGED ? sync(false) : store.set(key, cur()); }));
+      const local = store.get(key, []);
+      if (local.length) { boxes.forEach(b => { if (local.includes(b.dataset.step)) b.checked = true; }); store.set(key, []); sync(true); }
+      boxes.forEach(b => b.addEventListener("click", e => {
+        if (b.checked) { e.preventDefault(); location.href = b.dataset.href; return; }  // chưa tích → sang trang thực hiện
+        render(); sync(false);
+      }));
     }
-    // Trang chủ: tiến độ trên thẻ lớp (khách)
-    $$("[data-grade-progress]").forEach(el => {
-      if (LOGGED) return;
-      const d = store.get("hn360:lop" + el.dataset.gradeProgress, []).length;
-      if (d) el.textContent = `${d}/${el.dataset.total} bước đã làm`;
-    });
     // So sánh ngành: thanh dính dưới trang chủ
     const bar = $("#cbar");
     if (bar) {
@@ -87,6 +79,11 @@
       $("#cclear").addEventListener("click", () => { sel = []; store.set(KEY, sel); render(); });
       render();
     }
+    // Ghi chép trên trang con của bước (chỉ lưu localStorage)
+    $$("[data-notes]").forEach(box => {
+      const k = box.dataset.notes, areas = $$("textarea", box), st = $("[data-notes-status]", box), v = store.get(k, []);
+      areas.forEach((t, i) => { t.value = v[i] || ""; t.addEventListener("input", () => { store.set(k, areas.map(a => a.value)); st.textContent = "✓ Đã lưu trên thiết bị này"; }); });
+    });
     // Biểu đồ (Chart.js tự lưu trữ)
     if (window.Chart) {
       Chart.defaults.font.family = '"Be Vietnam Pro",system-ui,sans-serif'; Chart.defaults.color = "#5b6478";

@@ -13,5 +13,5 @@
 <tr><th scope="row">Ngành đại học liên quan</th>{% for m in ms %}<td><ul class="dot">{% for s in m.majors %}<li>{{s}}</li>{% endfor %}</ul></td>{% endfor %}</tr>
 <tr><th scope="row">Mã Holland (RIASEC)</th>{% for m in ms %}<td><b>{{m.riasec}}</b><small>{% for c in m.riasec %}{{RT[c].short}}{{ ', ' if not loop.last }}{% endfor %}</small></td>{% endfor %}</tr>
 </tbody></table></div>
-<p class="small muted">Thu nhập theo ngành kinh tế là bình quân của mọi lao động làm công ăn lương (Tổng cục Thống kê), không phải lương khởi điểm. Xem <a href="/nguon-du-lieu">Nguồn dữ liệu</a>.</p>{% endif %}
+<p class="small muted">Thu nhập theo ngành kinh tế là bình quân của mọi lao động làm công ăn lương (Cục Thống kê, 2024), không phải lương khởi điểm. Xem <a href="/nguon-du-lieu">Nguồn dữ liệu</a>.</p>{% endif %}
 {% endblock %}

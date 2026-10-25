@@ -1,10 +1,10 @@
 {% extends "base.html" %}{% block title %}Trắc nghiệm sở thích nghề nghiệp (Holland) – Hướng Nghiệp 360{% endblock %}{% block body %}
-<h1>🧭 Trắc nghiệm sở thích nghề nghiệp</h1>
+{% if buoc %}<a class="back" href="/lop-{{buoc.split('-')[0]}}">← Lộ trình lớp {{buoc.split('-')[0]}}</a>{% endif %}<h1>🧭 Trắc nghiệm sở thích nghề nghiệp</h1>
 <p class="muted lead">{{Q|length}} hoạt động ngắn, dựa trên mô hình <b>Holland (RIASEC)</b>. Với mỗi hoạt động, chọn mức bạn <b>thích</b> làm nó – không cần giỏi, không có đúng sai. Mất khoảng 4 phút.</p>
 <p class="note mt0">ℹ️ Kết quả chỉ là <b>gợi ý</b> giúp bạn khám phá bản thân, <b>không phải chẩn đoán</b> hay lời khuyên bắt buộc.</p>
 {% if error %}<p class="err" role="alert">{{error}}</p>{% endif %}
 <div class="progress"><div class="ptext"><span id="pt">Đã trả lời 0/{{Q|length}}</span><span id="pp">0%</span></div><div class="bar" role="progressbar" aria-label="Tiến độ trắc nghiệm" aria-valuemin="0" aria-valuemax="{{Q|length}}" aria-valuenow="0"><i id="pb"></i></div></div>
-<form method="post" id="qf" data-total="{{Q|length}}"><input type="hidden" name="_csrf" value="{{csrf_token()}}">
+<form method="post" id="qf" data-total="{{Q|length}}"><input type="hidden" name="_csrf" value="{{csrf_token()}}">{% if buoc %}<input type="hidden" name="buoc" value="{{buoc}}">{% endif %}
 <div class="lk-legend" aria-hidden="true">{% for v,l in L %}<span>{{v}} = {{l}}</span>{% endfor %}</div>
 {% for t,q in Q %}{% set i=loop.index0 %}<fieldset class="card lq"><legend><span class="n">{{loop.index}}</span>{{q}}</legend><div class="lk">
 {% for v,l in L %}<label><input type="radio" name="q{{i}}" value="{{v}}" {{'checked' if prev and prev.get(i)==v}}><span><b aria-hidden="true">{{['😣','🙁','😐','🙂','😍'][v-1]}}</b>{{l}}</span></label>{% endfor %}</div></fieldset>{% endfor %}

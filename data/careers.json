@@ -15,16 +15,6 @@
    "url": "https://vn.joboko.com/bao-cao-luong-thi-truong-lao-dong-tuyen-dung",
    "year": 2025
   },
-  "gso2022": {
-   "name": "Tổng cục Thống kê – Báo cáo Điều tra lao động việc làm năm 2022 (Biểu 3.4)",
-   "url": "https://www.nso.gov.vn/wp-content/uploads/2024/03/Sach-BC-Dieu-tra-LDVL-2022-Vietnamese.pdf",
-   "year": 2022
-  },
-  "gso2023": {
-   "name": "Tổng cục Thống kê – Báo cáo Điều tra lao động việc làm năm 2023 (Biểu 3.4, bản đăng trên VCCI)",
-   "url": "https://api.vcci.com.vn/storage/fileskhac/68748c4292902.pdf",
-   "year": 2023
-  },
   "gso2024": {
    "name": "Cục Thống kê (NSO) – Báo cáo Điều tra lao động việc làm năm 2024 (Biểu 3.4)",
    "url": "https://www.nso.gov.vn/wp-content/uploads/2026/05/02-Sach-Bao-cao-lao-dong-viec-lam-2024-TV.pdf",
@@ -39,9 +29,35 @@
    "name": "Báo Người Lao Động (17/03/2025) – tóm tắt Báo cáo thị trường tuyển dụng 2024–2025 của TopCV",
    "url": "https://tuoitre.vn/nld/nganh-nghe-nao-co-thu-nhap-binh-quan-cao-nhat-hien-nay-196250317095858138.htm",
    "year": 2024
+  },
+  "nso2025": {
+   "name": "Cục Thống kê – Thông cáo báo chí tình hình dân số, lao động, việc làm quý IV và năm 2025",
+   "url": "https://www.nso.gov.vn/tin-tuc-thong-ke/2026/01/thong-cao-bao-chi-ve-tinh-hinh-dan-so-lao-dong-viec-lam-quy-iv-va-nam-2025/",
+   "year": 2025
+  },
+  "moet2025": {
+   "name": "Báo Nhân Dân (18/09/2025) – số liệu tuyển sinh 2025 do Vụ Giáo dục Đại học (Bộ GD&ĐT) công bố",
+   "url": "https://nhandan.vn/video-tuyen-sinh-2025-tang-so-nhap-hoc-su-pham-va-stem-hut-thi-sinh-post908893.html",
+   "year": 2025
   }
  },
  "market_facts": [
+  {
+   "text": "Năm 2025, thu nhập bình quân của người lao động cả nước là 8,4 triệu đồng/tháng, tăng 8,9% so với năm 2024.",
+   "source": "nso2025"
+  },
+  {
+   "text": "Tỷ lệ thất nghiệp trong độ tuổi lao động năm 2025 là 2,22%; tỷ lệ lao động qua đào tạo có bằng, chứng chỉ là 29,2%.",
+   "source": "nso2025"
+  },
+  {
+   "text": "Tuyển sinh 2025: hơn 1,16 triệu thí sinh dự thi tốt nghiệp THPT, 849.544 em đăng ký xét tuyển, 773.167 trúng tuyển, 625.477 xác nhận nhập học (tăng 13,8% so với 2024).",
+   "source": "moet2025"
+  },
+  {
+   "text": "Năm 2025, trong 74 ngành có điểm chuẩn từ 28/30 trở lên có 50 ngành sư phạm và 17 ngành kỹ thuật, công nghệ chiến lược (AI, vi mạch, tự động hóa…).",
+   "source": "moet2025"
+  },
   {
    "text": "Kinh doanh/Bán hàng dẫn đầu nhu cầu tuyển dụng (59,43% doanh nghiệp), tiếp theo Sản xuất (33,02%) và Dịch vụ khách hàng (24,34%).",
    "source": "navigos"
@@ -67,7 +83,7 @@
    "source": "joboko"
   }
  ],
- "note": "Thu nhập theo ngành kinh tế (Tổng cục Thống kê) là số liệu thật, nhưng ngành kinh tế chỉ gần đúng với nhóm ngành học. Mức 'Cao/Khá/TB' là đánh giá định tính – minh họa.",
+ "note": "Thu nhập theo ngành kinh tế (Cục Thống kê, năm 2024) là số liệu thật, nhưng ngành kinh tế chỉ gần đúng với nhóm ngành học. Số liệu 2025 theo ngành kinh tế chưa được công bố. Mức 'Cao/Khá/TB' là đánh giá định tính – minh họa.",
  "majors": [
   {
    "id": "cntt",
@@ -727,116 +743,86 @@
   "A": {
    "name": "Nông, lâm nghiệp và thủy sản",
    "v": [
-    5289,
-    5512,
     5824.4
    ]
   },
   "C": {
    "name": "Công nghiệp chế biến, chế tạo",
    "v": [
-    7467,
-    7804,
     8413.1
    ]
   },
   "D": {
    "name": "Sản xuất và phân phối điện, khí đốt",
    "v": [
-    9756,
-    10265,
     11579.8
    ]
   },
   "F": {
    "name": "Xây dựng",
    "v": [
-    7248,
-    7624,
     8165.5
    ]
   },
   "G": {
    "name": "Bán buôn và bán lẻ",
    "v": [
-    7605,
-    8160,
     8859.2
    ]
   },
   "H": {
    "name": "Vận tải, kho bãi",
    "v": [
-    9096,
-    9878,
     10617.9
    ]
   },
   "I": {
    "name": "Dịch vụ lưu trú và ăn uống",
    "v": [
-    5934,
-    6337,
     6761.7
    ]
   },
   "J": {
    "name": "Thông tin và truyền thông",
    "v": [
-    11375,
-    12119,
     12908.6
    ]
   },
   "K": {
    "name": "Tài chính, ngân hàng và bảo hiểm",
    "v": [
-    10767,
-    11488,
     12866.6
    ]
   },
   "M": {
    "name": "Hoạt động chuyên môn, khoa học và công nghệ",
    "v": [
-    10337,
-    10641,
     11812.0
    ]
   },
   "N": {
    "name": "Hoạt động hành chính và dịch vụ hỗ trợ",
    "v": [
-    7952,
-    8440,
     9283.3
    ]
   },
   "P": {
    "name": "Giáo dục và đào tạo",
    "v": [
-    7982,
-    8556,
     10074.1
    ]
   },
   "Q": {
    "name": "Y tế và trợ giúp xã hội",
    "v": [
-    8485,
-    8954,
     10128.9
    ]
   }
  },
  "gso_years": [
-  2022,
-  2023,
   2024
  ],
  "gso_all": [
-  7521,
-  7932,
   8673.6
  ],
  "last_checked": "25/10/2026"

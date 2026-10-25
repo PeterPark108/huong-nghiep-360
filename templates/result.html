@@ -2,6 +2,7 @@
 {% block head %}<script src="{{ url_for('static', filename='vendor/chart.umd.min.js') }}" defer></script>{% endblock %}{% block body %}
 <section class="rhero"><h1>🎯 Mã Holland của bạn: <span class="code">{{code}}</span></h1><p class="m0">Ba nhóm sở thích nổi bật nhất (đã trả lời {{answered}}/{{total}} câu):</p>
 <div class="tcards">{% for c in code %}<div class="tcard"><span class="ti" aria-hidden="true">{{RT[c].icon}}</span><b>{{loop.index}}. {{RT[c].name}}</b><small>{{RT[c].desc}}</small><span class="tsc">{{sc[c]}}/100</span></div>{% endfor %}</div></section>
+<div class="nextbox" role="status"><span aria-hidden="true">✅</span><div><b>Đã hoàn thành bước “Làm trắc nghiệm sở thích”</b><small>Bước tiếp theo (lớp {{nxt.g}}): {{nxt.title}}</small></div><a class="btn" href="{{nxt.url}}">Tiếp tục bước tiếp theo →</a></div>
 {% if saved %}<div class="flash">✓ Đã lưu kết quả vào <a href="/ho-so#trac-nghiem">hồ sơ của bạn</a> – làm lại vào lớp 11, 12 để so sánh nhé.</div>{% elif not user %}<div class="note"><a href="/dang-ky">Đăng ký</a> để lưu kết quả và so sánh qua các năm lớp 10, 11, 12.</div>{% endif %}
 <div class="dgrid"><div class="card"><h2>📊 Điểm 6 nhóm sở thích</h2><div class="chartbox"><canvas id="radar" role="img" aria-label="Biểu đồ điểm RIASEC: {% for c,v in sc.items() %}{{RT[c].short}} {{v}}{{ ', ' if not loop.last }}{% endfor %}"></canvas></div>
 <script type="application/json" id="rdata">{{ chart|tojson }}</script>

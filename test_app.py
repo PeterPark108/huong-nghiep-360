@@ -32,7 +32,8 @@ ok(riasec.parse_form({"q0": "5", "q1": "x", "q2": "0", "q3": "6"}) == {0: 5}, "p
 
 # --- Dữ liệu ---
 d = A.load()
-ok(all(m["income"]["vals"] and len(m["income"]["vals"]) == 3 for m in majors), "mọi ngành có chuỗi thu nhập TCTK 3 năm")
+ok(all(m["income"]["years"] == [2024] and len(m["income"]["vals"]) == 1 for m in majors), "mọi ngành có thu nhập Cục Thống kê năm 2024")
+ok(all(s["year"] in (2024, 2025) for s in d["sources"].values()), "mọi nguồn là năm 2024–2025")
 ok(all(s["url"].startswith("https://") and s.get("year") for s in d["sources"].values()), "mọi nguồn có URL + năm")
 ok(all("trend" not in m for m in majors), "đã bỏ chỉ số nhu cầu bịa")
 for m in majors:
@@ -44,7 +45,7 @@ for u in ["/", "/quiz", "/lop-10", "/lop-11", "/lop-12", "/nganh/cntt", "/nganh/
     r = c.get(u); assert r.status_code == 200, u
 ok(True, "15 trang công khai trả 200")
 h = c.get("/nganh/cntt").get_data(as_text=True)
-ok("Tổng cục Thống kê" in h and "cập nhật năm 2024" in h and "9,72–14,4" in h, "trang ngành có số liệu thật + nguồn + năm")
+ok("Cục Thống kê" in h and "chưa có số liệu 2025" in h and "cập nhật năm 2024" in h and "9,72–14,4" in h, "trang ngành có số liệu thật + nguồn + năm")
 h = c.get("/nganh/nongnghiep").get_data(as_text=True); ok("chưa có số liệu – minh họa" in h, "ngành thiếu số liệu ghi rõ minh họa")
 ok("cdn" not in c.get("/").get_data(as_text=True).lower() and "googleapis" not in h, "không còn CDN trong HTML")
 ok(c.get("/static/vendor/chart.umd.min.js").status_code == 200 and c.get("/static/fonts/bvp-vietnamese-400.woff2").status_code == 200, "Chart.js + font tự lưu trữ")
@@ -52,7 +53,7 @@ h = c.get("/so-sanh?nganh=cntt&nganh=yduoc&nganh=luat").get_data(as_text=True)
 ok(h.count('<th scope="col"><a href="/nganh/') == 3 and "ICR" in h and "Mã Holland" in h, "so sánh 3 ngành")
 ok("ít nhất <b>2 ngành</b>" in c.get("/so-sanh?nganh=cntt&nganh=khongco").get_data(as_text=True), "so sánh bỏ id lạ, cần ≥2")
 ok("tối đa 3" in c.get("/so-sanh?" + "&".join("nganh=" + m["id"] for m in majors[:4])).get_data(as_text=True), "so sánh >3 báo lỗi")
-ok('href="/so-sanh"' in c.get("/lop-11").get_data(as_text=True), "Lớp 11 'So sánh ngành' trỏ /so-sanh")
+ok('href="/so-sanh"' in c.get("/lop-11/buoc/11-0-0").get_data(as_text=True), "Bước 'Thu hẹp ngành' có nút /so-sanh")
 ok(c.get("/").get_data(as_text=True).count("/con-duong-khac") >= 2 and "/con-duong-khac" in c.get("/lop-10").get_data(as_text=True), "link con đường khác từ trang chủ + trang lớp")
 h = c.get("/con-duong-khac").get_data(as_text=True)
 ok(all(x in h for x in ["Cao đẳng", "Trung cấp", "Vừa học vừa làm", "Du học", "Gap year", "Quân đội", "moet.gov.vn"]), "con đường khác đủ 6 nhánh + nguồn chính thức")
@@ -71,10 +72,35 @@ r = c.post("/dang-nhap", data={"x": "a" * 70000}); ok(r.status_code == 413, "gi�
 r = c.post("/quiz", data={"q0": "5", "_csrf": tok("/quiz")}); ok(r.status_code == 400 and "ít nhất 15" in r.get_data(as_text=True), "quiz cần ≥15 câu")
 
 # --- CSRF trên mọi POST ---
-for u in ["/dang-ky", "/dang-nhap", "/dang-xuat", "/ho-so", "/ho-so/xoa", "/quiz", "/an-nhac-nho", "/api/tien-do"]:
+for u in ["/dang-ky", "/dang-nhap", "/dang-xuat", "/ho-so", "/ho-so/xoa", "/quiz", "/an-nhac-nho", "/api/tien-do", "/lop-10/buoc/10-0-0"]:
     assert c.post(u, data={}).status_code == 400, u
-ok(True, "8 endpoint POST đều chặn khi thiếu CSRF")
-r = c.post("/api/tien-do", json={"grade": 10, "done": []}, headers={"X-CSRF-Token": tok("/")}); ok(r.status_code == 401, "API tiến độ cần đăng nhập")
+ok(True, "9 endpoint POST đều chặn khi thiếu CSRF")
+r = c.post("/api/tien-do", json={"grade": 10, "done": ["10-0-0"]}, headers={"X-CSRF-Token": tok("/")}); ok(r.status_code == 200 and r.json["n"] == 1, "khách lưu tiến độ vào phiên")
+
+# --- Trang con của từng bước ---
+from grades import GRADES as G, GUIDE, href
+allk = [k for g in G for k in steps(g)]
+for k in allk:
+    assert c.get(f"/lop-{k[:2]}/buoc/{k}").status_code == 200, k
+ok(len(allk) == 25 and all(GUIDE[k]["how"] for k in allk), "25 trang con bước đều 200 + có hướng dẫn")
+ok(c.get("/lop-10/buoc/10-9-9").status_code == 404 and c.get("/lop-11/buoc/10-0-0").status_code == 404 and c.get("/lop-10/buoc/abc").status_code == 404, "khóa bước lạ 404")
+h = c.get("/lop-10").get_data(as_text=True)
+ok('href="/quiz?buoc=10-0-1"' in h and 'href="/lop-10/buoc/10-0-2"' in h and 'data-href=' in h, "ô checklist trỏ trang con, ô trắc nghiệm trỏ /quiz")
+ok('id="s10-0-0" data-step="10-0-0" data-href="/lop-10/buoc/10-0-0" aria-label="Đã xong' in h, "trang lớp hiện bước khách đã tích")
+h = c.get("/lop-12/buoc/12-0-1").get_data(as_text=True)
+ok("Đánh dấu hoàn thành" in h and "moet.gov.vn" in h and "chưa có số liệu – xem thông báo chính thức" in h.lower().replace("chưa có số liệu","chưa có số liệu"), "trang con có nút hoàn thành + nguồn chính thống + không bịa ngày")
+t0 = tok("/lop-12/buoc/12-0-0")
+r = c.post("/lop-12/buoc/12-0-0", data={"_csrf": t0, "go": "next"}); ok(r.status_code == 302 and r.location.endswith("/lop-12/buoc/12-0-1"), "hoàn thành & sang bước tiếp")
+ok("Bỏ tích" in c.get("/lop-12/buoc/12-0-0").get_data(as_text=True) and "1/9" in c.get("/lop-12/buoc/12-0-0").get_data(as_text=True), "bước đã tích hiện trạng thái")
+c.post("/lop-12/buoc/12-0-0", data={"_csrf": t0, "action": "undo"}); ok("Đánh dấu hoàn thành" in c.get("/lop-12/buoc/12-0-0").get_data(as_text=True), "bỏ tích bước")
+ok(c.post("/lop-12/buoc/12-0-0", data={}).status_code == 400, "trang con chặn thiếu CSRF")
+qg = {f"q{i}": "4" for i in range(30)}
+h = c.get("/quiz?buoc=10-0-1").get_data(as_text=True); ok('name="buoc" value="10-0-1"' in h, "quiz giữ bước nguồn")
+r = c.post("/quiz", data={**qg, "buoc": "10-0-1", "_csrf": tok("/quiz")}); h = r.get_data(as_text=True)
+ok("Tiếp tục bước tiếp theo" in h and 'href="/lop-10/buoc/10-0-2"' in h, "kết quả quiz có nút sang bước chưa xong kế tiếp")
+ok('data-step="10-0-1" data-href="/quiz?buoc=10-0-1" aria-label="Đã xong' in c.get("/lop-10").get_data(as_text=True), "làm xong quiz tự tích ô trắc nghiệm")
+c.get("/lop-11"); h = c.post("/quiz", data={**qg, "_csrf": tok("/quiz")}).get_data(as_text=True)
+ok('href="/lop-11/buoc/11-0-0"' in h, "quiz không có bước nguồn → dẫn tới lớp đang xem gần nhất")
 
 # --- Đăng ký ---
 r = c.post("/dang-ky", data={**R(password="123"), "_csrf": tok("/dang-ky")}); ok("ít nhất 6" in r.get_data(as_text=True), "mật khẩu ngắn")
@@ -85,12 +111,15 @@ h = c.get("/ho-so").get_data(as_text=True); ok("<script>alert(1)" not in h and "
 c.post("/dang-xuat", data={"_csrf": tok("/")})
 r = c.post("/dang-ky", data={**R(full_name="A" * 81), "_csrf": tok("/dang-ky")}); ok("tối đa 80" in r.get_data(as_text=True), "tên quá dài")
 r = c.post("/dang-ky", data={**R(full_name="   "), "_csrf": tok("/dang-ky")}); ok("họ và tên" in r.get_data(as_text=True), "tên rỗng")
+c.post("/api/tien-do", json={"grade": 12, "done": ["12-2-2"]}, headers={"X-CSRF-Token": tok("/")})
 r = c.post("/dang-ky", data={**R(), "_csrf": tok("/dang-ky")}); ok(r.status_code == 302 and "/ho-so" in r.location, "đăng ký OK")
 ck = r.headers.get("Set-Cookie", ""); ok("HttpOnly" in ck and "SameSite=Lax" in ck, "cookie HttpOnly + SameSite=Lax")
 row = DBC().execute("SELECT password_hash FROM users WHERE username='an.nguyen'").fetchone()[0]
 ok(PW not in row and row.startswith(("scrypt:", "pbkdf2:")), "mật khẩu đã băm")
 ok("Hoàn thiện hồ sơ" in c.get("/").get_data(as_text=True), "banner nhắc hoàn thiện hồ sơ")
 uid = DBC().execute("SELECT id FROM users WHERE username='an.nguyen'").fetchone()[0]
+pr = dict(DBC().execute("SELECT grade, done FROM progress WHERE user_id=?", (uid,)).fetchall())
+ok("12-2-2" in pr.get(12, ""), "tiến độ khách được gộp vào tài khoản khi đăng ký")
 t = tok("/ho-so")
 for sec, dd in [("hoan-canh", dict(grade="11", province="Hà Nội")), ("so-thich", dict(interests=["tech", "logic"])),
                 ("the-manh", dict(strong_subjects=["Toán"], combo="A01")), ("du-dinh", dict(after_school="dh", target_majors=["yduoc"]))]:

@@ -1,0 +1,17 @@
+{% extends "base.html" %}{% block title %}{{s.title}} – Lớp {{g}} – Hướng Nghiệp 360{% endblock %}{% block body %}
+<a class="back" href="/lop-{{g}}">← Lộ trình lớp {{g}}</a>
+<section class="shero {{x.color}}"><span class="kick">Lớp {{g}} · {{s.phase}} · Bước {{n}}/{{total}}</span><h1>{{s.title}}</h1><p>{{s.desc}}</p>
+<span class="sstat {{'ok' if is_done}}">{{ '✓ Đã hoàn thành' if is_done else '○ Chưa hoàn thành' }}</span></section>
+<div class="sgrid"><div class="card"><h2>📝 Làm từng bước</h2><ol class="howto">{% for h in s.how %}<li>{{h}}</li>{% endfor %}</ol>
+{% if s.tool %}<a class="btn" href="{{ href(s.key) if s.key=='10-0-1' else s.tool[0] }}">{{s.tool[1]}} →</a>{% endif %}</div>
+<div class="card">{% if s.form %}<h2>✍️ Ghi chép của bạn</h2><p class="small muted">Chỉ lưu trên trình duyệt của thiết bị này, không gửi lên máy chủ.</p>
+<div data-notes="hn360:note:{{s.key}}">{% for f in s.form %}<label class="fl" for="n{{loop.index}}">{{f}}</label><textarea id="n{{loop.index}}" data-i="{{loop.index0}}" rows="3" maxlength="1000"></textarea>{% endfor %}<small class="muted" data-notes-status aria-live="polite"></small></div>
+{% else %}<h2>💡 Mẹo</h2><p class="small">Làm xong việc ở cột bên, quay lại đây bấm “Đánh dấu hoàn thành”.</p>{% endif %}
+<h3 class="h4">🔗 Nguồn chính thống</h3>{% if s.links %}<ul class="dot">{% for name,url in s.links %}<li><a href="{{url}}" target="_blank" rel="noopener">{{name}}</a></li>{% endfor %}</ul>{% else %}<p class="small muted">Bước này không cần nguồn bên ngoài.</p>{% endif %}
+<p class="note small">ℹ️ Ngày, hạn chót, lệ phí, chỉ tiêu: chúng tôi không tự đưa ra. Chưa có số liệu – xem thông báo chính thức của Bộ GD&amp;ĐT và của trường.</p></div></div>
+<div class="sact"><form method="post" class="inl"><input type="hidden" name="_csrf" value="{{csrf_token()}}">
+{% if is_done %}<input type="hidden" name="action" value="undo"><button class="btn ghost">↺ Bỏ tích bước này</button>
+{% else %}<button class="btn" name="go" value="stay">✓ Đánh dấu hoàn thành</button>{% if todo and todo != s.key %}<button class="btn ghost" name="go" value="next">✓ Hoàn thành &amp; sang bước tiếp</button>{% endif %}{% endif %}</form>
+{% if is_done and todo %}<a class="btn" href="{{href(todo)}}">Tiếp tục bước tiếp theo →</a>{% elif is_done %}<a class="btn" href="/lop-{{g}}">🎉 Xong lộ trình lớp {{g}} – xem lại</a>{% endif %}</div>
+<nav class="gnav" aria-label="Chuyển bước">{% if prev %}<a class="btn ghost" href="{{href(prev)}}">← Bước trước</a>{% else %}<span></span>{% endif %}<span class="muted small">{{ndone}}/{{total}} bước đã xong</span>{% if nxt %}<a class="btn ghost" href="{{href(nxt)}}">Bước sau →</a>{% else %}<span></span>{% endif %}</nav>
+{% endblock %}

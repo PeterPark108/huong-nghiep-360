@@ -15,6 +15,6 @@
 {% else %}<a class="l" href="/dang-nhap">Đăng nhập</a><a class="btn sm" href="/dang-ky">Đăng ký</a>{% endif %}</span></div></div></nav>
 <main id="main">{% with ms = get_flashed_messages() %}{% for m in ms %}<div class="flash" role="status">{{m}}</div>{% endfor %}{% endwith %}
 {% block body %}{% endblock %}
-<div class="warn">⚠️ <b>Lưu ý:</b> Thông tin chỉ mang tính tham khảo. Số liệu thu nhập lấy từ Tổng cục Thống kê và báo cáo tuyển dụng công khai (xem <a href="/nguon-du-lieu">Nguồn dữ liệu</a>); các mức “Cao/Khá/Trung bình” là <b>đánh giá định tính – minh họa</b>. Hãy tham khảo thêm thầy cô, gia đình và thông tin tuyển sinh chính thức.</div>
+<div class="warn">⚠️ <b>Lưu ý:</b> Thông tin chỉ mang tính tham khảo. Số liệu thu nhập năm 2024–2025 lấy từ Cục Thống kê và báo cáo tuyển dụng công khai (xem <a href="/nguon-du-lieu">Nguồn dữ liệu</a>); các mức “Cao/Khá/Trung bình” là <b>đánh giá định tính – minh họa</b>. Hãy tham khảo thêm thầy cô, gia đình và thông tin tuyển sinh chính thức.</div>
 </main><footer><nav aria-label="Liên kết cuối trang"><a href="/nguon-du-lieu">Nguồn dữ liệu</a> · <a href="/con-duong-khac">Lựa chọn khác ngoài đại học</a> · <a href="/chinh-sach-bao-mat">Chính sách bảo mật</a></nav>
 <p>Hướng Nghiệp 360 · Công cụ tham khảo hướng nghiệp cho học sinh THPT · Dữ liệu kiểm tra lần cuối {{LAST_CHECKED}}</p></footer></body></html>
