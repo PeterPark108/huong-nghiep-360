@@ -500,3 +500,20 @@ footer a{display:inline-block;padding:10px 4px}
 .crumbs li+li::before{content:"›";margin-right:.5rem;color:#9aa3b2}
 .crumbs a{color:inherit;text-decoration:underline;text-underline-offset:2px}.crumbs a:hover{color:#2f49d1}
 .crumbs [aria-current]{color:#1f2937;font-weight:600}
+
+/* UX pass */
+.resume{display:grid;gap:6px;margin:-8px 0 24px;text-decoration:none;color:inherit;border:2px solid var(--sun,#ffb81f)}
+.resume b{font-size:1.15rem}.resume .go{font-weight:700;color:#2f49d1}
+.resume .bar,.nextcta .bar{display:block;height:8px;border-radius:99px;background:#eef1f6;overflow:hidden}.resume .bar i{display:block;height:100%;background:#2f49d1}
+.nextcta{display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;margin:14px 0;padding:16px 18px;border-radius:18px;background:#fff;border:2px solid #2f49d1;text-decoration:none;color:inherit;box-shadow:0 6px 18px #2238a61a}
+.nextcta>span.muted{flex-basis:100%}.nextcta b{flex:1 1 220px;font-size:1.1rem}.nextcta.okx{border-color:#16a34a}
+.grid:not(.all) .xtra{display:none}.more{display:flex;margin:16px auto 0;min-height:44px}
+details.news summary{cursor:pointer;list-style:none}details.news summary::-webkit-details-marker{display:none}details.news summary h2{margin:0}details.news summary h2:after{content:" ▾";color:var(--muted)}details.news[open] summary{margin-bottom:12px}
+.howbox summary h2 small{font-size:.8rem;font-weight:500}
+button[aria-busy=true]{opacity:.7;cursor:progress}
+@media (max-width:640px){
+ .sact.sticky{position:sticky;bottom:0;z-index:20;background:#fffffff2;backdrop-filter:blur(6px);margin:20px -14px 0;padding:10px 14px calc(10px + env(safe-area-inset-bottom));border-top:1px solid #e3e7ef;box-shadow:0 -6px 18px #0000000f;gap:8px}
+ .sact.sticky .btn{flex:1 1 40%;width:auto;min-height:48px}.sact.sticky .sst{flex-basis:100%;text-align:center;order:-1;font-size:.8rem}
+ .nextcta .btn{width:100%;justify-content:center}
+ body{font-size:16px}
+}

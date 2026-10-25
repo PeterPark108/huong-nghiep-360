@@ -2,8 +2,9 @@
 {% include "_reminder.html" %}
 <section class="hero clean"><span class="kick">Dành cho học sinh THPT</span>
 <h1>Chọn đúng ngành, bắt đầu từ hôm nay</h1>
-<p>Lộ trình hướng nghiệp rõ ràng cho lớp 10, 11 và 12.</p>
-<a class="btn sun" href="#dinh-huong">Bắt đầu định hướng ↓</a></section>
+<p>Chọn lớp của bạn, làm từng bước nhỏ, biết mình hợp ngành gì. Miễn phí, không cần đăng ký vẫn dùng được.</p>
+{% if resume %}<a class="btn sun" href="{{resume.href}}">Tiếp tục lớp {{resume.g}} →</a>{% else %}<a class="btn sun" href="#dinh-huong">Bắt đầu ngay ↓</a>{% endif %}</section>
+{% if resume %}<a class="resume card" href="{{resume.href}}"><span class="muted small">Tiếp tục từ chỗ bạn dừng · Lớp {{resume.g}} · {{resume.done}}/{{resume.total}} bước</span><b>{{resume.title}}</b><span class="bar" aria-hidden="true"><i style="width:{{ (resume.done/resume.total*100)|round|int }}%"></i></span><span class="go">Làm bước này →</span></a>{% endif %}
 
 <section id="dinh-huong" class="guide"><h2 class="big">Định hướng giúp bạn</h2><p class="muted">Bạn đang học lớp mấy? Chọn để xem cần làm gì trong năm học này.</p>
 <div class="gcards">{% for n,x in GRADES.items() %}<a class="gcard {{x.color}}" href="/lop-{{n}}"><span class="gi" aria-hidden="true">{{x.icon}}</span><span class="gl">Lớp</span><b>{{n}}</b><span class="gt">{{x.tag}}</span>
@@ -17,11 +18,12 @@
 <select name="tag" aria-label="Sở thích"><option value="">✨ Sở thích</option>{% for k,v in TAGS.items() %}<option value="{{k}}" {{'selected' if f.tag==k}}>{{v}}</option>{% endfor %}</select>
 <select name="sort" aria-label="Sắp xếp"><option value="">↕️ Sắp xếp</option><option value="growth" {{'selected' if f.sort=='growth'}}>Tăng trưởng</option><option value="salary" {{'selected' if f.sort=='salary'}}>Thu nhập</option></select>
 <span class="fact"><button class="btn">Lọc</button>{% if f.growth or f.salary or f.tag or f.sort %}<a href="/#nganh" class="clr">Xóa lọc</a>{% endif %}</span></form>
-<div class="grid">{% for m in majors %}<div class="card major mini"><div class="ic" aria-hidden="true">{{m.icon}}</div><div class="mb">{% if m.id in fit %}<span class="fit">⭐ Phù hợp với bạn</span>{% endif %}<h3><a class="stretch" href="/nganh/{{m.id}}">{{m.name}}</a></h3>
+<div class="grid" id="mgrid">{% for m in majors %}<div class="card major mini{{ " xtra" if loop.index > 6 and not (f.growth or f.salary or f.tag or f.sort) }}"><div class="ic" aria-hidden="true">{{m.icon}}</div><div class="mb">{% if m.id in fit %}<span class="fit">⭐ Phù hợp với bạn</span>{% endif %}<h3><a class="stretch" href="/nganh/{{m.id}}">{{m.name}}</a></h3>
 <div class="badges"><span class="badge {{m.growth}}">📈 {{LABEL[m.growth]}}</span><span class="badge {{m.salary}}">💰 {{LABEL[m.salary]}}</span></div>
 <label class="cmp"><input type="checkbox" data-compare="{{m.id}}" data-name="{{m.name}}"><span>Thêm vào so sánh</span></label></div></div>
-{% else %}<p class="card">Không có ngành phù hợp bộ lọc. <a href="/#nganh">Xóa lọc</a></p>{% endfor %}</div></section>
+{% else %}<p class="card">Không có ngành nào khớp bộ lọc này. Thử bỏ bớt một điều kiện nhé. <a href="/#nganh">Xóa lọc</a></p>{% endfor %}</div>
+{% if majors|length > 6 and not (f.growth or f.salary or f.tag or f.sort) %}<button type="button" class="btn ghost more" data-more="mgrid" aria-expanded="false">Xem thêm {{majors|length - 6}} ngành ↓</button>{% endif %}</section>
 
-<section class="card news"><h2>📰 Tin tức thị trường lao động <span class="src">Có nguồn</span></h2><ul class="facts">{% for x in d.market_facts %}<li>{{ x.text }} <small>Nguồn: <a href="{{ d.sources[x.source].url }}" target="_blank" rel="noopener">{{ d.sources[x.source].name }}</a> · năm {{ d.sources[x.source].year }}</small></li>{% endfor %}</ul></section>
+<details class="card news"><summary><h2>📰 Tin tức thị trường lao động <span class="src">Có nguồn</span></h2></summary><ul class="facts">{% for x in d.market_facts %}<li>{{ x.text }} <small>Nguồn: <a href="{{ d.sources[x.source].url }}" target="_blank" rel="noopener">{{ d.sources[x.source].name }}</a> · năm {{ d.sources[x.source].year }}</small></li>{% endfor %}</ul></details>
 <div class="cbar" id="cbar" hidden role="region" aria-label="Thanh so sánh ngành"><div class="cin"><span id="cnames" aria-live="polite"></span><span class="cact"><button type="button" class="clr" id="cclear">Bỏ chọn</button><a class="btn sm" id="cgo" href="/so-sanh">So sánh</a></span></div></div>
 {% endblock %}

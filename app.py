@@ -218,13 +218,19 @@ def index():
     if t: ms = [m for m in ms if t in m["tags"]]
     if sort in ("growth","salary"): ms = sorted(ms, key=lambda m: -RANK[m[sort]])
     totals = {n: len(grade_steps(n)) for n in GRADES}
-    return render_template("index.html", d=d, majors=ms, fit=fit_set(d["majors"]), f=dict(growth=g,salary=s,tag=t,sort=sort),
+    up = user_progress(); resume = None
+    lg = session.get("last_grade") or next((n for n in GRADES if up.get(n)), None)
+    if lg in GRADES:
+        nk = next_step(lg, set(up.get(lg, [])))
+        if nk: resume = dict(g=lg, key=nk, title=step_info(nk)["title"], href=step_href(nk), done=len(up.get(lg, [])), total=totals[lg])
+    return render_template("index.html", resume=resume, d=d, majors=ms, fit=fit_set(d["majors"]), f=dict(growth=g,salary=s,tag=t,sort=sort),
                            totals=totals, prog={k: len(v) for k, v in user_progress().items()})
 @app.route("/lop-<int:g>")
 def grade(g):
     if g not in GRADES: abort(404)
     session["last_grade"] = g
-    return render_template("grade.html", g=g, x=GRADES[g], done=user_progress().get(g, []), total=len(grade_steps(g)), href=step_href)
+    dn = user_progress().get(g, []); nk = next_step(g, set(dn))
+    return render_template("grade.html", g=g, x=GRADES[g], done=dn, nk=nk, nkt=step_info(nk)["title"] if nk else None, total=len(grade_steps(g)), href=step_href)
 @app.route("/lop-<int:g>/buoc/<key>", methods=["GET","POST"])
 def step(g, key):
     info = step_info(key)

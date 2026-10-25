@@ -113,7 +113,7 @@ ok('data-w="majors"' in c.get("/lop-10/buoc/10-1-0").get_data(as_text=True), "t�
 r = c.post("/api/buoc/10-0-0", data={"mon": "ly", "_csrf": tok("/")}); ok(r.json.get("local") is True, "khách: API bước báo lưu cục bộ")
 ok(c.post("/api/buoc/10-0-0", data={"mon": "ly"}).status_code == 400 and c.post("/api/buoc/9-9-9", data={"_csrf": tok("/")}).status_code == 404, "API bước chặn CSRF + khóa lạ")
 h = c.get("/lop-12/buoc/12-0-1").get_data(as_text=True)
-ok("Đánh dấu hoàn thành" in h and "moet.gov.vn" in h and "chưa có số liệu – xem thông báo chính thức" in h.lower().replace("chưa có số liệu","chưa có số liệu"), "trang con có nút hoàn thành + nguồn chính thống + không bịa ngày")
+ok("Đánh dấu hoàn thành" in h and "moet.gov.vn" in h and "web không tự đưa ra" in h, "trang con có nút hoàn thành + nguồn chính thống + không bịa ngày")
 t0 = tok("/lop-12/buoc/12-0-0")
 r = c.post("/lop-12/buoc/12-0-0", data={"_csrf": t0, "go": "next"}); ok(r.status_code == 302 and r.location.endswith("/lop-12/buoc/12-0-1"), "hoàn thành & sang bước tiếp")
 ok("Bỏ tích" in c.get("/lop-12/buoc/12-0-0").get_data(as_text=True) and "1/9" in c.get("/lop-12/buoc/12-0-0").get_data(as_text=True), "bước đã tích hiện trạng thái")
@@ -245,5 +245,12 @@ for pth in ("/dang-nhap", "/dang-ky"):
     ok("noindex" in c3.get(pth).get_data(as_text=True), f"noindex {pth}")
 ok(c3.get("/favicon.ico").status_code == 200 and c3.get("/static/img/og.png").status_code == 200, "favicon + og.png")
 r = c3.get("/", headers={"Accept-Encoding": "gzip"}); ok(r.headers.get("Content-Encoding") == "gzip", "gzip HTML")
+
+# UX pass
+cu = A.app.test_client(); h = cu.get("/").get_data(as_text=True)
+ok("không cần đăng ký" in h and 'data-more="mgrid"' in h and "resume card" not in h, "trang chủ khách mới: thông điệp + xem thêm ngành")
+cu.get("/lop-11"); h = cu.get("/").get_data(as_text=True); ok("Tiếp tục lớp 11" in h and "Tiếp tục từ chỗ bạn dừng" in h, "trang chủ: tiếp tục từ chỗ dừng")
+h = cu.get("/lop-11").get_data(as_text=True); ok('class="nextcta"' in h and "Bắt đầu" in h, "trang lớp: CTA bước tiếp theo")
+h = cu.get("/lop-10/buoc/10-0-0").get_data(as_text=True); ok('sact sticky' in h, "trang con: thanh hành động dính")
 
 print(f"ALL OK – {N[0]} kiểm thử")

@@ -17,6 +17,10 @@
       $$(".menu a", nav).forEach(a => a.addEventListener("click", () => set(false)));
       document.addEventListener("keydown", e => { if (e.key === "Escape" && nav.classList.contains("open")) { set(false); bg.focus(); } });
     }
+    // "Xem thêm ngành" trên trang chủ
+    $$("[data-more]").forEach(b => b.addEventListener("click", () => { const g = document.getElementById(b.dataset.more); g.classList.add("all"); b.remove(); }));
+    // Nút submit: chống bấm 2 lần + hiện đang xử lý
+    $$("form").forEach(f => f.addEventListener("submit", e => { const b = e.submitter; if (b && b.tagName === "BUTTON") { setTimeout(() => { if (!e.defaultPrevented) b.disabled = true; else b.removeAttribute("aria-busy"); }, 0); b.setAttribute("aria-busy", "true"); } }));
     // Hiện/ẩn mật khẩu
     $$("[data-eye]").forEach(b => b.addEventListener("click", () => {
       const p = document.getElementById(b.dataset.eye), show = p.type === "password";
