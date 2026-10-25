@@ -7,6 +7,6 @@
 <form method="post" id="qf" data-total="{{Q|length}}"><input type="hidden" name="_csrf" value="{{csrf_token()}}">{% if buoc %}<input type="hidden" name="buoc" value="{{buoc}}">{% endif %}
 <div class="lk-legend" aria-hidden="true">{% for v,l in L %}<span>{{v}} = {{l}}</span>{% endfor %}</div>
 {% for t,q in Q %}{% set i=loop.index0 %}<fieldset class="card lq"><legend><span class="n">{{loop.index}}</span>{{q}}</legend><div class="lk">
-{% for v,l in L %}<label><input type="radio" name="q{{i}}" value="{{v}}" {{'checked' if prev and prev.get(i)==v}}><span><b aria-hidden="true">{{['😣','🙁','😐','🙂','😍'][v-1]}}</b>{{l}}</span></label>{% endfor %}</div></fieldset>{% endfor %}
-<button class="btn full big-b">Xem kết quả 🎯</button></form>
+{% for v,l in L %}<label><input type="radio" name="q{{i}}" value="{{v}}" {{'checked' if prev and prev.get(i)==v}}><span><b aria-hidden="true">{{v}}</b>{{l}}</span></label>{% endfor %}</div></fieldset>{% endfor %}
+<button class="btn full big-b">Xem kết quả</button></form>
 {% endblock %}

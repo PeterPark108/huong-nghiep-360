@@ -127,15 +127,15 @@
       if (inc) {
         const d = JSON.parse(inc.textContent), fmt = v => v.toLocaleString("vi-VN", { maximumFractionDigits: 1 }) + " triệu";
         new Chart($("#inc"), { type: "bar", data: { labels: d.years, datasets: [
-          { label: d.label, data: d.values, backgroundColor: "#0f8a7e", borderRadius: 8, maxBarThickness: 48 },
-          { label: "Bình quân cả nước", data: d.all, backgroundColor: "#ffc93c", borderRadius: 8, maxBarThickness: 48 }] },
+          { label: d.label, data: d.values, backgroundColor: "#2f49d1", borderRadius: 8, maxBarThickness: 48 },
+          { label: "Bình quân cả nước", data: d.all, backgroundColor: "#ffb81f", borderRadius: 8, maxBarThickness: 48 }] },
           options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: "bottom" }, tooltip: { callbacks: { label: c => `${c.dataset.label}: ${fmt(c.raw)}` } } },
             scales: { x: { grid: { display: false } }, y: { beginAtZero: true, grid: { color: "#eef1f6" }, border: { display: false }, title: { display: true, text: "triệu đồng/tháng" } } } } });
       }
       const rd = $("#rdata");
       if (rd) {
         const d = JSON.parse(rd.textContent);
-        new Chart($("#radar"), { type: "radar", data: { labels: d.labels, datasets: [{ label: "Điểm của bạn", data: d.values, borderColor: "#0f8a7e", backgroundColor: "rgba(15,138,126,.2)", pointBackgroundColor: "#0f8a7e", borderWidth: 2.5 }] },
+        new Chart($("#radar"), { type: "radar", data: { labels: d.labels, datasets: [{ label: "Điểm của bạn", data: d.values, borderColor: "#2f49d1", backgroundColor: "rgba(47,73,209,.2)", pointBackgroundColor: "#2f49d1", borderWidth: 2.5 }] },
           options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { r: { min: 0, max: 100, ticks: { stepSize: 25, backdropColor: "transparent" }, pointLabels: { font: { size: 13, weight: "600" } } } } } });
       }
     }

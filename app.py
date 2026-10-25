@@ -1,3 +1,4 @@
+import icons
 import json, os, functools
 from datetime import timedelta
 from grades import GRADES, steps as grade_steps, step_info, href as step_href, next_step, QUIZ_STEP
@@ -18,6 +19,8 @@ CSP = ("default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline';
 @app.after_request
 def headers(r):
     h = r.headers
+    if r.mimetype == "text/html" and not r.direct_passthrough:  # giao diện: emoji → icon SVG
+        r.set_data(icons.svgify(r.get_data(as_text=True)))
     h.setdefault("Content-Security-Policy", CSP); h["X-Content-Type-Options"] = "nosniff"; h["X-Frame-Options"] = "DENY"
     h["Referrer-Policy"] = "strict-origin-when-cross-origin"; h["Permissions-Policy"] = "camera=(), microphone=(), geolocation=()"
     if app.config["SESSION_COOKIE_SECURE"]: h["Strict-Transport-Security"] = "max-age=31536000"
