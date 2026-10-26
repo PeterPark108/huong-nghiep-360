@@ -64,7 +64,7 @@ def profile_status():
     if not u: return None
     p = auth.get_profile(u["id"]); d = auth.section_done(p)
     return dict(p=p, done=d, n=sum(d.values()), total=len(d))
-SITE_URL = os.environ.get("SITE_URL", "https://huong-nghiep-360.onrender.com").rstrip("/")
+SITE_URL = os.environ.get("SITE_URL", "https://huongnghiep.myagentvn.com").rstrip("/")
 PRIVATE = ("/ho-so", "/dang-nhap", "/dang-ky", "/dang-xuat", "/api/", "/an-nhac-nho")
 def abs_url(path): return SITE_URL + path
 def crumbs_ld(items):

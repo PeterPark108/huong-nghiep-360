@@ -227,7 +227,7 @@ for pth in pages:
     t1 = re.search(r"<title>(.*?)</title>", h, re.S).group(1).strip(); titles.setdefault(t1, []).append(pth)
     d1 = re.search(r'<meta name="description" content="([^"]*)"', h).group(1); descs.setdefault(d1, []).append(pth)
     assert len(re.findall(r"<h1[ >]", h)) == 1, pth
-    can = re.search(r'<link rel="canonical" href="([^"]+)"', h).group(1); assert can == "https://huong-nghiep-360.onrender.com" + pth.split("?")[0], (pth, can)
+    can = re.search(r'<link rel="canonical" href="([^"]+)"', h).group(1); assert can == "https://huongnghiep.myagentvn.com" + pth.split("?")[0], (pth, can)
     assert 'property="og:image" content="https://' in h and 'twitter:card' in h and "index, follow" in h, pth
     for blob in re.findall(r'<script type="application/ld\+json">(.*?)</script>', h, re.S): json.loads(blob)
     if pth.startswith(("/lop-", "/nganh/")): assert '"BreadcrumbList"' in h and 'class="crumbs"' in h, pth
@@ -236,11 +236,11 @@ ok(len(descs) >= len(pages) - 1, "meta description khác nhau giữa các trang"
 h = c3.get("/").get_data(as_text=True); ok('"WebSite"' in h and '"Organization"' in h, "JSON-LD trang chủ")
 ok('"Occupation"' in c3.get("/nganh/cntt").get_data(as_text=True), "JSON-LD Occupation trang ngành")
 r = c3.get("/robots.txt"); b = r.get_data(as_text=True)
-ok(r.status_code == 200 and "Disallow: /ho-so" in b and "Disallow: /dang-nhap" in b and "Disallow: /api/" in b and "Sitemap: https://huong-nghiep-360.onrender.com/sitemap.xml" in b, "robots.txt")
+ok(r.status_code == 200 and "Disallow: /ho-so" in b and "Disallow: /dang-nhap" in b and "Disallow: /api/" in b and "Sitemap: https://huongnghiep.myagentvn.com/sitemap.xml" in b, "robots.txt")
 r = c3.get("/sitemap.xml"); b = r.get_data(as_text=True)
 import xml.dom.minidom as _md; _md.parseString(b)
 locs = re.findall(r"<loc>(.*?)</loc>", b)
-ok(r.status_code == 200 and all(l.startswith("https://") for l in locs) and "https://huong-nghiep-360.onrender.com/nganh/cntt" in locs and len(locs) >= len(pages) and not any("/ho-so" in l or "/dang-" in l for l in locs), f"sitemap.xml ({len(locs)} URL)")
+ok(r.status_code == 200 and all(l.startswith("https://") for l in locs) and "https://huongnghiep.myagentvn.com/nganh/cntt" in locs and len(locs) >= len(pages) and not any("/ho-so" in l or "/dang-" in l for l in locs), f"sitemap.xml ({len(locs)} URL)")
 for pth in ("/dang-nhap", "/dang-ky"):
     ok("noindex" in c3.get(pth).get_data(as_text=True), f"noindex {pth}")
 ok(c3.get("/favicon.ico").status_code == 200 and c3.get("/static/img/og.png").status_code == 200, "favicon + og.png")

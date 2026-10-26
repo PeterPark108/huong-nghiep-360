@@ -2,7 +2,7 @@
 
 Web hướng nghiệp cho học sinh lớp 10–12 (Flask + SQLite, tiếng Việt).
 
-**🌐 Bản chạy thử:** https://huong-nghiep-360.onrender.com (Render gói miễn phí: lần đầu mở có thể mất ~30 giây để khởi động)
+**🌐 Bản chính thức:** https://huongnghiep.myagentvn.com (máy chủ VPS, có HTTPS). Bản dự phòng: https://huong-nghiep-360.onrender.com (Render gói miễn phí, mở lần đầu có thể mất ~30 giây; tài khoản có thể bị xóa khi deploy lại).
 
 **EN:** A Vietnamese career-guidance web app for high-school students (grades 10–12): a step-by-step checklist per grade (25 guided step pages), a 30-question Holland/RIASEC interest quiz with radar chart, major pages with sourced income data, side-by-side major comparison, and accounts that save quiz results and progress. Built with Flask, SQLite and vanilla JS, deployed on Render. Recent UX work: a "resume where you left off" card, a sticky action bar on mobile, quiz validation for unanswered questions; 124 automated tests.
 
