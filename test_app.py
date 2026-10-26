@@ -260,4 +260,11 @@ h = cu.get("/so-sanh?nganh=xx&nganh=cntt").get_data(as_text=True); ok("không c�
 ok("không còn tồn tại" not in cu.get("/so-sanh?nganh=cntt&nganh=marketing").get_data(as_text=True), "so sánh: không báo nhầm")
 h = cu.get("/quiz").get_data(as_text=True); ok('data-min="15"' in h and 'id="qerr"' in h and "khoảng 4 phút" in h, "quiz: kiểm tra phía trình duyệt")
 
+# Admin tắt khi không đặt ADMIN_PATH
+ok(c.get("/_/abcdefghijklmnopqrst/").status_code == 404 and c.get("/admin").status_code == 404 and c.get("/_/abcdefghijklmnopqrst/dang-nhap").status_code == 404, "admin tắt → 404")
+import subprocess, sys
+_env = {k: v for k, v in os.environ.items() if k not in ("DATA_DIR", "APP_DB", "ADMIN_PATH")}
+_r = subprocess.run([sys.executable, "test_admin.py"], capture_output=True, text=True, env=_env, cwd=os.path.dirname(os.path.abspath(__file__)))
+print(_r.stdout[-3000:], _r.stderr[-3000:]); _m = re.search(r"ADMIN OK – (\d+)", _r.stdout)
+ok(_r.returncode == 0 and _m, "bộ kiểm thử admin"); N[0] += int(_m.group(1)) - 1
 print(f"ALL OK – {N[0]} kiểm thử")

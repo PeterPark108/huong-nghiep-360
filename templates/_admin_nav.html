@@ -1,0 +1,3 @@
+<div class="adm-top"><div><b>Quản trị</b> <span class="muted small">· chỉ xem · {{adm.username}}</span></div>
+<nav class="adm-nav"><a href="{{base}}/">Tổng quan</a><a href="{{base}}/nguoi-dung">Người dùng</a>
+<form method="post" action="{{base}}/dang-xuat"><input type="hidden" name="_csrf" value="{{csrf_token()}}"><input type="hidden" name="_acsrf" value="{{adm.csrf}}"><button class="btn ghost sm">Đăng xuất</button></form></nav></div>

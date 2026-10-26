@@ -1,0 +1,7 @@
+{% extends "base.html" %}{% block title %}Đăng nhập quản trị{% endblock %}{% block robots %}noindex, nofollow{% endblock %}{% block body %}
+<div class="auth one"><div class="auth-card card"><h1>Quản trị</h1><p class="muted">Chỉ dành cho chủ web.</p>
+{% if err %}<p class="err" role="alert">{{err}}</p>{% endif %}
+<form method="post" class="fm"><input type="hidden" name="_csrf" value="{{csrf_token()}}">
+<label class="fl"><span>Tên admin</span><input name="username" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" required></label>
+<label class="fl"><span>Mật khẩu</span><input type="password" name="password" autocomplete="current-password" required></label>
+<button class="btn full">Đăng nhập</button></form></div></div>{% endblock %}

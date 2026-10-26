@@ -1,0 +1,53 @@
+"""Kiểm thử trang admin (bật ADMIN_PATH). Được test_app.py gọi tự động."""
+import os, re, sys, tempfile, sqlite3, subprocess
+D = tempfile.mkdtemp(); os.environ.update(DATA_DIR=D, APP_DB=os.path.join(D, "t.db"), ADMIN_PATH="t3st-S3cret-Path-xyz")
+import app as A, admin, auth
+N = [0]
+def ok(c, m): assert c, m; N[0] += 1; print("PASS", m)
+B = "/_/t3st-S3cret-Path-xyz"; PW = "Adm1n-Test-" + os.urandom(4).hex()
+env = dict(os.environ, ADMIN_PASSWORD=PW)
+r = subprocess.run([sys.executable, "admin_cli.py", "create-admin", "chuweb"], env=env, capture_output=True, text=True)
+ok(r.returncode == 0 and PW not in r.stdout + r.stderr, "CLI tạo admin, không in mật khẩu")
+r = subprocess.run([sys.executable, "admin_cli.py", "create-admin", "yeu"], env=dict(env, ADMIN_PASSWORD="short"), capture_output=True, text=True)
+ok(r.returncode != 0, "CLI từ chối mật khẩu ngắn")
+h = sqlite3.connect(os.environ["APP_DB"]).execute("SELECT password_hash FROM admin_users").fetchone()[0]
+ok(h != PW and h.startswith(("scrypt:", "pbkdf2:")), "mật khẩu admin được băm")
+# dữ liệu học sinh thử
+s = A.app.test_client()
+tok = lambda cl, p: re.search(r'name="_csrf" value="([^"]+)"', cl.get(p).get_data(as_text=True)).group(1)
+s.post("/dang-ky", data=dict(_csrf=tok(s, "/dang-ky"), full_name="Trần Thị Bình", school="THPT Chu Văn An", username="binh.tran2009", password="Hocsinh#2026"))
+s.get("/"); s.get("/lop-10")
+uh = sqlite3.connect(os.environ["APP_DB"]).execute("SELECT password_hash FROM users").fetchone()[0]
+ok(sqlite3.connect(os.environ["APP_DB"]).execute("SELECT COUNT(*) FROM user_activity").fetchone()[0] == 1, "ghi nhận hoạt động theo ngày")
+c = A.app.test_client()
+ok(c.get(B + "/").status_code == 302, "chưa đăng nhập → chuyển tới đăng nhập")
+ok(c.get("/_/sai-duong-dan-123456789/").status_code == 404 and c.get("/admin").status_code == 404, "đường dẫn sai → 404")
+r = c.get(B + "/dang-nhap"); ok("noindex" in r.headers.get("X-Robots-Tag", "") and r.headers.get("Cache-Control") == "no-store", "noindex + no-store")
+ok(c.post(B + "/dang-nhap", data=dict(username="chuweb", password=PW)).status_code == 400, "thiếu CSRF → 400")
+r = c.post(B + "/dang-nhap", data=dict(_csrf=tok(c, B + "/dang-nhap"), username="chuweb", password="sai-mat-khau"))
+b1 = r.get_data(as_text=True)
+r2 = c.post(B + "/dang-nhap", data=dict(_csrf=tok(c, B + "/dang-nhap"), username="khongco", password="x"))
+ok(r.status_code == 401 and r2.status_code == 401 and "không thành công" in b1 and "không thành công" in r2.get_data(as_text=True), "sai mật khẩu/tài khoản: báo lỗi chung")
+r = c.post(B + "/dang-nhap", data=dict(_csrf=tok(c, B + "/dang-nhap"), username="chuweb", password=PW))
+sc = r.headers.get("Set-Cookie", "")
+ok(r.status_code == 302 and "hn_adm=" in sc and "HttpOnly" in sc and "SameSite=Strict" in sc and f"Path={B}" in sc, "đăng nhập đúng, cookie riêng HttpOnly/Strict")
+h = c.get(B + "/").get_data(as_text=True)
+ok("Tổng người dùng" in h and "Đăng ký theo ngày" in h and "Hoạt động gần đây" in h, "trang tổng quan")
+u = c.get(B + "/nguoi-dung").get_data(as_text=True)
+ok("binh.tran2009" not in u and "Trần Thị Bình" not in u and "bi*" in u and "T.T.B." in u, "che tên đăng nhập + họ tên")
+ok(uh not in h + u and "scrypt" not in h + u and "pbkdf2" not in h + u, "không lộ hash")
+ok("Trang 1/1" in u and c.get(B + "/nguoi-dung?trang=99").status_code == 200, "phân trang")
+# phiên học sinh không mở được admin và ngược lại
+ok(s.get(B + "/").status_code == 302, "phiên học sinh không vào được admin")
+ok(c.post(B + "/dang-xuat", data=dict(_csrf=tok(c, B + "/nguoi-dung"))).status_code == 400, "đăng xuất thiếu CSRF admin → 400")
+r = c.post(B + "/dang-xuat", data=dict(_csrf=tok(c, B + "/nguoi-dung"), _acsrf=re.search(r'name="_acsrf" value="([^"]+)"', c.get(B + "/").get_data(as_text=True)).group(1)))
+ok(r.status_code == 302 and c.get(B + "/").status_code == 302, "đăng xuất xóa phiên")
+# brute force
+x = A.app.test_client()
+for i in range(5): x.post(B + "/dang-nhap", data=dict(_csrf=tok(x, B + "/dang-nhap"), username="chuweb", password="sai" + str(i)))
+r = x.post(B + "/dang-nhap", data=dict(_csrf=tok(x, B + "/dang-nhap"), username="chuweb", password=PW))
+ok(r.status_code == 429 and "hn_adm=" not in r.headers.get("Set-Cookie", ""), "khóa sau 5 lần sai, kể cả mật khẩu đúng")
+rb, sm = x.get("/robots.txt").get_data(as_text=True), x.get("/sitemap.xml").get_data(as_text=True)
+ok("Disallow: /_/" in rb and "t3st-S3cret" not in rb + sm, "robots chặn /_/ nhưng không lộ đường dẫn, không có trong sitemap")
+admin.init_db(); auth.init_db(); ok(True, "migration chạy lại được (idempotent)")
+print(f"ADMIN OK – {N[0]} kiểm thử")

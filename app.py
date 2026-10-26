@@ -31,12 +31,14 @@ def headers(r):
         data = r.get_data()
         if len(data) > 1024:
             r.set_data(_gz.compress(data, 6)); h["Content-Encoding"] = "gzip"; h["Vary"] = "Accept-Encoding"
-    if session.get("uid") or request.path.startswith(("/ho-so", "/dang-", "/lop-", "/quiz", "/api/")): h["Cache-Control"] = "no-store"
+    if session.get("uid") or request.path.startswith(("/ho-so", "/dang-", "/lop-", "/quiz", "/api/", "/_/")): h["Cache-Control"] = "no-store"
     if request.path.startswith("/static/") and r.status_code == 200: h["Cache-Control"] = "public, max-age=604800"
     return r
 auth.init_db()
 app.teardown_appcontext(auth.close_db)
 app.before_request(auth.check_csrf)
+import admin
+admin.register(app)
 DATA = os.path.join(os.path.dirname(__file__), "data", "careers.json")
 @functools.lru_cache(maxsize=1)
 def _load(mtime):
@@ -65,7 +67,7 @@ def profile_status():
     p = auth.get_profile(u["id"]); d = auth.section_done(p)
     return dict(p=p, done=d, n=sum(d.values()), total=len(d))
 SITE_URL = os.environ.get("SITE_URL", "https://huongnghiep.myagentvn.com").rstrip("/")
-PRIVATE = ("/ho-so", "/dang-nhap", "/dang-ky", "/dang-xuat", "/api/", "/an-nhac-nho")
+PRIVATE = ("/ho-so", "/dang-nhap", "/dang-ky", "/dang-xuat", "/api/", "/an-nhac-nho", "/_/")
 def abs_url(path): return SITE_URL + path
 def crumbs_ld(items):
     return {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [

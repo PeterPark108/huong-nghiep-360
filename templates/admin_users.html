@@ -1,0 +1,7 @@
+{% extends "base.html" %}{% block title %}Quản trị – Người dùng{% endblock %}{% block robots %}noindex, nofollow{% endblock %}{% block body %}
+<section class="adm">{% include "_admin_nav.html" %}
+<div class="card adm-c"><h2>Người dùng ({{total}})</h2><p class="muted small">Tên đăng nhập được che giữa, họ tên chỉ hiện chữ cái đầu. Không hiển thị mật khẩu hay nội dung ghi chú.</p>
+{% if rows %}<div class="adm-scroll"><table class="adm-t"><tr><th>#</th><th>Tên đăng nhập</th><th>Họ tên</th><th>Trường</th><th>Lớp</th><th>Đăng ký</th><th>Đăng nhập gần nhất</th><th>Holland</th><th>Bước đã lưu</th><th>Số ngày hoạt động</th></tr>
+{% for r in rows %}<tr><td>{{r.id}}</td><td>{{r.user}}</td><td>{{r.name}}</td><td>{{r.school}}</td><td>{{r.grade or "–"}}</td><td>{{r.created}}</td><td>{{r.last}}</td><td>{{r.nr}}</td><td>{{r.ns}}</td><td>{{r.na}}</td></tr>{% endfor %}</table></div>
+<nav class="adm-pg" aria-label="Phân trang">{% if page > 1 %}<a class="btn ghost sm" href="?trang={{page-1}}">← Trước</a>{% endif %}<span>Trang {{page}}/{{pages}}</span>{% if page < pages %}<a class="btn ghost sm" href="?trang={{page+1}}">Sau →</a>{% endif %}</nav>
+{% else %}<p class="muted">Chưa có người dùng.</p>{% endif %}</div></section>{% endblock %}

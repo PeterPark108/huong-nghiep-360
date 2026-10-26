@@ -1,0 +1,25 @@
+{% extends "base.html" %}{% block title %}Quản trị – Tổng quan{% endblock %}{% block robots %}noindex, nofollow{% endblock %}{% block body %}
+<section class="adm">{% include "_admin_nav.html" %}
+<div class="adm-kpi">
+<div class="card"><small>Tổng người dùng</small><b>{{s.users}}</b></div>
+<div class="card"><small>Đăng ký mới 7 ngày</small><b>{{s.new7}}</b></div>
+<div class="card"><small>Đăng ký mới 30 ngày</small><b>{{s.new30}}</b></div>
+<div class="card"><small>Đăng nhập trong 7 ngày</small><b>{{s.login7}}</b></div>
+<div class="card"><small>Hoạt động 7 ngày</small><b>{{s.active7 if s.act_rows else "–"}}</b><em>{{ "tính từ " ~ s.since if s.act_rows else "chưa ghi nhận (bật từ " ~ s.since ~ ")" }}</em></div>
+<div class="card"><small>Người dùng quay lại (≥2 ngày)</small><b>{{s.returning if s.act_rows else "–"}}</b><em>{{ "tính từ " ~ s.since if s.act_rows else "chưa ghi nhận" }}</em></div>
+</div>
+<div class="card adm-c"><h2>Đăng ký theo ngày (30 ngày)</h2>
+{% if s.new30 %}<div class="adm-bars" role="img" aria-label="Biểu đồ đăng ký 30 ngày">{% for d,n in s.reg %}<div title="{{d}}: {{n}}"><i style="height:{{ (n/s.regmax*100)|round }}%"></i><span>{{n if n}}</span><small>{{d[:2] if loop.index0 % 5 == 4 or loop.last}}</small></div>{% endfor %}</div>
+{% else %}<p class="muted">Chưa ghi nhận đăng ký nào trong 30 ngày.</p>{% endif %}</div>
+<div class="adm-2">
+<div class="card adm-c"><h2>Trắc nghiệm Holland</h2><p>{{s.riasec_n}} lượt · {{s.riasec_u}} người. Trắc nghiệm sở thích (bản cũ): {{s.quiz_old}} lượt.</p>
+{% if s.riasec_n %}<table class="adm-t"><tr><th>Nhóm nổi bật nhất</th><th>Lượt</th></tr>{% for t,info,n in s.codes %}<tr><td>{{t}} – {{info.short}}</td><td><span class="adm-hb" style="width:{{ (n/s.codemax*100)|round }}%"></span>{{n}}</td></tr>{% endfor %}</table>
+{% else %}<p class="muted">Chưa ghi nhận kết quả nào.</p>{% endif %}</div>
+<div class="card adm-c"><h2>Tiến độ theo lớp</h2>{% if s.prog %}<table class="adm-t"><tr><th>Lớp</th><th>Người</th><th>Bước đã xong</th></tr>{% for g,n,d in s.prog %}<tr><td>{{g}}</td><td>{{n}}</td><td>{{d or 0}}</td></tr>{% endfor %}</table>{% else %}<p class="muted">Chưa ghi nhận.</p>{% endif %}
+<h3>Hồ sơ</h3><p>{{s.prof_done}} người đã điền ít nhất một mục hồ sơ.{% if s.grades %} Lớp khai báo: {% for g,n in s.grades %}lớp {{g}}: {{n}}{{ ", " if not loop.last }}{% endfor %}.{% endif %}</p></div>
+</div>
+<div class="card adm-c"><h2>Lượt dùng từng trang con (bước có lưu dữ liệu)</h2><p class="muted small">{{s.step_users}} người đã lưu ít nhất một bước. Chỉ đếm số lượt lưu, không hiển thị nội dung.</p>
+{% if s.steps %}<div class="adm-scroll"><table class="adm-t"><tr><th>Bước</th><th>Tên</th><th>Người đã lưu</th></tr>{% for k,t,n in s.steps %}<tr><td>{{k}}</td><td>{{t}}</td><td>{{n}}</td></tr>{% endfor %}</table></div>{% else %}<p class="muted">Chưa ghi nhận.</p>{% endif %}</div>
+<div class="card adm-c"><h2>Hoạt động gần đây</h2>{% if s.events %}<div class="adm-scroll"><table class="adm-t"><tr><th>Thời gian (giờ VN)</th><th>Người dùng</th><th>Hoạt động</th></tr>{% for t,e,u in s.events %}<tr><td>{{t}}</td><td>{{u}}</td><td>{{e}}</td></tr>{% endfor %}</table></div>{% else %}<p class="muted">Chưa ghi nhận.</p>{% endif %}</div>
+<p class="muted small">Số liệu chỉ tính tài khoản đã đăng ký; người dùng khách (không đăng nhập) không được ghi nhận. Chỉ số "hoạt động"/"quay lại" ghi nhận từ {{s.since}}. Lượt xem trang chưa được ghi nhận.</p>
+</section>{% endblock %}

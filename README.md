@@ -58,6 +58,20 @@ Mọi bảng con `ON DELETE CASCADE` — xóa tài khoản xóa sạch dữ li�
 ## Bảo mật
 CSRF cho mọi POST; CSP `script-src 'self'` (không có JS inline), font + Chart.js tự lưu trữ; cookie HttpOnly/SameSite=Lax/Secure; khóa đăng nhập sau 5 lần sai (theo IP+tài khoản) hoặc 30 lần (theo IP), thời gian tăng dần tới 15 phút; giới hạn request 64 KB; chặn mật khẩu phổ biến; chặn open-redirect.
 
+## Admin (trang quản trị chỉ đọc)
+Mặc định **tắt** (mọi URL trả 404). Bật bằng biến môi trường `ADMIN_PATH` = chuỗi bí mật 16–64 ký tự `[A-Za-z0-9_-]`, ví dụ sinh bằng `python3 -c 'import secrets;print(secrets.token_urlsafe(24))'`. Trang nằm ở `https://<domain>/_/<ADMIN_PATH>/` (robots.txt chỉ ghi `Disallow: /_/`, không lộ phần bí mật; không có trong sitemap). Không ghi giá trị thật vào repo.
+
+Tạo / đặt lại mật khẩu admin (chạy trên server, cùng `DATA_DIR` với web; mật khẩu ≥12 ký tự, nhập qua prompt ẩn, không in ra):
+```bash
+DATA_DIR=/đường/dẫn/data .venv/bin/python admin_cli.py create-admin <tên>   # chạy lại để đổi mật khẩu (đăng xuất mọi phiên)
+.venv/bin/python admin_cli.py list-admins | delete-admin <tên>
+```
+(Có thể dùng biến `ADMIN_PASSWORD` chỉ trong lúc chạy lệnh, nhưng prompt ẩn an toàn hơn vì không lưu vào lịch sử shell.)
+
+Hiển thị: tổng người dùng, đăng ký 7/30 ngày + biểu đồ 30 ngày, đăng nhập 7 ngày, hoạt động 7 ngày & người quay lại (≥2 ngày, ghi nhận từ ngày bật bản này, bảng `user_activity` chỉ lưu người dùng + ngày), trắc nghiệm Holland theo nhóm, tiến độ theo lớp, số người lưu từng trang con, hồ sơ, 20 hoạt động gần nhất, danh sách người dùng phân trang (tên đăng nhập che giữa, họ tên chỉ chữ cái đầu). Không hiển thị mật khẩu, hash hay nội dung ghi chú. Khách không đăng nhập và lượt xem trang không được ghi nhận.
+
+Bảo mật: bảng `admin_users` riêng (mật khẩu băm werkzeug); phiên admin là cookie riêng `hn_adm` (HttpOnly, SameSite=Strict, Secure khi `SESSION_COOKIE_SECURE=1`, Path giới hạn trong đường dẫn admin), token lưu dạng SHA-256 trong DB, hết hạn sau 30 phút không thao tác / tối đa 8 giờ; CSRF cho đăng nhập & đăng xuất; khóa sau 5 lần sai (IP+tài khoản) hoặc 10 lần (IP), tăng dần tới 1 giờ, thông báo lỗi chung; `X-Robots-Tag: noindex` + `Cache-Control: no-store`. Cần `TRUST_PROXY=1` sau Nginx để khóa đúng theo IP thật. Migration chỉ `CREATE TABLE IF NOT EXISTS` (không đổi bảng cũ).
+
 ## Triển khai
 Biến môi trường:
 | Biến | Ý nghĩa | Mặc định |
@@ -68,6 +82,7 @@ Biến môi trường:
 | `SESSION_COOKIE_SECURE` | đặt `1` khi chạy HTTPS (bật luôn HSTS) | `0` |
 | `TRUST_PROXY` | `1` khi đứng sau reverse proxy (Render, Nginx) để lấy IP thật | `0` |
 | `WEB_CONCURRENCY` | số worker | 2 |
+| `ADMIN_PATH` | bật trang admin ở `/_/<giá trị>/` (bí mật, 16–64 ký tự) | trống = tắt |
 
 Chạy production (không dùng server debug):
 ```bash
