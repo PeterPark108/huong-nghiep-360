@@ -4,7 +4,7 @@ Web hướng nghiệp cho học sinh lớp 10–12 (Flask + SQLite, tiếng Vi�
 
 **🌐 Bản chính thức:** https://huongnghiep.myagentvn.com (máy chủ VPS, có HTTPS). Bản dự phòng: https://huong-nghiep-360.onrender.com (Render gói miễn phí, mở lần đầu có thể mất ~30 giây; tài khoản có thể bị xóa khi deploy lại).
 
-**EN:** A Vietnamese career-guidance web app for high-school students (grades 10–12): a step-by-step checklist per grade (25 guided step pages), a 30-question Holland/RIASEC interest quiz with radar chart, major pages with sourced income data, side-by-side major comparison, and accounts that save quiz results and progress. Built with Flask, SQLite and vanilla JS, deployed on Render. Recent UX work: a "resume where you left off" card, a sticky action bar on mobile, quiz validation for unanswered questions; 124 automated tests.
+**EN:** A Vietnamese career-guidance web app for high-school students (grades 10–12): a step-by-step checklist per grade (25 guided step pages), a 30-question Holland/RIASEC interest quiz with radar chart, major pages with sourced income data, side-by-side major comparison, and accounts that save quiz results and progress. Built with Flask, SQLite and vanilla JS; live at https://huongnghiep.myagentvn.com (VPS, Nginx + Gunicorn, HTTPS). Recent UX work: a "resume where you left off" card, a sticky action bar on mobile, quiz validation for unanswered questions; 124 automated tests.
 
 | Trang chủ | Lộ trình lớp 10 |
 |---|---|
@@ -96,6 +96,6 @@ Trên HTTPS nhớ đặt `SESSION_COOKIE_SECURE=1` (render.yaml đã đặt sẵ
 
 ## Giới hạn
 - Một số số liệu ngành là minh họa/chưa đầy đủ: trang nào thiếu nguồn sẽ ghi "chưa có số liệu – minh họa". Kiểm tra lại với nguồn gốc trước khi dùng cho quyết định thật.
-- Bản chạy thử dùng Render gói miễn phí: không có ổ đĩa bền, nên **tài khoản và dữ liệu bị xóa mỗi lần triển khai lại hoặc khởi động lại**; máy ngủ khi không có truy cập (~30 giây để thức dậy). `render.yaml` mô tả cấu hình có ổ đĩa (gói trả phí).
+- Bản dự phòng trên Render (gói miễn phí): không có ổ đĩa bền, nên **tài khoản và dữ liệu bị xóa mỗi lần triển khai lại hoặc khởi động lại**; máy ngủ khi không có truy cập (~30 giây để thức dậy). `render.yaml` mô tả cấu hình có ổ đĩa (gói trả phí).
 - Nội dung về chương trình GDPT 2018 / Thông tư 13/2022/TT-BGDĐT chưa được đối chiếu với văn bản gốc.
 - Trắc nghiệm Holland chỉ để tham khảo, không phải công cụ chẩn đoán.
